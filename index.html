@@ -2,7 +2,7 @@ html
 
 <!DOCTYPE html>
 <html lang="en">
-<head>https://github.com/Oscar-dr/ap-world-history
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AP World History: Modern | Study Hub</title>
@@ -209,13 +209,13 @@ html
   /* ══════════════════════════════════════════
      UNIT PAGE LAYOUT
   ══════════════════════════════════════════ */
-  #unit-page, #unit2-page, #unit3-page, #unit4-page, #unit5-page, #unit6-page, #unit7-page {
+  #unit-page, #unit2-page, #unit3-page, #unit4-page, #unit5-page, #unit6-page, #unit7-page, #unit8-page {
     display: none;
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
   }
-  #unit-page.active, #unit2-page.active, #unit3-page.active, #unit4-page.active, #unit5-page.active, #unit6-page.active, #unit7-page.active { display: flex; }
+  #unit-page.active, #unit2-page.active, #unit3-page.active, #unit4-page.active, #unit5-page.active, #unit6-page.active, #unit7-page.active, #unit8-page.active { display: flex; }
 
   .unit-header {
     position: sticky;
@@ -1179,10 +1179,10 @@ html
       <div class="unit-dates">c. 1900 – Present CE</div>
       <span class="unit-weight">EXAM WEIGHT: 8–10%</span>
     </div>
-    <div class="unit-card locked">
-      <div class="unit-num">UNIT 08 <span class="lock-icon">🔒</span></div>
+    <div class="unit-card active" onclick="openUnit8()">
+      <div class="unit-num">UNIT 08 · UNLOCKED</div>
       <h3>Cold War & Decolonization</h3>
-      <div class="unit-dates">c. 1900 – Present</div>
+      <div class="unit-dates">c. 1900 – Present CE</div>
       <span class="unit-weight">EXAM WEIGHT: 8–10%</span>
     </div>
     <div class="unit-card locked">
@@ -4181,6 +4181,14 @@ function openUnit7(){
   u7UpdateProgressBar(); u7RestoreChecks();
   if(!window._u7Init){window._u7Init=true;wireQuizData();u7RenderGlossary();u7SetupScrollSpy();}
 }
+function openUnit8(){
+  document.getElementById('home-page').classList.remove('active');
+  document.getElementById('unit8-page').classList.add('active');
+  document.body.style.overflow='hidden';
+  document.documentElement.style.overflow='hidden';
+  u8UpdateProgressBar(); u8RestoreChecks();
+  if(!window._u8Init){window._u8Init=true;wireQuizData();u8RenderGlossary();u8SetupScrollSpy();}
+}
 function openWriting(){
   document.getElementById('home-page').classList.remove('active');
   document.getElementById('writing-page').classList.add('active');
@@ -4195,6 +4203,7 @@ function goHome(){
   document.getElementById('unit5-page').classList.remove('active');
   document.getElementById('unit6-page').classList.remove('active');
   document.getElementById('unit7-page').classList.remove('active');
+  document.getElementById('unit8-page').classList.remove('active');
   document.getElementById('writing-page').classList.remove('active');
   document.getElementById('home-page').classList.add('active');
 }
@@ -10308,132 +10317,7 @@ function u7SetTermStatus(term,status,i){
 function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]').forEach(fb=>{const block=fb.closest('.quiz-block');if(block&&!block.dataset.correct){block.dataset.correct=fb.dataset.correct;block.dataset.explain=fb.dataset.explain||'';}});}
 // Unit 7 init is called from openUnit7()
 </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AP World History: Unit 8 | Cold War &amp; Decolonization</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  :root{--bg:#0b1520;--bg2:#111e2e;--bg3:#17263a;--bg4:#1d3048;--gold:#c8a84b;--gold-light:#e0c06a;--gold-dim:#8a7030;--text:#e4d8c0;--text-dim:#9a8d78;--text-bright:#f5ead5;--accent:#4a9eca;--accent2:#3d7fa8;--green:#2d8a5a;--green-bg:rgba(45,138,90,0.15);--red:#a83232;--red-bg:rgba(168,50,50,0.15);--amber:#c68a1a;--amber-bg:rgba(198,138,26,0.15);--border:rgba(200,168,75,0.2);--border2:rgba(200,168,75,0.08);--radius:10px;--sidebar-w:260px}
-  *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;font-size:16px;line-height:1.75;min-height:100vh}
-  ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
-  h1,h2,h3,h4{font-family:'Cinzel',serif;color:var(--gold)}strong{color:var(--text-bright);font-weight:600}em{color:var(--gold-light);font-style:italic}
-  .page{display:none}.page.active{display:block}
-  #unit-page{display:none;flex-direction:column;min-height:100vh}#unit-page.active{display:flex}
-  .unit-header{position:sticky;top:0;z-index:100;background:rgba(11,21,32,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:20px;flex-shrink:0}
-  .back-btn{background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-dim);font-size:13px;padding:6px 14px;cursor:pointer;font-family:'Cinzel',serif;letter-spacing:.5px;transition:all .2s;flex-shrink:0}.back-btn:hover{border-color:var(--gold);color:var(--gold)}
-  .header-info{flex:1;min-width:0}.header-info .unit-label{font-family:'Source Code Pro',monospace;font-size:10px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase}.header-info h2{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
-  .progress-area{flex-shrink:0;display:flex;align-items:center;gap:10px}.progress-bar-wrap{width:120px;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:2px;transition:width .4s ease;width:0%}.progress-pct{font-family:'Source Code Pro',monospace;font-size:11px;color:var(--gold-dim);min-width:36px}
-  .motivational-bar{background:rgba(200,168,75,0.07);border-bottom:1px solid var(--border2);padding:8px 28px;font-size:12.5px;color:var(--text-dim);font-style:italic;text-align:center;flex-shrink:0}
-  .unit-body{display:flex;flex:1;overflow:hidden;height:calc(100vh - 85px);min-height:0}
-  .sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border2);overflow-y:auto;padding:16px 0;height:100%}
-  .sidebar-label{font-family:'Source Code Pro',monospace;font-size:9px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;padding:0 20px 8px}
-  .sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 20px;font-size:12.5px;color:var(--text-dim);cursor:pointer;transition:all .15s;border-left:2px solid transparent;line-height:1.3;font-family:'Lora',serif}
-  .sidebar-item:hover{color:var(--text);background:rgba(200,168,75,0.05)}.sidebar-item.active{color:var(--gold);background:rgba(200,168,75,0.08);border-left-color:var(--gold)}
-  .sidebar-item .s-num{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--gold-dim);min-width:20px;flex-shrink:0}.sidebar-item .s-check{margin-left:auto;font-size:12px;flex-shrink:0}
-  .main-content{flex:1;overflow-y:auto;padding:0;height:100%}
-  .section-block{padding:48px 60px;border-bottom:1px solid var(--border2);max-width:860px}.section-block:last-child{border-bottom:none}
-  @media(max-width:900px){.section-block{padding:32px 24px}.sidebar{width:200px}:root{--sidebar-w:200px}}
-  .section-label{font-family:'Source Code Pro',monospace;font-size:10px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:6px}
-  .section-title{font-size:clamp(20px,3vw,28px);font-weight:700;margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid var(--border);color:var(--gold)}
-  .subsection-title{font-size:17px;font-weight:600;color:var(--gold-light);margin:32px 0 12px;padding-left:12px;border-left:3px solid var(--gold-dim)}
-  p{margin-bottom:16px}p:last-child{margin-bottom:0}
-  .callout{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--radius);padding:20px 24px;margin:24px 0;font-size:15px}
-  .callout.info{border-left-color:var(--accent)}.callout.warn{border-left-color:var(--amber)}.callout.important{border-left-color:#8b3daf;background:rgba(139,61,175,0.08)}.callout.red{border-left-color:var(--red);background:var(--red-bg)}
-  .callout-title{font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
-  .callout.info .callout-title{color:var(--accent)}.callout.warn .callout-title{color:var(--amber)}.callout.important .callout-title{color:#b86de0}.callout.red .callout-title{color:#e07a7a}
-  .ap-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}
-  .ap-table th{background:var(--bg4);color:var(--gold);font-family:'Cinzel',serif;font-size:12px;letter-spacing:.5px;text-align:left;padding:10px 14px;border:1px solid var(--border);font-weight:600}
-  .ap-table td{padding:10px 14px;border:1px solid var(--border2);vertical-align:top;line-height:1.55}
-  .ap-table tr:nth-child(even) td{background:rgba(255,255,255,0.02)}.ap-table tr:hover td{background:rgba(200,168,75,0.04)}.table-scroll{overflow-x:auto;margin:16px 0}
-  .vocab-term{color:var(--gold-light);text-decoration:underline;text-decoration-style:dotted;text-decoration-color:var(--gold-dim);cursor:pointer;transition:color .2s;font-weight:500}.vocab-term:hover{color:var(--gold)}
-  .vocab-tooltip{display:none;position:fixed;z-index:1000;background:var(--bg4);border:1px solid var(--gold);border-radius:8px;padding:14px 18px;max-width:320px;font-size:13.5px;line-height:1.6;box-shadow:0 8px 32px rgba(0,0,0,0.6);pointer-events:none}
-  .vocab-tooltip .vt-term{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);letter-spacing:1px;margin-bottom:6px;text-transform:uppercase}
-  .quiz-block{background:var(--bg3);border:1px solid var(--accent2);border-radius:var(--radius);padding:22px 24px;margin:28px 0}
-  .quiz-block::before{content:'🧠 CHECK YOUR KNOWLEDGE';display:block;font-family:'Source Code Pro',monospace;font-size:9px;letter-spacing:3px;color:var(--accent);margin-bottom:12px}
-  .quiz-block.self-explain::before{content:'✍️ TYPE WHAT YOU KNOW';color:#b86de0}.quiz-block.self-explain{border-color:#6b3d8b}
-  .quiz-block.review::before{content:'📋 SECTION REVIEW';color:var(--amber)}.quiz-block.review{border-color:var(--amber)}
-  .quiz-question{font-size:15px;color:var(--text-bright);margin-bottom:16px;font-weight:500;line-height:1.55}
-  .mc-options{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
-  .mc-btn{background:var(--bg4);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;padding:10px 16px;text-align:left;cursor:pointer;font-family:'Lora',serif;transition:all .2s;display:flex;align-items:flex-start;gap:10px}
-  .mc-btn:hover:not(:disabled){border-color:var(--accent);color:var(--text-bright)}.mc-btn:disabled{cursor:default}
-  .mc-btn.correct{background:var(--green-bg);border-color:var(--green);color:#7de0aa}.mc-btn.wrong{background:var(--red-bg);border-color:var(--red);color:#e07a7a}
-  .mc-btn .choice-letter{font-family:'Source Code Pro',monospace;font-size:12px;color:var(--gold-dim);min-width:18px;flex-shrink:0;margin-top:1px}
-  .fill-blank-wrap{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-  .fill-blank{flex:1;min-width:160px;background:var(--bg4);border:1px solid var(--border);border-radius:6px;color:var(--text-bright);font-size:14px;padding:9px 14px;font-family:'Lora',serif;transition:border-color .2s;outline:none}
-  .fill-blank:focus{border-color:var(--accent)}.fill-blank.correct{border-color:var(--green);background:var(--green-bg)}.fill-blank.wrong{border-color:var(--red);background:var(--red-bg)}
-  .check-btn,.reveal-btn{background:var(--accent2);border:none;border-radius:6px;color:white;font-size:13px;padding:9px 18px;cursor:pointer;font-family:'Cinzel',serif;letter-spacing:.5px;transition:all .2s;flex-shrink:0}
-  .check-btn:hover,.reveal-btn:hover{background:var(--accent)}.check-btn:disabled{opacity:.5;cursor:default}
-  .self-explain-area{width:100%;min-height:90px;background:var(--bg4);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;padding:12px 14px;font-family:'Lora',serif;resize:vertical;outline:none;transition:border-color .2s;margin-bottom:12px;display:block}
-  .self-explain-area:focus{border-color:#6b3d8b}
-  .quiz-feedback{display:none;margin-top:14px;padding:14px 16px;border-radius:6px;font-size:14px;line-height:1.6;animation:fadeIn .3s ease}
-  .quiz-feedback.correct{background:var(--green-bg);border:1px solid var(--green)}.quiz-feedback.wrong{background:var(--red-bg);border:1px solid var(--red)}.quiz-feedback.reveal{background:rgba(139,61,175,0.12);border:1px solid #6b3d8b}
-  .quiz-feedback .fb-result{font-family:'Cinzel',serif;font-size:12px;letter-spacing:1px;margin-bottom:8px}
-  .quiz-feedback.correct .fb-result{color:#7de0aa}.quiz-feedback.wrong .fb-result{color:#e07a7a}.quiz-feedback.reveal .fb-result{color:#b86de0}
-  .quiz-feedback .fb-answer{color:var(--text-bright);font-weight:500;margin-bottom:6px}.quiz-feedback .fb-explain{color:var(--text-dim);font-size:13.5px}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-  .term-tracker{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);margin:12px 0;overflow:hidden}
-  .term-tracker-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg4);border-bottom:1px solid var(--border2)}
-  .term-tracker-header h4{font-size:14px;color:var(--text-bright);font-family:'Cinzel',serif;letter-spacing:.3px}
-  .term-reveal-btn{background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--text-dim);font-size:11px;padding:4px 10px;cursor:pointer;font-family:'Source Code Pro',monospace;letter-spacing:.5px;transition:all .2s}.term-reveal-btn:hover{border-color:var(--gold);color:var(--gold)}
-  .term-tracker-body{padding:12px 16px;display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
-  .term-def-text{flex:1;font-size:14px;color:var(--text);min-width:200px;display:none;animation:fadeIn .3s ease}
-  .term-status-btns{display:flex;gap:6px;flex-shrink:0}
-  .status-btn{background:var(--bg4);border:1px solid var(--border2);border-radius:4px;font-size:11px;padding:5px 10px;cursor:pointer;font-family:'Source Code Pro',monospace;transition:all .2s;color:var(--text-dim)}
-  .status-btn.know{border-color:var(--green);color:#7de0aa;background:var(--green-bg)}.status-btn.unsure{border-color:var(--amber);color:#ffd05b;background:var(--amber-bg)}.status-btn.dontknow{border-color:var(--red);color:#e07a7a;background:var(--red-bg)}
-  ul.ap-list,ol.ap-list{margin:12px 0 20px;padding-left:0;list-style:none}
-  ul.ap-list li{padding:4px 0 4px 22px;position:relative;font-size:15px;color:var(--text);line-height:1.65}
-  ul.ap-list li::before{content:'▸';position:absolute;left:0;color:var(--gold-dim);font-size:12px;top:7px}
-  ul.ap-list li strong{color:var(--gold-light)}
-  ol.ap-list{counter-reset:ap-counter}ol.ap-list li{padding:4px 0 4px 30px;position:relative;counter-increment:ap-counter;font-size:15px;line-height:1.65}
-  ol.ap-list li::before{content:counter(ap-counter)".";position:absolute;left:0;color:var(--gold);font-family:'Source Code Pro',monospace;font-size:12px;font-weight:600;top:6px}
-  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
-  .compare-col{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
-  .compare-col-title{font-family:'Cinzel',serif;font-size:12px;letter-spacing:1px;color:var(--gold);margin-bottom:12px;text-transform:uppercase}
-  @media(max-width:600px){.compare-grid{grid-template-columns:1fr}}
-  .timeline{padding:8px 0}.timeline-item{display:flex;gap:20px;padding:14px 0;border-bottom:1px solid var(--border2);align-items:flex-start}.timeline-item:last-child{border-bottom:none}
-  .timeline-date{font-family:'Source Code Pro',monospace;font-size:12px;color:var(--gold);min-width:80px;flex-shrink:0;padding-top:3px}
-  .timeline-content h4{font-size:14px;color:var(--text-bright);margin-bottom:4px;font-family:'Cinzel',serif}.timeline-content p{font-size:13.5px;color:var(--text-dim);line-height:1.55;margin:0}
-  .essay-section{background:var(--bg3);border:1px solid #5a3d8b;border-radius:var(--radius);overflow:hidden;margin:20px 0}
-  .essay-section-header{background:rgba(139,61,175,0.15);padding:14px 20px;border-bottom:1px solid #5a3d8b}
-  .essay-section-header h4{font-size:14px;color:#b86de0;font-family:'Cinzel',serif;letter-spacing:.5px}
-  .essay-section-body{padding:18px 20px}
-  .scoring-row{display:flex;align-items:flex-start;gap:14px;padding:10px 0;border-bottom:1px solid var(--border2)}.scoring-row:last-child{border-bottom:none}
-  .scoring-pts{font-family:'Source Code Pro',monospace;font-size:22px;color:var(--gold);font-weight:600;min-width:40px;flex-shrink:0;text-align:center}.scoring-pts span{font-size:11px;display:block;color:var(--gold-dim)}
-  .scoring-label{font-size:14px}.scoring-label strong{color:var(--text-bright);display:block;margin-bottom:3px}.scoring-label span{color:var(--text-dim);font-size:13px}
-  .section-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:36px 0}
-  .prompt-box{background:var(--bg3);border:2px solid var(--gold);border-radius:var(--radius);padding:22px 26px;margin:20px 0;text-align:center;font-style:italic;font-size:17px;color:var(--text-bright);line-height:1.7}
-  .step-block{display:flex;gap:16px;margin:14px 0;align-items:flex-start}
-  .step-num{width:32px;height:32px;background:var(--gold-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:14px;color:var(--bg);font-weight:700;flex-shrink:0}
-  .step-content{flex:1;padding-top:4px}.step-content strong{color:var(--text-bright);display:block;margin-bottom:4px;font-family:'Cinzel',serif;font-size:14px}.step-content p{color:var(--text-dim);font-size:14px;margin:0}
-  [id^="sec-"]{scroll-margin-top:20px}
-  .pitfall-card{background:rgba(168,50,50,0.08);border:1px solid var(--red);border-radius:var(--radius);margin:14px 0;overflow:hidden}
-  .pitfall-header{background:rgba(168,50,50,0.15);padding:12px 18px;display:flex;align-items:center;gap:10px}
-  .pitfall-header .pitfall-icon{font-size:18px}.pitfall-header h4{font-size:14px;color:#e07a7a;font-family:'Cinzel',serif}
-  .pitfall-body{padding:14px 18px}.pitfall-body .problem{color:var(--text-dim);font-size:14px;margin-bottom:10px}.pitfall-body .fix{color:#7de0aa;font-size:14px}
-  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
-  .team-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center}
-  .team-letter{font-family:'Cinzel',serif;font-size:28px;font-weight:900;display:block;margin-bottom:8px}
-  .team-a .team-letter{color:var(--accent)}.team-b .team-letter{color:var(--red)}.team-c .team-letter{color:var(--gold)}
-  .team-a{border-color:rgba(74,158,202,0.4)}.team-b{border-color:rgba(168,50,50,0.4)}.team-c{border-color:var(--gold-dim)}
-  .team-name{font-family:'Cinzel',serif;font-size:13px;color:var(--text-bright);margin-bottom:4px}
-  .team-desc{font-size:12px;color:var(--text-dim)}
-  .mao-step{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin:12px 0}
-  .mao-step-num{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:4px}
-  .mao-step-title{font-family:'Cinzel',serif;font-size:15px;color:var(--gold-light);margin-bottom:8px}
-  .priority-badge{display:inline-block;background:rgba(200,168,75,0.15);border:1px solid var(--gold-dim);border-radius:4px;padding:3px 10px;font-family:'Source Code Pro',monospace;font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
-</style>
-</head>
-<body>
-<div class="vocab-tooltip" id="vocab-tooltip"><div class="vt-term" id="vt-term"></div><div class="vt-def" id="vt-def"></div></div>
-
-<div id="unit-page" class="page active">
+<div id="unit8-page" class="page">
   <header class="unit-header">
     <button class="back-btn" onclick="goHome()">← All Units</button>
     <div class="header-info">
@@ -10441,35 +10325,35 @@ function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]'
       <h2>Cold War &amp; Decolonization</h2>
     </div>
     <div class="progress-area">
-      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="unit-progress-bar"></div></div>
-      <span class="progress-pct" id="unit-progress-pct">0%</span>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="unit8-progress-bar"></div></div>
+      <span class="progress-pct" id="unit8-progress-pct">0%</span>
     </div>
   </header>
   <div class="motivational-bar">
     🌍 <strong style="color:var(--gold-dim)">Cold War &amp; Decolonization</strong> — It's okay not to remember every detail. Work through it, stay curious, and be proud of what you're building.
   </div>
   <div class="unit-body">
-    <nav class="sidebar" id="sidebar">
+    <nav class="sidebar" id="u8-sidebar">
       <div class="sidebar-label">Sections</div>
-      <div class="sidebar-item active" onclick="scrollToSection('sec-intro')" id="nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="chk-intro"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-1')" id="nav-1"><span class="s-num">01</span>The Cold War<span class="s-check" id="chk-1"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-2')" id="nav-2"><span class="s-num">02</span>Communism Spreads<span class="s-check" id="chk-2"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-3')" id="nav-3"><span class="s-num">03</span>Decolonization<span class="s-check" id="chk-3"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-4')" id="nav-4"><span class="s-num">04</span>New States<span class="s-check" id="chk-4"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-5')" id="nav-5"><span class="s-num">05</span>Global Resistance<span class="s-check" id="chk-5"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-6')" id="nav-6"><span class="s-num">06</span>Glossary<span class="s-check" id="chk-6"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-7')" id="nav-7"><span class="s-num">07</span>Timeline<span class="s-check" id="chk-7"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-8')" id="nav-8"><span class="s-num">08</span>Thinking Skills<span class="s-check" id="chk-8"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-9')" id="nav-9"><span class="s-num">09</span>Pitfalls<span class="s-check" id="chk-9"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-10')" id="nav-10"><span class="s-num">10</span>Sample DBQ<span class="s-check" id="chk-10"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-11')" id="nav-11"><span class="s-num">11</span>Sample LEQ<span class="s-check" id="chk-11"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-12')" id="nav-12"><span class="s-num">12</span>Unit Summary<span class="s-check" id="chk-12"></span></div>
-      <div class="sidebar-item" onclick="scrollToSection('sec-ready')" id="nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="chk-ready"></span></div>
+      <div class="sidebar-item active" onclick="u8ScrollToSection('u8-sec-intro')" id="u8-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u8-chk-intro"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-1')" id="u8-nav-1"><span class="s-num">01</span>The Cold War<span class="s-check" id="u8-chk-1"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-2')" id="u8-nav-2"><span class="s-num">02</span>Communism Spreads<span class="s-check" id="u8-chk-2"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-3')" id="u8-nav-3"><span class="s-num">03</span>Decolonization<span class="s-check" id="u8-chk-3"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-4')" id="u8-nav-4"><span class="s-num">04</span>New States<span class="s-check" id="u8-chk-4"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-5')" id="u8-nav-5"><span class="s-num">05</span>Global Resistance<span class="s-check" id="u8-chk-5"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-6')" id="u8-nav-6"><span class="s-num">06</span>Glossary<span class="s-check" id="u8-chk-6"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-7')" id="u8-nav-7"><span class="s-num">07</span>Timeline<span class="s-check" id="u8-chk-7"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-8')" id="u8-nav-8"><span class="s-num">08</span>Thinking Skills<span class="s-check" id="u8-chk-8"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-9')" id="u8-nav-9"><span class="s-num">09</span>Pitfalls<span class="s-check" id="u8-chk-9"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-10')" id="u8-nav-10"><span class="s-num">10</span>Sample DBQ<span class="s-check" id="u8-chk-10"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-11')" id="u8-nav-11"><span class="s-num">11</span>Sample LEQ<span class="s-check" id="u8-chk-11"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-12')" id="u8-nav-12"><span class="s-num">12</span>Unit Summary<span class="s-check" id="u8-chk-12"></span></div>
+      <div class="sidebar-item" onclick="u8ScrollToSection('u8-sec-ready')" id="u8-nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="u8-chk-ready"></span></div>
     </nav>
-    <main class="main-content" id="main-content">
+    <main class="main-content" id="u8-main-content">
 
 <!-- SEC INTRO -->
-<div class="section-block" id="sec-intro">
+<div class="section-block" id="u8-sec-intro">
 <div class="section-label">AP World History Modern · Unit 8</div>
 <h1 class="section-title">Cold War &amp; Decolonization &nbsp;|&nbsp; c. 1900–Present</h1>
 <div class="callout warn"><div class="callout-title">⚖️ Exam Weight</div><p><strong>12–15% of the AP Exam.</strong> Freeman-pedia's framework: "Think of it as an extension and deconstruction of the previous two units. Colonies from Unit 6 are getting their independence. Hot wars from Unit 7 are getting smaller and colder."</p></div>
@@ -10488,7 +10372,7 @@ function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]'
 </div>
 
 <!-- SEC 1 COLD WAR -->
-<div class="section-block" id="sec-1">
+<div class="section-block" id="u8-sec-1">
 <div class="section-label">Section 01</div>
 <h2 class="section-title">The Cold War — 50 Years of Eyeball-to-Eyeball</h2>
 <div class="callout"><div class="callout-title">📌 Why "Cold"?</div><p>The US and USSR never directly fought each other. Nuclear deterrence made direct conflict suicidal — Mutually Assured Destruction (MAD) meant any nuclear first strike would guarantee the attacker's own destruction. So the competition stayed "cold" — fought through proxy wars, economic pressure, intelligence operations, propaganda, and an arms race that terrified the world for 45 years.</p></div>
@@ -10542,7 +10426,7 @@ function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]'
 </div>
 
 <!-- SEC 2 COMMUNISM -->
-<div class="section-block" id="sec-2">
+<div class="section-block" id="u8-sec-2">
 <div class="section-label">Section 02</div>
 <h2 class="section-title">The Spread of Communism — China and Redistribution</h2>
 <h3 class="subsection-title">China: The Communist Victory</h3>
@@ -10576,7 +10460,7 @@ Step 3: goal, what happened, consequence"></textarea><button class="reveal-btn" 
 </div>
 
 <!-- SEC 3 DECOLONIZATION -->
-<div class="section-block" id="sec-3">
+<div class="section-block" id="u8-sec-3">
 <div class="section-label">Section 03</div>
 <h2 class="section-title">Decolonization — Backwards Imperialism</h2>
 <div class="callout"><div class="callout-title">Why Did Decolonization Happen NOW?</div>
@@ -10614,7 +10498,7 @@ Step 3: goal, what happened, consequence"></textarea><button class="reveal-btn" 
 </div>
 
 <!-- SEC 4 NEW STATES -->
-<div class="section-block" id="sec-4">
+<div class="section-block" id="u8-sec-4">
 <div class="section-label">Section 04</div>
 <h2 class="section-title">Newly Independent States — What Happened After Independence</h2>
 <p>Getting independence was the beginning, not the end. Newly independent states had to solve enormous problems: colonial borders that made no sense, economies designed to serve imperial powers rather than local populations, and Cold War superpowers immediately trying to pull them into their orbit.</p>
@@ -10651,7 +10535,7 @@ Step 3: goal, what happened, consequence"></textarea><button class="reveal-btn" 
 </div>
 
 <!-- SEC 5 RESISTANCE -->
-<div class="section-block" id="sec-5">
+<div class="section-block" id="u8-sec-5">
 <div class="section-label">Section 05</div>
 <h2 class="section-title">Global Resistance to Established Power Structures</h2>
 <div class="callout info"><div class="callout-title">📌 Four Categories the College Board Tests</div><p>The College Board organizes this section around people and movements that either resisted or intensified conflict during the Cold War/decolonization era. Know all four categories with at least one specific example each.</p></div>
@@ -10694,15 +10578,15 @@ Step 3: goal, what happened, consequence"></textarea><button class="reveal-btn" 
 </div>
 
 <!-- SEC 6 GLOSSARY -->
-<div class="section-block" id="sec-6">
+<div class="section-block" id="u8-sec-6">
 <div class="section-label">Section 06</div>
 <h2 class="section-title">Glossary of Key Terms</h2>
 <p>Test yourself on each term before revealing. Mark how well you know it.</p>
-<div id="glossary-list"></div>
+<div id="u8-glossary-list"></div>
 </div>
 
 <!-- SEC 7 TIMELINE -->
-<div class="section-block" id="sec-7">
+<div class="section-block" id="u8-sec-7">
 <div class="section-label">Section 07</div>
 <h2 class="section-title">Timeline of Unit 8 (1945–1994)</h2>
 <div class="timeline">
@@ -10731,7 +10615,7 @@ Step 3: goal, what happened, consequence"></textarea><button class="reveal-btn" 
 </div>
 
 <!-- SEC 8 THINKING SKILLS -->
-<div class="section-block" id="sec-8">
+<div class="section-block" id="u8-sec-8">
 <div class="section-label">Section 08</div>
 <h2 class="section-title">Historical Thinking Skills</h2>
 <h3 class="subsection-title">1. Comparison — The Primary Skill for Decolonization</h3>
@@ -10761,7 +10645,7 @@ Step 3: goal, what happened, consequence"></textarea><button class="reveal-btn" 
 </div>
 
 <!-- SEC 9 PITFALLS -->
-<div class="section-block" id="sec-9">
+<div class="section-block" id="u8-sec-9">
 <div class="section-label">Section 09</div>
 <h2 class="section-title">Common Pitfalls &amp; How to Avoid Them</h2>
 <div class="pitfall-card"><div class="pitfall-header"><span class="pitfall-icon">❌</span><h4>Pitfall 1: Treating the Cold War as Only US vs. USSR</h4></div><div class="pitfall-body"><p class="problem"><strong>The Problem:</strong> Students write the Cold War as a simple two-sided conflict and ignore the Non-Aligned Movement entirely. The result: essays that miss 30+ nations with their own agendas, and analysis that misses how newly independent nations navigated between superpowers.</p><p class="fix"><strong>✅ The Fix:</strong> Always include Team C. India's Nehru, Egypt's Nasser, Ghana's Nkrumah, and Yugoslavia's Tito all pursued independence from both blocs. The Bandung Conference (1955) is your go-to example.</p></div></div>
@@ -10778,7 +10662,7 @@ Step 3: goal, what happened, consequence"></textarea><button class="reveal-btn" 
 </div>
 
 <!-- SEC 10 DBQ -->
-<div class="section-block" id="sec-10">
+<div class="section-block" id="u8-sec-10">
 <div class="section-label">Section 10</div>
 <h2 class="section-title">Sample DBQ — With Full Breakdown</h2>
 <div class="callout warn"><div class="callout-title">📊 DBQ Basics</div><p>DBQ = 25% of AP exam. 7 documents, 60 minutes (15 min reading). Thesis + contextualization + document analysis + outside evidence + sourcing + complexity.</p></div>
@@ -10803,7 +10687,7 @@ Step 3: goal, what happened, consequence"></textarea><button class="reveal-btn" 
 </div>
 
 <!-- SEC 11 LEQ -->
-<div class="section-block" id="sec-11">
+<div class="section-block" id="u8-sec-11">
 <div class="section-label">Section 11</div>
 <h2 class="section-title">Sample LEQ — With Full Breakdown</h2>
 <div class="callout warn"><div class="callout-title">📊 LEQ Basics</div><p>LEQ = 15% of AP exam. 40 minutes. From memory — no documents. Choose from three prompts.</p></div>
@@ -10826,7 +10710,7 @@ Step 3: goal, what happened, consequence"></textarea><button class="reveal-btn" 
 </div>
 
 <!-- SEC 12 SUMMARY -->
-<div class="section-block" id="sec-12">
+<div class="section-block" id="u8-sec-12">
 <div class="section-label">Section 12</div>
 <h2 class="section-title">Unit Summary — The Big Picture</h2>
 <div class="quiz-block self-explain"><div class="quiz-question">Can you answer ALL of these from memory?<br><br>What are the three "teams" of the Cold War — give a country and leader for each? What is containment? What is the Domino Theory? What is MAD — and why didn't the US attack Cuba even though it had many more nukes? What is a proxy war — give two examples with human cost figures. What are Mao's three steps, and what is the death toll of the Great Leap Forward? What is the White Revolution in Iran — how does its land redistribution differ from China's? What are the two paths to decolonization — give one specific example of each? What is a metropole and why do post-colonial migrants go there? Who is Nelson Mandela — what did he do before, during, and after his 27 years in prison? What is apartheid? What is Operation Condor — who was Pinochet? What did Nasser, Bandaranaike, and Nyerere each do for their new states? How is al-Qaeda connected to the Soviet-Afghan War?</div><textarea class="self-explain-area" style="min-height:180px" placeholder="Write out as many answers as you can from memory..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-summary-answers')">See All Answers</button><div class="quiz-feedback reveal" id="rev-summary-answers"><div class="fb-result">FULL ANSWERS</div><div class="fb-explain">
@@ -10858,7 +10742,7 @@ Afghanistan: 15,000 Soviet soldiers + millions of Afghans killed; helped bring d
 </div>
 
 <!-- SEC READY -->
-<div class="section-block" id="sec-ready">
+<div class="section-block" id="u8-sec-ready">
 <div class="section-label">Check-In</div>
 <h2 class="section-title">Do You Think You Can Move On?</h2>
 <p>Eight units down. One to go. This is the final check before the finish line.</p>
@@ -10888,7 +10772,7 @@ Fuzzy on any? Spend 10 focused minutes there. You're almost at the finish line.<
 </div>
 
 <script>
-const glossaryTerms = [
+const u8GlossaryTerms = [
   { term: "Cold War (1947–1991)", def: "The sustained ideological, political, economic, and military competition between the US-led Western bloc and the USSR-led Eastern bloc. Called 'cold' because the two superpowers never directly fought each other — nuclear deterrence (MAD) made direct conflict suicidal. Lasted from 1947 to the Soviet Union's dissolution in 1991." },
   { term: "Decolonization", def: "The process by which colonized nations won political independence from European imperial powers, primarily 1945–1975. Freeman-pedia: 'backwards imperialism — Unit 6 in reverse.' Some colonies negotiated independence; others fought for it." },
   { term: "Containment", def: "The US foreign policy doctrine (Truman Doctrine, 1947) of preventing communist expansion beyond its 1945 borders. Based on the Domino Theory. Justified US involvement in Korea, Vietnam, Nicaragua, Afghanistan, and dozens of other conflicts over 45 years." },
@@ -10918,53 +10802,43 @@ const glossaryTerms = [
   { term: "Aswan High Dam", def: "Built under Egyptian President Nasser on the Nile River. Controlled the Nile's flooding, irrigated vast new agricultural land, and generated half of Egypt's electricity. Nasser's nationalization of the Suez Canal (1956) to fund it triggered the Suez Crisis — when Britain and France invaded and the US forced their withdrawal, demonstrating that European imperial power was over." }
 ];
 
-const correctAnswers = {
-  'qb-intro-a':'B','qb-s1a':'B','qb-s5a':'B','qb-s7a-fill':null,'qb-s9a':'B'
-};
-let sectionsDone=new Set(JSON.parse(localStorage.getItem('u8_sections')||'[]'));
-let termStatus=JSON.parse(localStorage.getItem('u8_terms')||'{}');
-function saveProgress(){localStorage.setItem('u8_sections',JSON.stringify([...sectionsDone]));localStorage.setItem('u8_terms',JSON.stringify(termStatus));}
-function goHome(){window.location.href='index.html';}
-function scrollToSection(id){
+let u8SectionsDone=new Set(JSON.parse(localStorage.getItem('u8_sections')||'[]'));
+let u8TermStatus=JSON.parse(localStorage.getItem('u8_terms')||'{}');
+function u8SaveProgress(){localStorage.setItem('u8_sections',JSON.stringify([...u8SectionsDone]));localStorage.setItem('u8_terms',JSON.stringify(u8TermStatus));}
+function u8ScrollToSection(id){
   const el=document.getElementById(id);if(!el)return;
-  const mc=document.getElementById('main-content');
+  const mc=document.getElementById('u8-main-content');
   mc.scrollTo({top:el.offsetTop-20,behavior:'smooth'});
-  document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
-  if(id==='sec-ready'){const n=document.getElementById('nav-ready');if(n)n.classList.add('active');}
-  else{const n=document.getElementById('nav-'+id.replace('sec-',''));if(n)n.classList.add('active');}
+  document.querySelectorAll('#u8-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
+  if(id==='u8-sec-ready'){const n=document.getElementById('u8-nav-ready');if(n)n.classList.add('active');}
+  else{const n=document.getElementById('u8-nav-'+id.replace('u8-sec-',''));if(n)n.classList.add('active');}
 }
-const secIds=['sec-intro','sec-1','sec-2','sec-3','sec-4','sec-5','sec-6','sec-7','sec-8','sec-9','sec-10','sec-11','sec-12','sec-ready'];
-function markSectionDone(id){
-  if(sectionsDone.has(id))return;sectionsDone.add(id);saveProgress();updateProgressBar();
-  const suffix=id==='sec-ready'?'ready':id.replace('sec-','');
-  const chk=document.getElementById('chk-'+suffix);if(chk)chk.textContent='✅';
+const u8SecIds=['u8-sec-intro','u8-sec-1','u8-sec-2','u8-sec-3','u8-sec-4','u8-sec-5','u8-sec-6','u8-sec-7','u8-sec-8','u8-sec-9','u8-sec-10','u8-sec-11','u8-sec-12','u8-sec-ready'];
+function u8MarkSectionDone(id){
+  if(u8SectionsDone.has(id))return;u8SectionsDone.add(id);u8SaveProgress();u8UpdateProgressBar();
+  const suffix=id==='u8-sec-ready'?'ready':id.replace('sec-','');
+  const chk=document.getElementById('u8-chk-'+suffix);if(chk)chk.textContent='✅';
 }
-function updateProgressBar(){
-  const pct=Math.round((sectionsDone.size/secIds.length)*100);
-  const bar=document.getElementById('unit-progress-bar');const lbl=document.getElementById('unit-progress-pct');
+function u8UpdateProgressBar(){
+  const pct=Math.round((u8SectionsDone.size/u8SecIds.length)*100);
+  const bar=document.getElementById('unit8-progress-bar');const lbl=document.getElementById('unit8-progress-pct');
   if(bar)bar.style.width=pct+'%';if(lbl)lbl.textContent=pct+'%';
 }
-function restoreChecks(){
-  sectionsDone.forEach(id=>{const suffix=id==='sec-ready'?'ready':id.replace('sec-','');const chk=document.getElementById('chk-'+suffix);if(chk)chk.textContent='✅';});
+function u8RestoreChecks(){
+  u8SectionsDone.forEach(id=>{const suffix=id==='u8-sec-ready'?'ready':id.replace('sec-','');const chk=document.getElementById('u8-chk-'+suffix);if(chk)chk.textContent='✅';});
 }
-function setupScrollSpy(){
-  const mc=document.getElementById('main-content');if(!mc)return;
+function u8SetupScrollSpy(){
+  const mc=document.getElementById('u8-main-content');if(!mc)return;
   mc.addEventListener('scroll',()=>{
-    const st=mc.scrollTop,ch=mc.clientHeight;let current='sec-intro';
-    secIds.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop-60<=st)current=id;if(el&&el.offsetTop+el.offsetHeight-100<=st+ch)markSectionDone(id);});
-    document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
-    if(current==='sec-ready'){const n=document.getElementById('nav-ready');if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
-    else{const n=document.getElementById('nav-'+current.replace('sec-',''));if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
+    const st=mc.scrollTop,ch=mc.clientHeight;let current='u8-sec-intro';
+    u8SecIds.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop-60<=st)current=id;if(el&&el.offsetTop+el.offsetHeight-100<=st+ch)u8MarkSectionDone(id);});
+    document.querySelectorAll('#u8-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
+    if(current==='u8-sec-ready'){const n=document.getElementById('u8-nav-ready');if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
+    else{const n=document.getElementById('u8-nav-'+current.replace('u8-sec-',''));if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
   });
 }
-function checkMC(btn,blockId,chosen){
-  const block=document.getElementById(blockId);if(!block)return;
-  const correct=correctAnswers[blockId]||block.dataset.correct;
-  const fb=document.getElementById('qf-'+blockId.replace('qb-',''));
-  block.querySelectorAll('.mc-btn').forEach(b=>{b.disabled=true;const ch=(b.querySelector('.choice-letter')||{}).textContent?.trim();if(ch===correct)b.classList.add('correct');else if(ch===chosen&&chosen!==correct)b.classList.add('wrong');});
-  if(fb){const ok=chosen===correct;const ex=block.dataset.explain||fb.dataset.explain||'';fb.className='quiz-feedback '+(ok?'correct':'wrong');fb.innerHTML=`<div class="fb-result">${ok?'✅ CORRECT':'❌ NOT QUITE'}</div>${!ok?`<div class="fb-answer">Correct answer: ${correct}</div>`:''}
-  <div class="fb-explain">${ex}</div>`;fb.style.display='block';}
-}
+// (checkMC, checkFill, revealAnswer defined in main script)
+
 function checkFill(inputId,correct,feedbackId,explanation,aliases){
   const inp=document.getElementById(inputId);const fb=document.getElementById(feedbackId);if(!inp||!fb)return;
   const val=inp.value.trim().toLowerCase();const all=[correct.toLowerCase(),...(aliases||[]).map(a=>a.toLowerCase())];
@@ -10974,33 +10848,30 @@ function checkFill(inputId,correct,feedbackId,explanation,aliases){
   <div class="fb-explain">${explanation}</div>`;fb.style.display='block';
 }
 function revealAnswer(id){const fb=document.getElementById(id);if(!fb)return;fb.style.display='block';fb.scrollIntoView({behavior:'smooth',block:'nearest'});}
-const tooltip=document.getElementById('vocab-tooltip');
-document.addEventListener('mouseover',e=>{const vt=e.target.closest('.vocab-term');if(!vt){tooltip.style.display='none';return;}document.getElementById('vt-term').textContent=vt.dataset.term||'';document.getElementById('vt-def').textContent=vt.dataset.def||'';tooltip.style.display='block';positionTooltip(e);});
-document.addEventListener('mousemove',e=>{if(e.target.closest('.vocab-term'))positionTooltip(e);});
-document.addEventListener('mouseout',e=>{if(!e.target.closest('.vocab-term'))tooltip.style.display='none';});
-function positionTooltip(e){const tw=tooltip.offsetWidth,th=tooltip.offsetHeight;let l=e.clientX+16,t=e.clientY+16;if(l+tw>window.innerWidth-16)l=e.clientX-tw-16;if(t+th>window.innerHeight-16)t=e.clientY-th-16;tooltip.style.left=Math.max(8,l)+'px';tooltip.style.top=Math.max(8,t)+'px';}
-function renderGlossary(){
-  const c=document.getElementById('glossary-list');if(!c)return;c.innerHTML='';
-  glossaryTerms.forEach((item,i)=>{
-    const st=termStatus[item.term]||'';const d=document.createElement('div');d.className='term-tracker';
+// (Vocab tooltip defined in main script)
+
+function u8RenderGlossary(){
+  const c=document.getElementById('u8-glossary-list');if(!c)return;c.innerHTML='';
+  u8GlossaryTerms.forEach((item,i)=>{
+    const st=u8TermStatus[item.term]||'';const d=document.createElement('div');d.className='term-tracker';
     const safeT=item.term.replace(/'/g,"\'").replace(/&/g,'and').replace(/[()]/g,'_');
-    d.innerHTML=`<div class="term-tracker-header"><h4>${item.term}</h4><button class="term-reveal-btn" onclick="toggleTermDef(${i},this)">Reveal Definition</button></div>
+    d.innerHTML=`<div class="term-tracker-header"><h4>${item.term}</h4><button class="term-reveal-btn" onclick="u8ToggleTermDef(${i},this)">Reveal Definition</button></div>
     <div class="term-tracker-body" id="tb-${i}"><div class="term-def-text" id="tdef-${i}">${item.def}</div>
-    <div class="term-status-btns"><button class="status-btn${st==='know'?' know':''}" onclick="setTermStatus('${safeT}','know',${i})">✅ Know</button>
-    <button class="status-btn${st==='unsure'?' unsure':''}" onclick="setTermStatus('${safeT}','unsure',${i})">⚠️ Unsure</button>
-    <button class="status-btn${st==='dontknow'?' dontknow':''}" onclick="setTermStatus('${safeT}','dontknow',${i})">❌ Don't Know</button></div></div>`;
+    <div class="term-status-btns"><button class="status-btn${st==='know'?' know':''}" onclick="u8SetTermStatus('${safeT}','know',${i})">✅ Know</button>
+    <button class="status-btn${st==='unsure'?' unsure':''}" onclick="u8SetTermStatus('${safeT}','unsure',${i})">⚠️ Unsure</button>
+    <button class="status-btn${st==='dontknow'?' dontknow':''}" onclick="u8SetTermStatus('${safeT}','dontknow',${i})">❌ Don't Know</button></div></div>`;
     c.appendChild(d);
   });
 }
-function toggleTermDef(i,btn){const d=document.getElementById('tdef-'+i);if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
-function setTermStatus(term,status,i){
-  termStatus[term]=status;saveProgress();const body=document.getElementById('tb-'+i);if(!body)return;
+function u8ToggleTermDef(i,btn){const d=document.getElementById('tdef-'+i);if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
+function u8SetTermStatus(term,status,i){
+  termStatus[term]=status;u8SaveProgress();const body=document.getElementById('tb-'+i);if(!body)return;
   body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
   const btns=body.querySelectorAll('.status-btn');
   if(status==='know'&&btns[0])btns[0].classList.add('know');if(status==='unsure'&&btns[1])btns[1].classList.add('unsure');if(status==='dontknow'&&btns[2])btns[2].classList.add('dontknow');
 }
 function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]').forEach(fb=>{const block=fb.closest('.quiz-block');if(block&&!block.dataset.correct){block.dataset.correct=fb.dataset.correct;block.dataset.explain=fb.dataset.explain||'';}});}
-document.addEventListener('DOMContentLoaded',()=>{wireQuizData();renderGlossary();setupScrollSpy();updateProgressBar();restoreChecks();});
+// Unit 8 init called from openUnit8()
 </script>
 </body>
 </html>
