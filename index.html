@@ -209,13 +209,13 @@ html
   /* ══════════════════════════════════════════
      UNIT PAGE LAYOUT
   ══════════════════════════════════════════ */
-  #unit-page, #unit2-page, #unit3-page, #unit4-page, #unit5-page, #unit6-page, #unit7-page, #unit8-page {
+  #unit-page, #unit2-page, #unit3-page, #unit4-page, #unit5-page, #unit6-page, #unit7-page, #unit8-page, #unit9-page {
     display: none;
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
   }
-  #unit-page.active, #unit2-page.active, #unit3-page.active, #unit4-page.active, #unit5-page.active, #unit6-page.active, #unit7-page.active, #unit8-page.active { display: flex; }
+  #unit-page.active, #unit2-page.active, #unit3-page.active, #unit4-page.active, #unit5-page.active, #unit6-page.active, #unit7-page.active, #unit8-page.active, #unit9-page.active { display: flex; }
 
   .unit-header {
     position: sticky;
@@ -1185,10 +1185,10 @@ html
       <div class="unit-dates">c. 1900 – Present CE</div>
       <span class="unit-weight">EXAM WEIGHT: 8–10%</span>
     </div>
-    <div class="unit-card locked">
-      <div class="unit-num">UNIT 09 <span class="lock-icon">🔒</span></div>
+    <div class="unit-card active" onclick="openUnit9()">
+      <div class="unit-num">UNIT 09 · UNLOCKED</div>
       <h3>Globalization</h3>
-      <div class="unit-dates">c. 1900 – Present</div>
+      <div class="unit-dates">c. 1900 – Present CE</div>
       <span class="unit-weight">EXAM WEIGHT: 8–10%</span>
     </div>
   </div>
@@ -4189,6 +4189,14 @@ function openUnit8(){
   u8UpdateProgressBar(); u8RestoreChecks();
   if(!window._u8Init){window._u8Init=true;wireQuizData();u8RenderGlossary();u8SetupScrollSpy();}
 }
+function openUnit9(){
+  document.getElementById('home-page').classList.remove('active');
+  document.getElementById('unit9-page').classList.add('active');
+  document.body.style.overflow='hidden';
+  document.documentElement.style.overflow='hidden';
+  u9UpdateProgressBar(); u9RestoreChecks();
+  if(!window._u9Init){window._u9Init=true;wireQuizData();u9RenderGlossary();u9SetupScrollSpy();}
+}
 function openWriting(){
   document.getElementById('home-page').classList.remove('active');
   document.getElementById('writing-page').classList.add('active');
@@ -4204,6 +4212,7 @@ function goHome(){
   document.getElementById('unit6-page').classList.remove('active');
   document.getElementById('unit7-page').classList.remove('active');
   document.getElementById('unit8-page').classList.remove('active');
+  document.getElementById('unit9-page').classList.remove('active');
   document.getElementById('writing-page').classList.remove('active');
   document.getElementById('home-page').classList.add('active');
 }
@@ -4293,9 +4302,9 @@ function fuzzyMatch(raw, target){
 
 // ── QUIZ ──
 function checkMC(btn, blockId, chosen){
-  const block=document.getElementById(blockId); if(!block) return;
-  const correct=correctAnswers[blockId]||block.dataset.correct;
-  const fb=document.getElementById('qf-'+blockId.replace('qb-',''));
+  const block=btn.closest('.quiz-block')||document.getElementById(blockId); if(!block) return;
+  const correct=block.dataset.correct||correctAnswers[blockId];
+  const fb=block.querySelector('.quiz-feedback');
   block.querySelectorAll('.mc-btn').forEach(b=>{
     b.disabled=true;
     const ch=b.dataset.choice||(b.querySelector('.choice-letter')||{}).textContent?.trim();
@@ -4313,7 +4322,7 @@ function checkMC(btn, blockId, chosen){
 }
 function checkFill(inputId, correct, feedbackId, explanation, aliases){
   const inp=document.getElementById(inputId);
-  const fb=document.getElementById(feedbackId);
+  const fb=inp?.closest('.quiz-block')?.querySelector('.quiz-feedback')||document.getElementById(feedbackId);
   if(!inp||!fb) return;
   const val=inp.value.trim();
   const all=[correct,...(aliases||[])];
@@ -6949,23 +6958,23 @@ function u2EnterPhase2(){
   <div class="unit-body">
     <nav class="sidebar" id="u3-sidebar">
       <div class="sidebar-label">Sections</div>
-      <div class="sidebar-item active" onclick=\"u3ScrollToSection('u3-sec-intro')\" id="u3-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u3-chk-intro"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-1')\" id="u3-nav-1"><span class="s-num">01</span>Gunpowder<span class="s-check" id="u3-chk-1"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-2')\" id="u3-nav-2"><span class="s-num">02</span>Ottoman Empire<span class="s-check" id="u3-chk-2"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-3')\" id="u3-nav-3"><span class="s-num">03</span>Safavid Empire<span class="s-check" id="u3-chk-3"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-4')\" id="u3-nav-4"><span class="s-num">04</span>Mughal Empire<span class="s-check" id="u3-chk-4"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-5')\" id="u3-nav-5"><span class="s-num">05</span>Qing &amp; Ming<span class="s-check" id="u3-chk-5"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-6')\" id="u3-nav-6"><span class="s-num">06</span>Comparison Table<span class="s-check" id="u3-chk-6"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-7')\" id="u3-nav-7"><span class="s-num">07</span>Glossary<span class="s-check" id="u3-chk-7"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-8')\" id="u3-nav-8"><span class="s-num">08</span>Causes &amp; Effects<span class="s-check" id="u3-chk-8"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-9')\" id="u3-nav-9"><span class="s-num">09</span>Timeline<span class="s-check" id="u3-chk-9"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-10')\" id="u3-nav-10"><span class="s-num">10</span>Thinking Skills<span class="s-check" id="u3-chk-10"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-11')\" id="u3-nav-11"><span class="s-num">11</span>Command Terms<span class="s-check" id="u3-chk-11"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-12')\" id="u3-nav-12"><span class="s-num">12</span>Pitfalls<span class="s-check" id="u3-chk-12"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-13')\" id="u3-nav-13"><span class="s-num">13</span>Sample DBQ<span class="s-check" id="u3-chk-13"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-14')\" id="u3-nav-14"><span class="s-num">14</span>Sample LEQ<span class="s-check" id="u3-chk-14"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-15')\" id="u3-nav-15"><span class="s-num">15</span>Unit Summary<span class="s-check" id="u3-chk-15"></span></div>
-      <div class="sidebar-item" onclick=\"u3ScrollToSection('u3-sec-ready')\" id="u3-nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="u3-chk-ready"></span></div>
+      <div class="sidebar-item active" onclick="u3ScrollToSection('u3-sec-intro')" id="u3-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u3-chk-intro"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-1')" id="u3-nav-1"><span class="s-num">01</span>Gunpowder<span class="s-check" id="u3-chk-1"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-2')" id="u3-nav-2"><span class="s-num">02</span>Ottoman Empire<span class="s-check" id="u3-chk-2"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-3')" id="u3-nav-3"><span class="s-num">03</span>Safavid Empire<span class="s-check" id="u3-chk-3"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-4')" id="u3-nav-4"><span class="s-num">04</span>Mughal Empire<span class="s-check" id="u3-chk-4"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-5')" id="u3-nav-5"><span class="s-num">05</span>Qing &amp; Ming<span class="s-check" id="u3-chk-5"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-6')" id="u3-nav-6"><span class="s-num">06</span>Comparison Table<span class="s-check" id="u3-chk-6"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-7')" id="u3-nav-7"><span class="s-num">07</span>Glossary<span class="s-check" id="u3-chk-7"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-8')" id="u3-nav-8"><span class="s-num">08</span>Causes &amp; Effects<span class="s-check" id="u3-chk-8"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-9')" id="u3-nav-9"><span class="s-num">09</span>Timeline<span class="s-check" id="u3-chk-9"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-10')" id="u3-nav-10"><span class="s-num">10</span>Thinking Skills<span class="s-check" id="u3-chk-10"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-11')" id="u3-nav-11"><span class="s-num">11</span>Command Terms<span class="s-check" id="u3-chk-11"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-12')" id="u3-nav-12"><span class="s-num">12</span>Pitfalls<span class="s-check" id="u3-chk-12"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-13')" id="u3-nav-13"><span class="s-num">13</span>Sample DBQ<span class="s-check" id="u3-chk-13"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-14')" id="u3-nav-14"><span class="s-num">14</span>Sample LEQ<span class="s-check" id="u3-chk-14"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-15')" id="u3-nav-15"><span class="s-num">15</span>Unit Summary<span class="s-check" id="u3-chk-15"></span></div>
+      <div class="sidebar-item" onclick="u3ScrollToSection('u3-sec-ready')" id="u3-nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="u3-chk-ready"></span></div>
     </nav>
     <main class="main-content" id="u3-main-content">
 
@@ -7547,8 +7556,8 @@ function u3SaveProgress(){
 // ── NAV ──
 function u3ScrollToSection(id){
   const el=document.getElementById(id); if(!el) return;
-  const mc=document.getElementById('main-content');
-  mc.scrollTo({top:el.offsetTop-20,behavior:'smooth'});
+  const mc=document.getElementById('u3-main-content'); if(!mc) return;
+  mc.scrollTo({top: mc.scrollTop + el.getBoundingClientRect().top - mc.getBoundingClientRect().top - 20, behavior:'smooth'});
   document.querySelectorAll('#u3-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
   const navId='u3-nav-'+id.replace('u3-sec-','');
   const nav=document.getElementById(navId)||document.getElementById('u3-nav-ready');
@@ -7603,25 +7612,6 @@ function u3SetupScrollSpy(){
 }
 
 // (checkMC, checkFill, revealAnswer defined in main script)
-function checkFill(inputId, correct, feedbackId, explanation, aliases){
-  const inp=document.getElementById(inputId);
-  const fb=document.getElementById(feedbackId);
-  if(!inp||!fb) return;
-  const val=inp.value.trim().toLowerCase();
-  const all=[correct.toLowerCase(),...(aliases||[]).map(a=>a.toLowerCase())];
-  const ok=all.some(a=>val===a||val.includes(a)||a.includes(val)&&val.length>2);
-  inp.classList.add(ok?'correct':'wrong'); inp.disabled=true;
-  fb.className='quiz-feedback '+(ok?'correct':'wrong');
-  fb.innerHTML=`<div class="fb-result">${ok?'✅ CORRECT!':'❌ NOT QUITE'}</div>${!ok?`<div class="fb-answer">Correct answer: <strong>${correct}</strong></div>`:''}
-  <div class="fb-explain">${explanation}</div>`;
-  fb.style.display='block';
-}
-function revealAnswer(id){
-  const fb=document.getElementById(id); if(!fb) return;
-  fb.style.display='block';
-  fb.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-
 // (Vocab tooltip defined in main script)
 
 // ── GLOSSARY ──
@@ -7629,7 +7619,7 @@ function u3RenderGlossary(){
   const c=document.getElementById('u3-glossary-list'); if(!c) return;
   c.innerHTML='';
   u3GlossaryTerms.forEach((item,i)=>{
-    const st=termStatus[item.term]||'';
+    const st=u3TermStatus[item.term]||'';
     const d=document.createElement('div');
     d.className='term-tracker';
     const safeT=item.term.replace(/'/g,"\'");
@@ -7649,14 +7639,16 @@ function u3RenderGlossary(){
   });
 }
 function u3ToggleTermDef(i,btn){
-  const d=document.getElementById('tdef-'+i); if(!d) return;
+  const card=btn.closest('.term-tracker'); if(!card) return;
+  const d=card.querySelector('.term-def-text'); if(!d) return;
   const shown=d.style.display==='block';
   d.style.display=shown?'none':'block';
   btn.textContent=shown?'Reveal Definition':'Hide Definition';
 }
 function u3SetTermStatus(term,status,i){
   u3TermStatus[term]=status; u3SaveProgress();
-  const body=document.getElementById('tb-'+i); if(!body) return;
+  const c=document.getElementById('u3-glossary-list');
+  const body=c?c.querySelectorAll('.term-tracker-body')[i]:null; if(!body) return;
   body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
   const btns=body.querySelectorAll('.status-btn');
   if(status==='know'&&btns[0]) btns[0].classList.add('know');
@@ -7684,24 +7676,24 @@ function u3SetTermStatus(term,status,i){
   <div class="unit-body">
     <nav class="sidebar" id="u4-sidebar">
       <div class="sidebar-label">Sections</div>
-      <div class="sidebar-item active" onclick=\"u4ScrollToSection('u4-sec-intro')\" id="u4-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u4-chk-intro"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-1')\" id="u4-nav-1"><span class="s-num">01</span>Technology<span class="s-check" id="u4-chk-1"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-2')\" id="u4-nav-2"><span class="s-num">02</span>Maritime Empires<span class="s-check" id="u4-chk-2"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-3')\" id="u4-nav-3"><span class="s-num">03</span>Columbian Exchange<span class="s-check" id="u4-chk-3"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-4')\" id="u4-nav-4"><span class="s-num">04</span>Atlantic Slave Trade<span class="s-check" id="u4-chk-4"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-5')\" id="u4-nav-5"><span class="s-num">05</span>Colonial Systems<span class="s-check" id="u4-chk-5"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-6')\" id="u4-nav-6"><span class="s-num">06</span>Silver Economy<span class="s-check" id="u4-chk-6"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-7')\" id="u4-nav-7"><span class="s-num">07</span>Resistance &amp; Culture<span class="s-check" id="u4-chk-7"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-8')\" id="u4-nav-8"><span class="s-num">08</span>Glossary<span class="s-check" id="u4-chk-8"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-9')\" id="u4-nav-9"><span class="s-num">09</span>Causes &amp; Effects<span class="s-check" id="u4-chk-9"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-10')\" id="u4-nav-10"><span class="s-num">10</span>Timeline<span class="s-check" id="u4-chk-10"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-11')\" id="u4-nav-11"><span class="s-num">11</span>Thinking Skills<span class="s-check" id="u4-chk-11"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-12')\" id="u4-nav-12"><span class="s-num">12</span>Command Terms<span class="s-check" id="u4-chk-12"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-13')\" id="u4-nav-13"><span class="s-num">13</span>Pitfalls<span class="s-check" id="u4-chk-13"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-14')\" id="u4-nav-14"><span class="s-num">14</span>Sample DBQ<span class="s-check" id="u4-chk-14"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-15')\" id="u4-nav-15"><span class="s-num">15</span>Sample LEQ<span class="s-check" id="u4-chk-15"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-16')\" id="u4-nav-16"><span class="s-num">16</span>Unit Summary<span class="s-check" id="u4-chk-16"></span></div>
-      <div class="sidebar-item" onclick=\"u4ScrollToSection('u4-sec-ready')\" id="u4-nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="u4-chk-ready"></span></div>
+      <div class="sidebar-item active" onclick="u4ScrollToSection('u4-sec-intro')" id="u4-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u4-chk-intro"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-1')" id="u4-nav-1"><span class="s-num">01</span>Technology<span class="s-check" id="u4-chk-1"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-2')" id="u4-nav-2"><span class="s-num">02</span>Maritime Empires<span class="s-check" id="u4-chk-2"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-3')" id="u4-nav-3"><span class="s-num">03</span>Columbian Exchange<span class="s-check" id="u4-chk-3"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-4')" id="u4-nav-4"><span class="s-num">04</span>Atlantic Slave Trade<span class="s-check" id="u4-chk-4"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-5')" id="u4-nav-5"><span class="s-num">05</span>Colonial Systems<span class="s-check" id="u4-chk-5"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-6')" id="u4-nav-6"><span class="s-num">06</span>Silver Economy<span class="s-check" id="u4-chk-6"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-7')" id="u4-nav-7"><span class="s-num">07</span>Resistance &amp; Culture<span class="s-check" id="u4-chk-7"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-8')" id="u4-nav-8"><span class="s-num">08</span>Glossary<span class="s-check" id="u4-chk-8"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-9')" id="u4-nav-9"><span class="s-num">09</span>Causes &amp; Effects<span class="s-check" id="u4-chk-9"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-10')" id="u4-nav-10"><span class="s-num">10</span>Timeline<span class="s-check" id="u4-chk-10"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-11')" id="u4-nav-11"><span class="s-num">11</span>Thinking Skills<span class="s-check" id="u4-chk-11"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-12')" id="u4-nav-12"><span class="s-num">12</span>Command Terms<span class="s-check" id="u4-chk-12"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-13')" id="u4-nav-13"><span class="s-num">13</span>Pitfalls<span class="s-check" id="u4-chk-13"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-14')" id="u4-nav-14"><span class="s-num">14</span>Sample DBQ<span class="s-check" id="u4-chk-14"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-15')" id="u4-nav-15"><span class="s-num">15</span>Sample LEQ<span class="s-check" id="u4-chk-15"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-16')" id="u4-nav-16"><span class="s-num">16</span>Unit Summary<span class="s-check" id="u4-chk-16"></span></div>
+      <div class="sidebar-item" onclick="u4ScrollToSection('u4-sec-ready')" id="u4-nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="u4-chk-ready"></span></div>
     </nav>
     <main class="main-content" id="u4-main-content">
 
@@ -8266,7 +8258,7 @@ function u4SaveProgress(){
 function u4ScrollToSection(id){
   const el=document.getElementById(id); if(!el) return;
   const mc=document.getElementById('u4-main-content');
-  mc.scrollTo({top:el.offsetTop-20,behavior:'smooth'});
+  mc.scrollTo({top: mc.scrollTop + el.getBoundingClientRect().top - mc.getBoundingClientRect().top - 20, behavior:'smooth'});
   document.querySelectorAll('#u4-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
   if(id==='u4-sec-ready'){const nav=document.getElementById('u4-nav-ready');if(nav)nav.classList.add('active');}
   else{const nav=document.getElementById('u4-nav-'+id.replace('u4-sec-',''));if(nav)nav.classList.add('active');}
@@ -8310,25 +8302,6 @@ function u4SetupScrollSpy(){
   });
 }
 // (checkMC, checkFill, revealAnswer defined in main script)
-
-function checkFill(inputId,correct,feedbackId,explanation,aliases){
-  const inp=document.getElementById(inputId);
-  const fb=document.getElementById(feedbackId);
-  if(!inp||!fb) return;
-  const val=inp.value.trim().toLowerCase();
-  const all=[correct.toLowerCase(),...(aliases||[]).map(a=>a.toLowerCase())];
-  const ok=all.some(a=>val===a||val.includes(a)||a.includes(val)&&val.length>2);
-  inp.classList.add(ok?'correct':'wrong'); inp.disabled=true;
-  fb.className='quiz-feedback '+(ok?'correct':'wrong');
-  fb.innerHTML=`<div class="fb-result">${ok?'✅ CORRECT!':'❌ NOT QUITE'}</div>${!ok?`<div class="fb-answer">Correct: <strong>${correct}</strong></div>`:''}
-  <div class="fb-explain">${explanation}</div>`;
-  fb.style.display='block';
-}
-function revealAnswer(id){
-  const fb=document.getElementById(id); if(!fb) return;
-  fb.style.display='block';
-  fb.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
 // (Vocab tooltip defined in main script)
 
 function u4RenderGlossary(){
@@ -8355,14 +8328,16 @@ function u4RenderGlossary(){
   });
 }
 function u4ToggleTermDef(i,btn){
-  const d=document.getElementById('tdef-'+i); if(!d) return;
+  const card=btn.closest('.term-tracker'); if(!card) return;
+  const d=card.querySelector('.term-def-text'); if(!d) return;
   const shown=d.style.display==='block';
   d.style.display=shown?'none':'block';
   btn.textContent=shown?'Reveal Definition':'Hide Definition';
 }
 function u4SetTermStatus(term,status,i){
   u4TermStatus[term]=status; u4SaveProgress();
-  const body=document.getElementById('tb-'+i); if(!body) return;
+  const c=document.getElementById('u4-glossary-list');
+  const body=c?c.querySelectorAll('.term-tracker-body')[i]:null; if(!body) return;
   body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
   const btns=body.querySelectorAll('.status-btn');
   if(status==='know'&&btns[0]) btns[0].classList.add('know');
@@ -8390,25 +8365,25 @@ function u4SetTermStatus(term,status,i){
   <div class="unit-body">
     <nav class="sidebar" id="u5-sidebar">
       <div class="sidebar-label">Sections</div>
-      <div class="sidebar-item active" onclick=\"u5ScrollToSection('u5-sec-intro')\" id="u5-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u5-chk-intro"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-1')\" id="u5-nav-1"><span class="s-num">01</span>The Enlightenment<span class="s-check" id="u5-chk-1"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-2')\" id="u5-nav-2"><span class="s-num">02</span>Political Revolutions<span class="s-check" id="u5-chk-2"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-3')\" id="u5-nav-3"><span class="s-num">03</span>Nationalism<span class="s-check" id="u5-chk-3"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-4')\" id="u5-nav-4"><span class="s-num">04</span>Industrial Revolution<span class="s-check" id="u5-chk-4"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-5')\" id="u5-nav-5"><span class="s-num">05</span>State Industrialization<span class="s-check" id="u5-chk-5"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-6')\" id="u5-nav-6"><span class="s-num">06</span>Capitalism<span class="s-check" id="u5-chk-6"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-7')\" id="u5-nav-7"><span class="s-num">07</span>Reactions<span class="s-check" id="u5-chk-7"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-8')\" id="u5-nav-8"><span class="s-num">08</span>Society &amp; Class<span class="s-check" id="u5-chk-8"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-9')\" id="u5-nav-9"><span class="s-num">09</span>Revolution Comparison<span class="s-check" id="u5-chk-9"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-10')\" id="u5-nav-10"><span class="s-num">10</span>Glossary<span class="s-check" id="u5-chk-10"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-11')\" id="u5-nav-11"><span class="s-num">11</span>Timeline<span class="s-check" id="u5-chk-11"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-12')\" id="u5-nav-12"><span class="s-num">12</span>Thinking Skills<span class="s-check" id="u5-chk-12"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-13')\" id="u5-nav-13"><span class="s-num">13</span>Command Terms<span class="s-check" id="u5-chk-13"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-14')\" id="u5-nav-14"><span class="s-num">14</span>Pitfalls<span class="s-check" id="u5-chk-14"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-15')\" id="u5-nav-15"><span class="s-num">15</span>Sample DBQ<span class="s-check" id="u5-chk-15"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-16')\" id="u5-nav-16"><span class="s-num">16</span>Sample LEQ<span class="s-check" id="u5-chk-16"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-17')\" id="u5-nav-17"><span class="s-num">17</span>Unit Summary<span class="s-check" id="u5-chk-17"></span></div>
-      <div class="sidebar-item" onclick=\"u5ScrollToSection('u5-sec-ready')\" id="u5-nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="u5-chk-ready"></span></div>
+      <div class="sidebar-item active" onclick="u5ScrollToSection('u5-sec-intro')" id="u5-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u5-chk-intro"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-1')" id="u5-nav-1"><span class="s-num">01</span>The Enlightenment<span class="s-check" id="u5-chk-1"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-2')" id="u5-nav-2"><span class="s-num">02</span>Political Revolutions<span class="s-check" id="u5-chk-2"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-3')" id="u5-nav-3"><span class="s-num">03</span>Nationalism<span class="s-check" id="u5-chk-3"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-4')" id="u5-nav-4"><span class="s-num">04</span>Industrial Revolution<span class="s-check" id="u5-chk-4"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-5')" id="u5-nav-5"><span class="s-num">05</span>State Industrialization<span class="s-check" id="u5-chk-5"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-6')" id="u5-nav-6"><span class="s-num">06</span>Capitalism<span class="s-check" id="u5-chk-6"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-7')" id="u5-nav-7"><span class="s-num">07</span>Reactions<span class="s-check" id="u5-chk-7"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-8')" id="u5-nav-8"><span class="s-num">08</span>Society &amp; Class<span class="s-check" id="u5-chk-8"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-9')" id="u5-nav-9"><span class="s-num">09</span>Revolution Comparison<span class="s-check" id="u5-chk-9"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-10')" id="u5-nav-10"><span class="s-num">10</span>Glossary<span class="s-check" id="u5-chk-10"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-11')" id="u5-nav-11"><span class="s-num">11</span>Timeline<span class="s-check" id="u5-chk-11"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-12')" id="u5-nav-12"><span class="s-num">12</span>Thinking Skills<span class="s-check" id="u5-chk-12"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-13')" id="u5-nav-13"><span class="s-num">13</span>Command Terms<span class="s-check" id="u5-chk-13"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-14')" id="u5-nav-14"><span class="s-num">14</span>Pitfalls<span class="s-check" id="u5-chk-14"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-15')" id="u5-nav-15"><span class="s-num">15</span>Sample DBQ<span class="s-check" id="u5-chk-15"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-16')" id="u5-nav-16"><span class="s-num">16</span>Sample LEQ<span class="s-check" id="u5-chk-16"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-17')" id="u5-nav-17"><span class="s-num">17</span>Unit Summary<span class="s-check" id="u5-chk-17"></span></div>
+      <div class="sidebar-item" onclick="u5ScrollToSection('u5-sec-ready')" id="u5-nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="u5-chk-ready"></span></div>
     </nav>
     <main class="main-content" id="u5-main-content">
 
@@ -8975,7 +8950,7 @@ function u5SaveProgress(){
 function u5ScrollToSection(id){
   const el=document.getElementById(id); if(!el) return;
   const mc=document.getElementById('u5-main-content');
-  mc.scrollTo({top:el.offsetTop-20,behavior:'smooth'});
+  mc.scrollTo({top: mc.scrollTop + el.getBoundingClientRect().top - mc.getBoundingClientRect().top - 20, behavior:'smooth'});
   document.querySelectorAll('#u5-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
   if(id==='u5-sec-ready'){const n=document.getElementById('u5-nav-ready');if(n)n.classList.add('active');}
   else{const n=document.getElementById('u5-nav-'+id.replace('u5-sec-',''));if(n)n.classList.add('active');}
@@ -9019,26 +8994,6 @@ function u5SetupScrollSpy(){
   });
 }
 // (checkMC, checkFill, revealAnswer defined in main script)
-
-function checkFill(inputId,correct,feedbackId,explanation,aliases){
-  const inp=document.getElementById(inputId);
-  const fb=document.getElementById(feedbackId);
-  if(!inp||!fb) return;
-  const val=inp.value.trim().toLowerCase();
-  const all=[correct.toLowerCase(),...(aliases||[]).map(a=>a.toLowerCase())];
-  const ok=all.some(a=>val===a||val.includes(a)||a.includes(val)&&val.length>2);
-  inp.classList.add(ok?'correct':'wrong'); inp.disabled=true;
-  inp.closest('.fill-blank-wrap')?.querySelector('.check-btn')?.setAttribute('disabled',true);
-  fb.className='quiz-feedback '+(ok?'correct':'wrong');
-  fb.innerHTML=`<div class="fb-result">${ok?'✅ CORRECT!':'❌ NOT QUITE'}</div>${!ok?`<div class="fb-answer">Correct: <strong>${correct}</strong></div>`:''}
-  <div class="fb-explain">${explanation}</div>`;
-  fb.style.display='block';
-}
-function revealAnswer(id){
-  const fb=document.getElementById(id); if(!fb) return;
-  fb.style.display='block';
-  fb.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
 // (Vocab tooltip defined in main script)
 
 function u5RenderGlossary(){
@@ -9100,23 +9055,23 @@ function u5SetTermStatus(term,status,i){
   <div class="unit-body">
     <nav class="sidebar" id="u6-sidebar">
       <div class="sidebar-label">Sections</div>
-      <div class="sidebar-item active" onclick=\"u6ScrollToSection('u6-sec-intro')\" id="u6-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u6-chk-intro"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-1')\" id="u6-nav-1"><span class="s-num">01</span>Rationales<span class="s-check" id="u6-chk-1"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-2')\" id="u6-nav-2"><span class="s-num">02</span>State Expansion<span class="s-check" id="u6-chk-2"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-3')\" id="u6-nav-3"><span class="s-num">03</span>Indigenous Resistance<span class="s-check" id="u6-chk-3"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-4')\" id="u6-nav-4"><span class="s-num">04</span>Global Economy<span class="s-check" id="u6-chk-4"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-5')\" id="u6-nav-5"><span class="s-num">05</span>Economic Imperialism<span class="s-check" id="u6-chk-5"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-6')\" id="u6-nav-6"><span class="s-num">06</span>Global Migrations<span class="s-check" id="u6-chk-6"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-7')\" id="u6-nav-7"><span class="s-num">07</span>Glossary<span class="s-check" id="u6-chk-7"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-8')\" id="u6-nav-8"><span class="s-num">08</span>Causes &amp; Effects<span class="s-check" id="u6-chk-8"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-9')\" id="u6-nav-9"><span class="s-num">09</span>Timeline<span class="s-check" id="u6-chk-9"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-10')\" id="u6-nav-10"><span class="s-num">10</span>Thinking Skills<span class="s-check" id="u6-chk-10"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-11')\" id="u6-nav-11"><span class="s-num">11</span>Command Terms<span class="s-check" id="u6-chk-11"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-12')\" id="u6-nav-12"><span class="s-num">12</span>Pitfalls<span class="s-check" id="u6-chk-12"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-13')\" id="u6-nav-13"><span class="s-num">13</span>Sample DBQ<span class="s-check" id="u6-chk-13"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-14')\" id="u6-nav-14"><span class="s-num">14</span>Sample LEQ<span class="s-check" id="u6-chk-14"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-15')\" id="u6-nav-15"><span class="s-num">15</span>Unit Summary<span class="s-check" id="u6-chk-15"></span></div>
-      <div class="sidebar-item" onclick=\"u6ScrollToSection('u6-sec-ready')\" id="u6-nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="u6-chk-ready"></span></div>
+      <div class="sidebar-item active" onclick="u6ScrollToSection('u6-sec-intro')" id="u6-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u6-chk-intro"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-1')" id="u6-nav-1"><span class="s-num">01</span>Rationales<span class="s-check" id="u6-chk-1"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-2')" id="u6-nav-2"><span class="s-num">02</span>State Expansion<span class="s-check" id="u6-chk-2"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-3')" id="u6-nav-3"><span class="s-num">03</span>Indigenous Resistance<span class="s-check" id="u6-chk-3"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-4')" id="u6-nav-4"><span class="s-num">04</span>Global Economy<span class="s-check" id="u6-chk-4"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-5')" id="u6-nav-5"><span class="s-num">05</span>Economic Imperialism<span class="s-check" id="u6-chk-5"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-6')" id="u6-nav-6"><span class="s-num">06</span>Global Migrations<span class="s-check" id="u6-chk-6"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-7')" id="u6-nav-7"><span class="s-num">07</span>Glossary<span class="s-check" id="u6-chk-7"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-8')" id="u6-nav-8"><span class="s-num">08</span>Causes &amp; Effects<span class="s-check" id="u6-chk-8"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-9')" id="u6-nav-9"><span class="s-num">09</span>Timeline<span class="s-check" id="u6-chk-9"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-10')" id="u6-nav-10"><span class="s-num">10</span>Thinking Skills<span class="s-check" id="u6-chk-10"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-11')" id="u6-nav-11"><span class="s-num">11</span>Command Terms<span class="s-check" id="u6-chk-11"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-12')" id="u6-nav-12"><span class="s-num">12</span>Pitfalls<span class="s-check" id="u6-chk-12"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-13')" id="u6-nav-13"><span class="s-num">13</span>Sample DBQ<span class="s-check" id="u6-chk-13"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-14')" id="u6-nav-14"><span class="s-num">14</span>Sample LEQ<span class="s-check" id="u6-chk-14"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-15')" id="u6-nav-15"><span class="s-num">15</span>Unit Summary<span class="s-check" id="u6-chk-15"></span></div>
+      <div class="sidebar-item" onclick="u6ScrollToSection('u6-sec-ready')" id="u6-nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="u6-chk-ready"></span></div>
     </nav>
     <main class="main-content" id="u6-main-content">
 
@@ -9633,7 +9588,7 @@ function u6SaveProgress(){localStorage.setItem('u6_sections',JSON.stringify([...
 function u6ScrollToSection(id){
   const el=document.getElementById(id);if(!el)return;
   const mc=document.getElementById('u6-main-content');
-  mc.scrollTo({top:el.offsetTop-20,behavior:'smooth'});
+  mc.scrollTo({top: mc.scrollTop + el.getBoundingClientRect().top - mc.getBoundingClientRect().top - 20, behavior:'smooth'});
   document.querySelectorAll('#u6-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
   if(id==='u6-sec-ready'){const n=document.getElementById('u6-nav-ready');if(n)n.classList.add('active');}
   else{const n=document.getElementById('u6-nav-'+id.replace('u6-sec-',''));if(n)n.classList.add('active');}
@@ -9664,16 +9619,6 @@ function u6SetupScrollSpy(){
   });
 }
 // (checkMC, checkFill, revealAnswer defined in main script)
-
-function checkFill(inputId,correct,feedbackId,explanation,aliases){
-  const inp=document.getElementById(inputId);const fb=document.getElementById(feedbackId);if(!inp||!fb)return;
-  const val=inp.value.trim().toLowerCase();const all=[correct.toLowerCase(),...(aliases||[]).map(a=>a.toLowerCase())];
-  const ok=all.some(a=>val===a||val.includes(a)||a.includes(val)&&val.length>2);
-  inp.classList.add(ok?'correct':'wrong');inp.disabled=true;inp.closest('.fill-blank-wrap')?.querySelector('.check-btn')?.setAttribute('disabled',true);
-  fb.className='quiz-feedback '+(ok?'correct':'wrong');fb.innerHTML=`<div class="fb-result">${ok?'✅ CORRECT!':'❌ NOT QUITE'}</div>${!ok?`<div class="fb-answer">Correct: <strong>${correct}</strong></div>`:''}
-  <div class="fb-explain">${explanation}</div>`;fb.style.display='block';
-}
-function revealAnswer(id){const fb=document.getElementById(id);if(!fb)return;fb.style.display='block';fb.scrollIntoView({behavior:'smooth',block:'nearest'});}
 // (Vocab tooltip defined in main script)
 
 function u6RenderGlossary(){
@@ -9717,22 +9662,22 @@ function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]'
   <div class="unit-body">
     <nav class="sidebar" id="u7-sidebar">
       <div class="sidebar-label">Sections</div>
-      <div class="sidebar-item active" onclick=\"u7ScrollToSection('u7-sec-intro')\" id="u7-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u7-chk-intro"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-1')\" id="u7-nav-1"><span class="s-num">01</span>Four Shifters<span class="s-check" id="u7-chk-1"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-2')\" id="u7-nav-2"><span class="s-num">02</span>World War I<span class="s-check" id="u7-chk-2"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-3')\" id="u7-nav-3"><span class="s-num">03</span>Interwar Period<span class="s-check" id="u7-chk-3"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-4')\" id="u7-nav-4"><span class="s-num">04</span>World War II<span class="s-check" id="u7-chk-4"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-5')\" id="u7-nav-5"><span class="s-num">05</span>Mass Atrocities<span class="s-check" id="u7-chk-5"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-6')\" id="u7-nav-6"><span class="s-num">06</span>Glossary<span class="s-check" id="u7-chk-6"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-7')\" id="u7-nav-7"><span class="s-num">07</span>Causes &amp; Effects<span class="s-check" id="u7-chk-7"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-8')\" id="u7-nav-8"><span class="s-num">08</span>Timeline<span class="s-check" id="u7-chk-8"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-9')\" id="u7-nav-9"><span class="s-num">09</span>Thinking Skills<span class="s-check" id="u7-chk-9"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-10')\" id="u7-nav-10"><span class="s-num">10</span>Command Terms<span class="s-check" id="u7-chk-10"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-11')\" id="u7-nav-11"><span class="s-num">11</span>Pitfalls<span class="s-check" id="u7-chk-11"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-12')\" id="u7-nav-12"><span class="s-num">12</span>Sample DBQ<span class="s-check" id="u7-chk-12"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-13')\" id="u7-nav-13"><span class="s-num">13</span>Sample LEQ<span class="s-check" id="u7-chk-13"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-14')\" id="u7-nav-14"><span class="s-num">14</span>Unit Summary<span class="s-check" id="u7-chk-14"></span></div>
-      <div class="sidebar-item" onclick=\"u7ScrollToSection('u7-sec-ready')\" id="u7-nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="u7-chk-ready"></span></div>
+      <div class="sidebar-item active" onclick="u7ScrollToSection('u7-sec-intro')" id="u7-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u7-chk-intro"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-1')" id="u7-nav-1"><span class="s-num">01</span>Four Shifters<span class="s-check" id="u7-chk-1"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-2')" id="u7-nav-2"><span class="s-num">02</span>World War I<span class="s-check" id="u7-chk-2"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-3')" id="u7-nav-3"><span class="s-num">03</span>Interwar Period<span class="s-check" id="u7-chk-3"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-4')" id="u7-nav-4"><span class="s-num">04</span>World War II<span class="s-check" id="u7-chk-4"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-5')" id="u7-nav-5"><span class="s-num">05</span>Mass Atrocities<span class="s-check" id="u7-chk-5"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-6')" id="u7-nav-6"><span class="s-num">06</span>Glossary<span class="s-check" id="u7-chk-6"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-7')" id="u7-nav-7"><span class="s-num">07</span>Causes &amp; Effects<span class="s-check" id="u7-chk-7"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-8')" id="u7-nav-8"><span class="s-num">08</span>Timeline<span class="s-check" id="u7-chk-8"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-9')" id="u7-nav-9"><span class="s-num">09</span>Thinking Skills<span class="s-check" id="u7-chk-9"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-10')" id="u7-nav-10"><span class="s-num">10</span>Command Terms<span class="s-check" id="u7-chk-10"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-11')" id="u7-nav-11"><span class="s-num">11</span>Pitfalls<span class="s-check" id="u7-chk-11"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-12')" id="u7-nav-12"><span class="s-num">12</span>Sample DBQ<span class="s-check" id="u7-chk-12"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-13')" id="u7-nav-13"><span class="s-num">13</span>Sample LEQ<span class="s-check" id="u7-chk-13"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-14')" id="u7-nav-14"><span class="s-num">14</span>Unit Summary<span class="s-check" id="u7-chk-14"></span></div>
+      <div class="sidebar-item" onclick="u7ScrollToSection('u7-sec-ready')" id="u7-nav-ready"><span class="s-num">★</span>Ready to Move On?<span class="s-check" id="u7-chk-ready"></span></div>
     </nav>
     <main class="main-content" id="u7-main-content">
 
@@ -10251,7 +10196,7 @@ function u7SaveProgress(){localStorage.setItem('u7_sections',JSON.stringify([...
 function u7ScrollToSection(id){
   const el=document.getElementById(id);if(!el)return;
   const mc=document.getElementById('u7-main-content');
-  mc.scrollTo({top:el.offsetTop-20,behavior:'smooth'});
+  mc.scrollTo({top: mc.scrollTop + el.getBoundingClientRect().top - mc.getBoundingClientRect().top - 20, behavior:'smooth'});
   document.querySelectorAll('#u7-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
   if(id==='u7-sec-ready'){const n=document.getElementById('u7-nav-ready');if(n)n.classList.add('active');}
   else{const n=document.getElementById('u7-nav-'+id.replace('u7-sec-',''));if(n)n.classList.add('active');}
@@ -10282,16 +10227,6 @@ function u7SetupScrollSpy(){
   });
 }
 // (checkMC, checkFill, revealAnswer defined in main script)
-
-function checkFill(inputId,correct,feedbackId,explanation,aliases){
-  const inp=document.getElementById(inputId);const fb=document.getElementById(feedbackId);if(!inp||!fb)return;
-  const val=inp.value.trim().toLowerCase();const all=[correct.toLowerCase(),...(aliases||[]).map(a=>a.toLowerCase())];
-  const ok=all.some(a=>val===a||val.includes(a)||a.includes(val)&&val.length>2);
-  inp.classList.add(ok?'correct':'wrong');inp.disabled=true;inp.closest('.fill-blank-wrap')?.querySelector('.check-btn')?.setAttribute('disabled',true);
-  fb.className='quiz-feedback '+(ok?'correct':'wrong');fb.innerHTML=`<div class="fb-result">${ok?'✅ CORRECT!':'❌ NOT QUITE'}</div>${!ok?`<div class="fb-answer">Correct: <strong>${correct}</strong></div>`:''}
-  <div class="fb-explain">${explanation}</div>`;fb.style.display='block';
-}
-function revealAnswer(id){const fb=document.getElementById(id);if(!fb)return;fb.style.display='block';fb.scrollIntoView({behavior:'smooth',block:'nearest'});}
 // (Vocab tooltip defined in main script)
 
 function u7RenderGlossary(){
@@ -10808,7 +10743,7 @@ function u8SaveProgress(){localStorage.setItem('u8_sections',JSON.stringify([...
 function u8ScrollToSection(id){
   const el=document.getElementById(id);if(!el)return;
   const mc=document.getElementById('u8-main-content');
-  mc.scrollTo({top:el.offsetTop-20,behavior:'smooth'});
+  mc.scrollTo({top: mc.scrollTop + el.getBoundingClientRect().top - mc.getBoundingClientRect().top - 20, behavior:'smooth'});
   document.querySelectorAll('#u8-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
   if(id==='u8-sec-ready'){const n=document.getElementById('u8-nav-ready');if(n)n.classList.add('active');}
   else{const n=document.getElementById('u8-nav-'+id.replace('u8-sec-',''));if(n)n.classList.add('active');}
@@ -10838,16 +10773,6 @@ function u8SetupScrollSpy(){
   });
 }
 // (checkMC, checkFill, revealAnswer defined in main script)
-
-function checkFill(inputId,correct,feedbackId,explanation,aliases){
-  const inp=document.getElementById(inputId);const fb=document.getElementById(feedbackId);if(!inp||!fb)return;
-  const val=inp.value.trim().toLowerCase();const all=[correct.toLowerCase(),...(aliases||[]).map(a=>a.toLowerCase())];
-  const ok=all.some(a=>val===a||val.includes(a)||a.includes(val)&&val.length>2);
-  inp.classList.add(ok?'correct':'wrong');inp.disabled=true;inp.closest('.fill-blank-wrap')?.querySelector('.check-btn')?.setAttribute('disabled',true);
-  fb.className='quiz-feedback '+(ok?'correct':'wrong');fb.innerHTML=`<div class="fb-result">${ok?'✅ CORRECT!':'❌ NOT QUITE'}</div>${!ok?`<div class="fb-answer">Correct: <strong>${correct}</strong></div>`:''}
-  <div class="fb-explain">${explanation}</div>`;fb.style.display='block';
-}
-function revealAnswer(id){const fb=document.getElementById(id);if(!fb)return;fb.style.display='block';fb.scrollIntoView({behavior:'smooth',block:'nearest'});}
 // (Vocab tooltip defined in main script)
 
 function u8RenderGlossary(){
@@ -10865,13 +10790,581 @@ function u8RenderGlossary(){
 }
 function u8ToggleTermDef(i,btn){const d=document.getElementById('tdef-'+i);if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
 function u8SetTermStatus(term,status,i){
-  termStatus[term]=status;u8SaveProgress();const body=document.getElementById('tb-'+i);if(!body)return;
+  u8TermStatus[term]=status;u8SaveProgress();const body=document.getElementById('tb-'+i);if(!body)return;
   body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
   const btns=body.querySelectorAll('.status-btn');
   if(status==='know'&&btns[0])btns[0].classList.add('know');if(status==='unsure'&&btns[1])btns[1].classList.add('unsure');if(status==='dontknow'&&btns[2])btns[2].classList.add('dontknow');
 }
 function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]').forEach(fb=>{const block=fb.closest('.quiz-block');if(block&&!block.dataset.correct){block.dataset.correct=fb.dataset.correct;block.dataset.explain=fb.dataset.explain||'';}});}
 // Unit 8 init called from openUnit8()
+</script>
+<div id="unit9-page" class="page">
+  <header class="unit-header">
+    <button class="back-btn" onclick="goHome()">← All Units</button>
+    <div class="header-info">
+      <div class="unit-label">Unit 09 · c. 1900–Present · ~10% of AP Exam</div>
+      <h2>Globalization</h2>
+    </div>
+    <div class="progress-area">
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="unit9-progress-bar"></div></div>
+      <span class="progress-pct" id="unit9-progress-pct">0%</span>
+    </div>
+  </header>
+  <div class="motivational-bar">
+    🌐 <strong style="color:var(--gold-dim)">Globalization</strong> — The final unit. You've made it this far. Finish strong.
+  </div>
+  <div class="unit-body">
+    <nav class="sidebar" id="u9-sidebar">
+      <div class="sidebar-label">Sections</div>
+      <div class="sidebar-item active" onclick="u9ScrollToSection('u9-sec-intro')" id="u9-nav-intro"><span class="s-num">00</span>Introduction<span class="s-check" id="u9-chk-intro"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-1')" id="u9-nav-1"><span class="s-num">01</span>Technology<span class="s-check" id="u9-chk-1"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-2')" id="u9-nav-2"><span class="s-num">02</span>Disease<span class="s-check" id="u9-chk-2"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-3')" id="u9-nav-3"><span class="s-num">03</span>Environment<span class="s-check" id="u9-chk-3"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-4')" id="u9-nav-4"><span class="s-num">04</span>Economics<span class="s-check" id="u9-chk-4"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-5')" id="u9-nav-5"><span class="s-num">05</span>Calls for Reform<span class="s-check" id="u9-chk-5"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-6')" id="u9-nav-6"><span class="s-num">06</span>Globalized Culture<span class="s-check" id="u9-chk-6"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-7')" id="u9-nav-7"><span class="s-num">07</span>Resistance<span class="s-check" id="u9-chk-7"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-8')" id="u9-nav-8"><span class="s-num">08</span>Glossary<span class="s-check" id="u9-chk-8"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-9')" id="u9-nav-9"><span class="s-num">09</span>Timeline<span class="s-check" id="u9-chk-9"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-10')" id="u9-nav-10"><span class="s-num">10</span>Thinking Skills<span class="s-check" id="u9-chk-10"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-11')" id="u9-nav-11"><span class="s-num">11</span>Pitfalls<span class="s-check" id="u9-chk-11"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-12')" id="u9-nav-12"><span class="s-num">12</span>Sample DBQ<span class="s-check" id="u9-chk-12"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-13')" id="u9-nav-13"><span class="s-num">13</span>Sample LEQ<span class="s-check" id="u9-chk-13"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-14')" id="u9-nav-14"><span class="s-num">14</span>Unit Summary<span class="s-check" id="u9-chk-14"></span></div>
+      <div class="sidebar-item" onclick="u9ScrollToSection('u9-sec-finish')" id="u9-nav-finish"><span class="s-num">🎓</span>The Finish Line<span class="s-check" id="u9-chk-finish"></span></div>
+    </nav>
+    <main class="main-content" id="u9-main-content">
+
+<!-- SEC INTRO -->
+<div class="section-block" id="u9-sec-intro">
+<div class="section-label">AP World History Modern · Unit 9</div>
+<h1 class="section-title">Globalization &nbsp;|&nbsp; c. 1900–Present</h1>
+<div class="callout warn"><div class="callout-title">⚖️ Exam Weight + Freeman-pedia's Warning</div><p><strong>~10% of the AP Exam.</strong> Freeman-pedia: "This is a deceptively large unit. You can't just skip past Unit 9 like it's just about smartphones and climate change. 10% of the exam could be on this unit." Seven distinct topic areas, all testable.</p></div>
+<div class="callout important"><div class="callout-title">🏆 Freeman-pedia's MVP of Unit 9: Norman Borlaug</div>
+<p>An agronomist from Iowa who saved the world from starvation — and you've probably never heard of him. In the early 1960s, Earth was approaching a Malthusian catastrophe: population growth was outpacing food production. Borlaug developed disease-resistant, high-yield dwarf wheat varieties that doubled food production in India and Pakistan, fed China, and fed the world. Nobel Peace Prize, 1970.</p>
+<p style="margin-top:10px;font-style:italic;color:var(--text-dim)">"Earth would be some post-apocalyptic wasteland where we're all scavenging for food to fuel our miserable existence. But none of that happened. Why? Norman Ernest Borlaug."</p>
+</div>
+<h3 class="subsection-title">The Seven Big Topics of Unit 9</h3>
+<div class="tech-grid">
+<div class="tech-card"><span class="tech-icon">📡</span><div class="tech-title">9.1 Technology</div><div class="tech-desc">Five categories: communication, energy, birth control, agriculture (Green Revolution), medicine</div></div>
+<div class="tech-card"><span class="tech-icon">🦠</span><div class="tech-title">9.2 Disease</div><div class="tech-desc">Three categories: poverty, new epidemics, longevity</div></div>
+<div class="tech-card"><span class="tech-icon">🌡️</span><div class="tech-title">9.3 Environment</div><div class="tech-desc">Climate change — the debate is over</div></div>
+<div class="tech-card"><span class="tech-icon">📈</span><div class="tech-title">9.4 Economics</div><div class="tech-desc">Free markets, knowledge vs. manufacturing, MNCs, trade institutions</div></div>
+<div class="tech-card"><span class="tech-icon">✊</span><div class="tech-title">9.5 Calls for Reform</div><div class="tech-desc">Four challenges: social norms, access, economic equality, environmental equality</div></div>
+<div class="tech-card"><span class="tech-icon">🎵</span><div class="tech-title">9.6 Globalized Culture</div><div class="tech-desc">Music, film, social media, sports, consumerism, global brands</div></div>
+<div class="tech-card"><span class="tech-icon">🚫</span><div class="tech-title">9.7 Resistance</div><div class="tech-desc">Global institutions + those who resist them</div></div>
+</div>
+<div class="quiz-block" id="qb-intro-a"><div class="quiz-question">What is the "Malthusian catastrophe" that Norman Borlaug is credited with preventing?</div><div class="mc-options">
+<button class="mc-btn" onclick="checkMC(this,'qb-intro-a','A')"><span class="choice-letter">A</span>A nuclear war between superpowers that Borlaug helped prevent through diplomacy</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-intro-a','B')"><span class="choice-letter">B</span>A mass global famine caused by population growth outpacing food production — which Malthus predicted in 1798 and which Borlaug's high-yield crops prevented in the 1960s–70s</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-intro-a','C')"><span class="choice-letter">C</span>A global plague caused by antibiotic-resistant bacteria</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-intro-a','D')"><span class="choice-letter">D</span>An environmental collapse caused by deforestation</button>
+</div><div class="quiz-feedback" id="qf-intro-a" data-correct="B" data-explain="Thomas Malthus (1798) predicted that population growth would inevitably outpace food production, leading to mass starvation. The Population Bomb (1968) predicted India and Pakistan would face mass famine by the 1970s–80s — exactly when Borlaug's high-yield dwarf wheat varieties were doubling their food production. Both India and Pakistan were self-sufficient in grain by 1974. Freeman-pedia: 'Earth would be some post-apocalyptic wasteland. But none of that happened. Why? Norman Ernest Borlaug.'"></div></div>
+</div>
+
+<!-- SEC 1 TECHNOLOGY -->
+<div class="section-block" id="u9-sec-1">
+<div class="section-label">Section 01</div>
+<h2 class="section-title">Advances in Technology (9.1) — Five Categories</h2>
+<div class="callout info"><div class="callout-title">📌 This Period Starts in 1900 — Airplanes Are New</div><p>Freeman-pedia's reminder: "Imagine trying to explain what you're doing right now to someone from before 1900." The Wright Brothers' first flight (1903) is in this period. The contemporary period compressed more technological change into a single lifetime than any previous era in human history.</p></div>
+<h3 class="subsection-title">Category 1: Communication</h3>
+<div class="table-scroll"><table class="ap-table">
+<thead><tr><th>Technology</th><th>When</th><th>AP Significance</th></tr></thead>
+<tbody>
+<tr><td><strong>Radio</strong></td><td>1900s–20s</td><td>First mass communication technology — news and culture reached millions simultaneously. Government propaganda in WWI and WWII relied on radio. A revolutionary compression of information reach.</td></tr>
+<tr><td><strong>Telephone → Cellular</strong></td><td>1876 → late 20th c.</td><td>From fixed-line phones to global cellular networks reaching even remote areas of the developing world. Cell phones have penetrated the Global South more than almost any other technology.</td></tr>
+<tr><td><strong>Internet / World Wide Web</strong></td><td>1991 (public)</td><td>Freeman-pedia: "the most transformative communication technology since the printing press." Exponentially accelerated the speed of information sharing. Social media (Facebook, Twitter, Weibo) let billions communicate directly.</td></tr>
+<tr><td><strong>Airplanes</strong></td><td>1903 (Wright Brothers)</td><td>First flight technically falls in this period. Commercial aviation shrank the world — by the late 20th century, millions flew internationally every day.</td></tr>
+<tr><td><strong>Shipping Containers</strong></td><td>1950s</td><td>Freeman-pedia's "most underappreciated innovation." Standardized metal containers that fit any ship, truck, or train. 90% of non-bulk goods shipped globally travel in them. Enabled the global supply chain revolution.</td></tr>
+</tbody></table></div>
+<div class="section-divider"></div>
+<h3 class="subsection-title">Category 2: Energy — The Two New Sources</h3>
+<div class="compare-grid">
+<div class="compare-col"><div class="compare-col-title">Petroleum / Oil</div><p style="font-size:14px;color:var(--text-dim)">Coal powered the First Industrial Revolution (Unit 5). Oil powered the contemporary world. The internal combustion engine (cars, trucks, planes) runs on petroleum. 80% of Earth's accessible oil reserves lie under Arab nations — Saudi Arabia, Russia, and the US are the three largest producers. Whoever controls oil controls the global economy. This explains why the Middle East has been the site of so much contemporary conflict.</p></div>
+<div class="compare-col"><div class="compare-col-title">Nuclear Power</div><p style="font-size:14px;color:var(--text-dim)">~10% of Earth's electricity comes from nuclear fission. Environmentally cleaner than coal (no CO₂ emissions) but serious risks: Three Mile Island (US, 1979), Chernobyl (USSR, 1986), and Fukushima (Japan, 2011) all demonstrated catastrophic potential. Nuclear waste storage remains an unsolved problem.</p></div>
+</div>
+<div class="section-divider"></div>
+<h3 class="subsection-title">Category 3: Birth Control — The Pill (1960)</h3>
+<p>Margaret Sanger had fought for women's reproductive rights in the early 20th century (birth control had been illegal in the US). She met Dr. Gregory Pincus at a dinner party and convinced him to research hormonal contraception. His research found that a specific hormone inhibited ovulation. The FDA approved the birth control pill in <strong>1960</strong>.</p>
+<p style="color:var(--text-dim);font-size:14px">AP significance: The pill transformed women's ability to control their own reproduction, enabled women's entry into the workforce in unprecedented numbers, and changed gender dynamics across the developed world.</p>
+<div class="section-divider"></div>
+<h3 class="subsection-title">Category 4: Agriculture — The Green Revolution</h3>
+<div class="priority-badge">⭐ MVP of Unit 9 — Norman Borlaug</div>
+<div class="callout"><div class="callout-title">🌾 The Borlaug Story — Five Things to Know</div>
+<ol class="ap-list" style="margin-top:8px">
+<li>Went to Mexico and created 6,000 crossbreeds of wheat to make them resistant to stem rust (a disease devastating Mexican crops). Grew two crops per year by moving plants between highland and lowland elevations.</li>
+<li>Solved the "tall wheat" problem: the most productive wheat plants snapped under their own grain weight. Borlaug crossbred with Japanese dwarf wheat — the result produced heavy grain on a short, strong stalk.</li>
+<li>Imported 550 million tons of his genetically modified wheat to India and Pakistan. Both countries DOUBLED their wheat production. Both were self-sufficient in grain by 1974 — exactly when The Population Bomb said they'd be starving.</li>
+<li>Applied the same principles to rice production in China.</li>
+<li>Won the <strong>Nobel Peace Prize (1970)</strong>. In his acceptance speech, he warned the Green Revolution is "a temporary success" — it bought humanity a breathing space, but unless population growth is also addressed, the respite is temporary.</li>
+</ol>
+</div>
+<div class="callout info" style="margin-top:16px"><div class="callout-title">👋 Goodbye, Guano!</div><p>Freeman-pedia's formal farewell to the funniest topic in AP World History (the 1856 US Guano Islands Act from Unit 6). <strong>Synthetic fertilizers</strong> — a key part of the Green Revolution — replaced guano as the primary source of agricultural nitrogen. The Green Revolution formula: high-yield crop varieties + chemical fertilizers + pesticides + irrigation.</p></div>
+<div class="quiz-block self-explain"><div class="quiz-question">Who is Norman Borlaug and why is he Freeman-pedia's MVP of Unit 9? Explain: what problem he solved, how specifically he solved it, and what the outcome was for India and Pakistan.</div><textarea class="self-explain-area" placeholder="The Malthusian threat → Borlaug's innovations → outcome in India/Pakistan → Nobel Prize → his warning..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-borlaug')">See What to Know</button><div class="quiz-feedback reveal" id="rev-borlaug"><div class="fb-result">WHAT THE AP EXPECTS YOU TO KNOW</div><div class="fb-explain">Norman Borlaug was an agronomist (plant scientist) from Iowa. He's Freeman-pedia's MVP because he literally prevented mass starvation — by the early 1960s, Earth was approaching a Malthusian catastrophe where population growth was outpacing food production. The Population Bomb (1968) predicted India and Pakistan would face mass famine by the 1970s–80s.<br><br>How he solved it: (1) Created 6,000 wheat crossbreeds in Mexico, making them resistant to stem rust. (2) Grew two crops per year by using different elevations. (3) Solved the fatal flaw of high-yield wheat — tall stalks snapped under heavy grain — by crossbreeding with Japanese dwarf wheat, producing a short, strong stalk that supported heavy grain. (4) Shipped 550 million tons of this wheat to India and Pakistan.<br><br>Outcome: India and Pakistan BOTH doubled their wheat production. Both were self-sufficient in grain by 1974 — exactly when they were predicted to be starving. Applied the same approach to rice, helping feed China. Won the Nobel Peace Prize in 1970.<br><br>His warning: In his Nobel speech, Borlaug called the Green Revolution a "temporary success" and warned that unless population growth was also addressed, the famine threat would return. He was prescient — the Green Revolution bought time but did not permanently solve the food-population problem.</div></div></div>
+<div class="section-divider"></div>
+<h3 class="subsection-title">Category 5: Medicine</h3>
+<div class="compare-grid">
+<div class="compare-col"><div class="compare-col-title">Antibiotics</div><p style="font-size:14px;color:var(--text-dim)">Alexander Fleming discovered penicillin accidentally in 1928. Mass production of antibiotics after WWII transformed medical treatment — strep throat, tuberculosis, pneumonia, syphilis, and countless other bacterial infections that were previously fatal became treatable. Freeman-pedia: "Maybe as many as half or more of you would be dead if it weren't for the medical innovations of the contemporary period."</p></div>
+<div class="compare-col"><div class="compare-col-title">Vaccines &amp; Eradication</div><p style="font-size:14px;color:var(--text-dim)">Vaccines developed in the contemporary period for: tuberculosis, polio, measles, mumps, rubella, hepatitis B and A, HPV, malaria, Ebola, and many more.<br><br><strong>Only two diseases completely eradicated from the planet:</strong><br>• Smallpox: Declared eradicated by WHO in 1980. Last natural case: 1977.<br>• Rinderpest: A cattle disease. Eradicated 2011. Freeman-pedia: "Since cows kind of saved us from smallpox, we saved them from rinderpest."</p></div>
+</div>
+<div class="quiz-block" id="qb-s1a"><div class="quiz-question">How many diseases have been completely eradicated from the planet as of the present day?</div><div class="mc-options">
+<button class="mc-btn" onclick="checkMC(this,'qb-s1a','A')"><span class="choice-letter">A</span>Zero — no disease has ever been fully eradicated</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-s1a','B')"><span class="choice-letter">B</span>Two: smallpox (declared eradicated 1980) and rinderpest (a cattle disease, eradicated 2011)</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-s1a','C')"><span class="choice-letter">C</span>Seven — all the major 19th-century infectious diseases</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-s1a','D')"><span class="choice-letter">D</span>One: smallpox only</button>
+</div><div class="quiz-feedback" id="qf-s1a" data-correct="B" data-explain="Exactly two diseases have been completely eradicated from the planet: (1) Smallpox — declared eradicated by the WHO in 1980. The last natural case was in 1977. The smallpox vaccine (derived from cowpox) was the world's first vaccine, developed by Edward Jenner in 1796 — the word 'vaccine' comes from 'vache' (French for cow). (2) Rinderpest — a disease devastating cattle populations, declared eradicated in 2011. Freeman-pedia's note: 'Since cows kind of saved us from smallpox, we saved them from rinderpest.'"></div></div>
+</div>
+
+<!-- SEC 2 DISEASE -->
+<div class="section-block" id="u9-sec-2">
+<div class="section-label">Section 02</div>
+<h2 class="section-title">Diseases After 1900 (9.2) — Three Categories</h2>
+<div class="callout info"><div class="callout-title">📌 AP Strategy: One Example Per Category</div><p>Know at least ONE specific example for each of the three disease categories. For SAQ or LEQ prompts about disease, identify the category, give your example, and explain why it fits.</p></div>
+<div class="table-scroll"><table class="ap-table">
+<thead><tr><th>Category</th><th>Examples</th><th>Key Details &amp; Why It Fits</th></tr></thead>
+<tbody>
+<tr><td><strong>Diseases Associated with Poverty</strong></td><td>Cholera, malaria, tuberculosis (TB)</td><td>Preventable and treatable with modern medicine, but primarily affect the developing world because they lack access to vaccines, antibiotics, and clean water. Old diseases; the problem is unequal distribution of the tools to fight them. These diseases are essentially eliminated in wealthy nations but kill millions annually in poor nations.</td></tr>
+<tr><td><strong>New Epidemics (first appeared after 1900)</strong></td><td>Spanish Flu (1918); HIV/AIDS (1980s–present); COVID-19 (2019–)</td><td><strong>Spanish Flu:</strong> brand new in 1918; killed 50–80 million worldwide — second deadliest epidemic in history, behind the Black Death. <strong>HIV/AIDS:</strong> fourth deadliest epidemic in history; attacks the immune system; global crisis in the 1980s. <strong>COVID-19:</strong> not yet on the official College Board list but safe to mention — a clear and recent new epidemic.</td></tr>
+<tr><td><strong>Diseases Associated with Longevity</strong></td><td>Heart disease, Alzheimer's disease, various cancers</td><td>Diseases that have always existed but are now more prevalent because people are living longer than ever before. When most people died before age 50, Alzheimer's was barely recognized. As life expectancy rises to 70–80+, these diseases become major killers. More a consequence of medical success (people living longer) than a medical failure.</td></tr>
+</tbody></table></div>
+<div class="quiz-block self-explain"><div class="quiz-question">Why is Alzheimer's disease classified as a "disease of longevity" rather than a "new epidemic"? How does this distinction illuminate the relationship between medical progress and disease patterns?</div><textarea class="self-explain-area" placeholder="Think about what 'longevity' means for disease patterns..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-longevity')">See What to Know</button><div class="quiz-feedback reveal" id="rev-longevity"><div class="fb-result">WHAT THE AP EXPECTS YOU TO KNOW</div><div class="fb-explain">Alzheimer's disease is a disease of longevity because it is not new — it has always existed. What changed is that more people live long enough to develop it. When average life expectancy was 40–50 (as in earlier periods), the vast majority of people died of infections, warfare, childbirth complications, or malnutrition before reaching the age when Alzheimer's typically manifests (most cases appear after age 65). As modern medicine has dramatically extended life expectancy (now 70–80+ in wealthy nations), more people are living long enough to develop Alzheimer's, heart disease, and various cancers.<br><br>The AP insight: This category shows that medical progress creates a paradox. Vaccines and antibiotics have been so successful at preventing early death that they've revealed a new challenge — the diseases of old age. Diseases of longevity are, in a sense, a measure of how successful medicine has been in extending human life. This also explains why these diseases are more prevalent in wealthy nations (where people live longer) than in poor ones (where poverty-related diseases kill earlier).</div></div></div>
+</div>
+
+<!-- SEC 3 ENVIRONMENT -->
+<div class="section-block" id="u9-sec-3">
+<div class="section-label">Section 03</div>
+<h2 class="section-title">Climate Change (9.3) — The Debate Is Over</h2>
+<div class="callout red"><div class="callout-title">Freeman-pedia on the College Board's section title ("Debates About the Environment")</div><p>"The debate is over. The environment is getting worse in every conceivable way. The forests are shrinking, the deserts are growing, the air quality is worsening, the water quality is worsening. And as the world starts to run low on resources, more and more conflicts break out over water, oil, land, and food."</p>
+<p style="margin-top:10px;font-size:13.5px;color:var(--text-dim)">Answer AP questions about climate change as a historical fact, not a political debate.</p>
+</div>
+<h3 class="subsection-title">Key Environmental Issues</h3>
+<ul class="ap-list">
+<li><strong>Greenhouse effect and climate change:</strong> Burning fossil fuels releases CO₂ and other gases that trap heat. Global temperatures have risen ~1.1°C since pre-industrial times. Ice caps melting, sea levels rising, extreme weather events more frequent.</li>
+<li><strong>Deforestation:</strong> Tropical rainforests (especially the Amazon) cleared for agriculture. The Sahara Desert expanding southward into the Sahel. Removes major carbon sinks and devastates biodiversity.</li>
+<li><strong>Pollution:</strong> Plastic waste fills oceans — more plastic than fish populations in many areas. PFAS ("forever chemicals") in water supplies. Microplastics found in human bloodstreams.</li>
+<li><strong>Resource competition:</strong> As populations grow and resources deplete, conflicts over fresh water, arable land, oil, and rare minerals intensify. The AP frames resource competition as a major cause of contemporary geopolitical conflict.</li>
+</ul>
+<h3 class="subsection-title">Key International Environmental Agreements</h3>
+<div class="table-scroll"><table class="ap-table">
+<thead><tr><th>Agreement</th><th>Date</th><th>Significance &amp; Limits</th></tr></thead>
+<tbody>
+<tr><td><strong>Kyoto Protocol</strong></td><td>1997; in force 2005</td><td>First major international climate agreement; legally binding emissions targets for developed nations. US signed but Congress never ratified it. China and India (major emitters) were exempt as "developing" nations. Widely seen as insufficient.</td></tr>
+<tr><td><strong>Paris Agreement</strong></td><td>2015</td><td>196 nations agreed to limit warming to "well below" 2°C above pre-industrial levels, targeting 1.5°C. Each nation set its own targets (NDCs) — non-binding, no enforcement mechanism. US withdrew under Trump (2020), rejoined under Biden (2021). Most scientists consider current pledges insufficient.</td></tr>
+<tr><td><strong>UN Earth Summits</strong></td><td>1972 (Stockholm), 1992 (Rio), ongoing</td><td>Series of UN conferences establishing environmental protection as a global issue. Produced major frameworks: Convention on Biological Diversity, Sustainable Development Goals. Long on aspiration, short on enforcement.</td></tr>
+</tbody></table></div>
+<div class="quiz-block self-explain"><div class="quiz-question">What is the difference between the Kyoto Protocol and the Paris Agreement? What does each represent in terms of international cooperation on climate change?</div><textarea class="self-explain-area" placeholder="Compare the two agreements on binding vs. non-binding, which countries are covered, what the US did, and what each actually achieved..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-climate-agreements')">See What to Know</button><div class="quiz-feedback reveal" id="rev-climate-agreements"><div class="fb-result">WHAT THE AP EXPECTS YOU TO KNOW</div><div class="fb-explain"><strong>Kyoto Protocol (1997, in force 2005):</strong> The first major international climate agreement. Legally binding emissions reduction targets for developed/industrialized nations. However: (1) The US signed but the Senate never ratified it — the world's largest emitter at the time was not actually bound. (2) China and India, both major emitters, were exempt as "developing" nations. Result: legally binding for some, but the wrong "some." Widely seen as insufficient, and expired in 2020.<br><br><strong>Paris Agreement (2015):</strong> A broader deal with 196 signatory nations. The breakthrough: included China, India, the US, and all major emitters. Each nation set its own emissions reduction targets (NDCs — Nationally Determined Contributions). The limitation: these targets are non-binding — there's no enforcement mechanism or penalty for missing them. The US withdrew under Trump (2020) and rejoined under Biden (2021), demonstrating how vulnerable the agreement is to domestic political changes. Most climate scientists say even if all current pledges are fulfilled, they're insufficient to meet the 1.5°C or 2°C targets.<br><br><strong>What each represents:</strong> Kyoto = binding for some, leaving out the biggest emitters. Paris = inclusive of all, but lacking enforcement. Neither represents sufficient action by most scientific assessments. Both are evidence of the genuine difficulty of coordinating global action on a problem that requires all nations to sacrifice short-term economic interests for long-term collective benefit.</div></div></div>
+</div>
+
+<!-- SEC 4 ECONOMICS -->
+<div class="section-block" id="u9-sec-4">
+<div class="section-label">Section 04</div>
+<h2 class="section-title">Economics in the Global Age (9.4)</h2>
+<h3 class="subsection-title">1. Free Market Policies (Neoliberalism)</h3>
+<p>After the Great Depression (Unit 7), governments intervened heavily in their economies. But in the later 20th century, the pendulum swung back toward free markets — what Freeman-pedia calls "the return of laissez-faire."</p>
+<div class="table-scroll"><table class="ap-table">
+<thead><tr><th>Leader</th><th>Policy</th><th>Key Ideas</th></tr></thead>
+<tbody>
+<tr><td><strong>Ronald Reagan (US, 1981–89)</strong></td><td>"Reaganomics"</td><td>Cut taxes, deregulate industries, reduce government spending on social programs. "Trickle-down theory": wealth at the top eventually benefits everyone.</td></tr>
+<tr><td><strong>Margaret Thatcher (UK, 1979–90)</strong></td><td>"Thatcherism"</td><td>Privatized state-owned industries, broke union power, reduced government intervention. "There is no alternative" (TINA) to free markets.</td></tr>
+<tr><td><strong>Deng Xiaoping (China, 1978–late 1980s)</strong></td><td>Economic liberalization</td><td>After Mao's death, loosened government control of the economy — not political but economic liberalization. "To get rich is glorious." Invited foreign investment, established Special Economic Zones. Result: China's extraordinary economic rise to #2 economy today.</td></tr>
+</tbody></table></div>
+<div class="section-divider"></div>
+<h3 class="subsection-title">2. Knowledge vs. Manufacturing Economies</h3>
+<div class="compare-grid">
+<div class="compare-col"><div class="compare-col-title">Knowledge Economy</div><p style="font-size:14px;color:var(--text-dim)">Dominated by information-based jobs rather than physical production: finance, software, education, healthcare, media, law, consulting. Freeman-pedia: "Like me. This job. This is a knowledge economy job." Examples: US, Japan, Finland. Countries whose wealth comes from intellectual output.</p></div>
+<div class="compare-col"><div class="compare-col-title">Manufacturing Economy</div><p style="font-size:14px;color:var(--text-dim)">Dominated by making physical goods for global sale. Freeman-pedia: "Check the label on your shirt. Check the label on your shoes. You're probably saying something along the lines of Vietnam, Bangladesh, China, Honduras, Mexico." 25% of Mexico's economy is manufacturing. These economies attract production because of lower labor costs.</p></div>
+</div>
+<div class="callout warn"><div class="callout-title">⚠️ The Consequence: Deindustrialization</div><p>As wealthy nations move toward knowledge economies, manufacturing moves to lower-wage countries (<span class="vocab-term" data-term="Outsourcing" data-def="The practice of contracting production or services to cheaper labor markets in other countries. US companies outsource manufacturing to China, Vietnam, and Bangladesh; IT services to India. Consequence in the outsourcing country: deindustrialization and job displacement for manufacturing workers.">outsourcing</span>). The consequence in knowledge-economy nations: factories close, manufacturing workers lose jobs, inequality rises as high-skill workers thrive while blue-collar workers are displaced. This is the economic engine behind much of the political backlash against globalization in the US and Europe.</p></div>
+<div class="section-divider"></div>
+<h3 class="subsection-title">3. Multinational Corporations — The College Board's Three Examples</h3>
+<div class="table-scroll"><table class="ap-table">
+<thead><tr><th>Corporation</th><th>Country</th><th>What It Is &amp; Why It Matters</th></tr></thead>
+<tbody>
+<tr><td><strong>Nestlé</strong></td><td>Switzerland</td><td>World's largest food company; owns ~30 brands (Kit Kat, Nespresso, Purina, Gerber). Second largest corporate polluter on Earth. Prime example of a corporation sourcing globally, manufacturing in multiple countries, and selling worldwide.</td></tr>
+<tr><td><strong>Nissan</strong></td><td>Japan</td><td>Major global automaker with production facilities across multiple continents. Designs in Japan, manufactures and sells globally. An example of Japanese corporate expansion beyond the home market.</td></tr>
+<tr><td><strong>Mahindra &amp; Mahindra</strong></td><td>India</td><td>Indian multinational best known for tractors and SUVs. Freeman-pedia's example of a non-Western, non-Japanese multinational. Demonstrates that corporate globalization is not exclusively a Western phenomenon.</td></tr>
+</tbody></table></div>
+<div class="section-divider"></div>
+<h3 class="subsection-title">4. Economic Institutions</h3>
+<div class="table-scroll"><table class="ap-table">
+<thead><tr><th>Institution</th><th>What It Does</th><th>AP Significance</th></tr></thead>
+<tbody>
+<tr><td><strong>NAFTA / USMCA</strong></td><td>North American free trade zone (US, Canada, Mexico; 1994, renegotiated 2020)</td><td>Massively increased trade across North America; contributed to manufacturing moving to Mexico. Controversial in the US — lower consumer prices vs. lost manufacturing jobs.</td></tr>
+<tr><td><strong>ASEAN</strong></td><td>Southeast Asian regional organization (10 members; founded 1967)</td><td>Promotes economic cooperation and political stability among Southeast Asian nations. One of the world's most successful regional organizations.</td></tr>
+<tr><td><strong>WTO</strong></td><td>Global trade rules body (established 1995; replaced GATT)</td><td>Freeman-pedia: "Think of it as an economic United Nations." Sets trade rules, mediates disputes, reduces tariffs. 164 members. China joined 2001. Major target of anti-globalization protests.</td></tr>
+<tr><td><strong>European Union</strong></td><td>Economic and political union of European nations (Maastricht Treaty, 1993)</td><td>Single market; Euro common currency; freedom of movement. <span class="vocab-term" data-term="Brexit" data-def="Britain's 2016 referendum vote to leave the European Union. Reflects anti-globalization sentiment: concerns about sovereignty, immigration, and the perception that EU membership benefited corporations and elites more than ordinary British workers.">Brexit</span> (2016): UK voted to leave — first nation to withdraw. A major backlash against globalization.</td></tr>
+</tbody></table></div>
+<div class="quiz-block self-explain"><div class="quiz-question">What is the difference between a knowledge economy and a manufacturing economy? Give one example of each. Then explain: what is outsourcing and what are its consequences in both the country that outsources and the country that receives the work?</div><textarea class="self-explain-area" placeholder="Define both types, give examples, then trace the consequences of outsourcing in both directions..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-econ-types')">See What to Know</button><div class="quiz-feedback reveal" id="rev-econ-types"><div class="fb-result">WHAT THE AP EXPECTS YOU TO KNOW</div><div class="fb-explain"><strong>Knowledge economy:</strong> An economy where wealth is created primarily through intellectual output — software, finance, education, consulting, research, healthcare, media. Workers create value through expertise and information rather than physical production. The US, Japan, South Korea, and Finland are examples. These economies typically have higher wages and more inequality between skilled and unskilled workers.<br><br><strong>Manufacturing economy:</strong> An economy where wealth is created through producing physical goods for sale, typically at lower labor costs. Vietnam, Bangladesh, China, Mexico, Honduras are examples. 25% of Mexico's economy is manufacturing. These economies attract production because their workers can be paid less than workers in wealthy nations while still producing quality goods.<br><br><strong>Outsourcing:</strong> The practice of contracting production to cheaper labor markets in other countries. A US company designs a product in California and manufactures it in Vietnam to take advantage of lower labor costs.<br><br><strong>Consequences in the outsourcing country (US, etc.):</strong> Deindustrialization — factories close; manufacturing workers lose jobs (the US "rust belt" — former steel and auto towns in Ohio, Michigan, Pennsylvania); rising inequality as high-skill workers thrive while blue-collar workers are displaced. This deindustrialization is a major driver of political backlash against globalization (Brexit, Trump's trade wars).<br><br><strong>Consequences in the receiving country (Vietnam, Bangladesh, etc.):</strong> Job creation (manufacturing jobs are often better than subsistence farming alternatives); economic growth and poverty reduction; but also concerns about labor rights, low wages, unsafe working conditions, and environmental regulation being sacrificed to attract investment.</div></div></div>
+</div>
+
+<!-- SEC 5 CALLS FOR REFORM -->
+<div class="section-block" id="u9-sec-5">
+<div class="section-label">Section 05</div>
+<h2 class="section-title">Global Calls for Reform (9.5) — Four Challenges</h2>
+<div class="callout"><div class="callout-title">🏅 Freeman-pedia's Nobel Peace Prize Count in AP World History (7 Total)</div>
+<div class="mvp-row"><div class="mvp-unit">Unit 7</div><div class="mvp-name">Woodrow Wilson (1919)</div><div class="mvp-why">Paris Peace Conference</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 8</div><div class="mvp-name">Martin Luther King Jr. (1964)</div><div class="mvp-why">Civil Rights Movement</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 9</div><div class="mvp-name">Norman Borlaug (1970)</div><div class="mvp-why">Green Revolution</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 8</div><div class="mvp-name">Mikhail Gorbachev (1990)</div><div class="mvp-why">Easing Cold War tensions</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 8</div><div class="mvp-name">Nelson Mandela + F.W. de Klerk (1993)</div><div class="mvp-why">Ending apartheid</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 9</div><div class="mvp-name">Wangari Maathai (2004)</div><div class="mvp-why">Green Belt Movement</div></div>
+</div>
+<h3 class="subsection-title">Challenge 1: Social Norms</h3>
+<ul class="ap-list">
+<li><strong>UN Universal Declaration of Human Rights (1948):</strong> A direct response to the Holocaust. 30 articles guaranteeing fundamental rights to all humans regardless of nationality, ethnicity, religion, gender, or any other status. Freeman-pedia places it at the level of the Declaration of Independence and Declaration of Rights of Man as a required document.</li>
+<li><strong>Global feminism:</strong> Challenging women's subordinate status in law, politics, and culture worldwide. Second-wave feminism (1960s–80s) won legal equality in many Western countries. Third-wave feminism (1990s–present) addressed intersectionality — how gender inequality intersects with race, class, and sexuality.</li>
+<li><strong>Négritude Movement:</strong> An intellectual and literary movement by French-speaking African and Caribbean writers (Léopold Sédar Senghor, Aimé Césaire, Léon-Gontran Damas) celebrating African cultural heritage and challenging European racism. A precursor to pan-Africanism and African decolonization.</li>
+</ul>
+<div class="section-divider"></div>
+<h3 class="subsection-title">Challenge 2: Access</h3>
+<ul class="ap-list">
+<li><strong>Women's suffrage:</strong> New Zealand granted women's suffrage in 1893 — the first in the world. About 19 nations granted women the vote before the US did in 1920.</li>
+<li><strong>US Civil Rights Movement:</strong> Civil Rights Act (1964) and Voting Rights Act (1965) ended legal segregation and secured voting rights for Black Americans. Martin Luther King Jr.'s non-violent strategy (modeled on Gandhi). MLK won the Nobel Peace Prize in 1964.</li>
+<li><strong>End of apartheid (1994):</strong> Nelson Mandela (Unit 8 MVP) and F.W. de Klerk dismantled South Africa's racial segregation. First democratic election open to all races — Mandela won.</li>
+</ul>
+<div class="section-divider"></div>
+<h3 class="subsection-title">Challenge 3: Economic Equality — Fair Trade vs. Free Trade</h3>
+<p>The WTO and IMF promote free trade and economic integration — but critics argue these institutions disproportionately benefit wealthy nations and multinational corporations at the expense of developing nations and workers. The <strong>World Fair Trade Organization (WFTO)</strong> was founded as a counter to the WTO, ensuring farmers and workers in the developing world receive fair prices, safe working conditions, and sustainable practices. Fair trade labeling on coffee, chocolate, and other products is a consumer-facing expression of this movement.</p>
+<div class="section-divider"></div>
+<h3 class="subsection-title">Challenge 4: Environmental Equality — Wangari Maathai</h3>
+<div class="callout info"><div class="callout-title">🌳 Professor Wangari Maathai — Freeman-pedia's Featured Example</div>
+<p>Professor Wangari Maathai (Kenya) had a dual insight: environmental destruction and women's disempowerment were connected problems that could be solved together. Her <span class="vocab-term" data-term="Wangari Maathai" data-def="Kenyan professor who founded the Green Belt Movement (1977) linking environmental activism (tree planting) with women's empowerment in Kenya and globally. Over 50 million trees planted. First African woman to win the Nobel Peace Prize (2004). Freeman-pedia's example for challenging environmental inequality.">Green Belt Movement</span> (1977–present) organized Kenyan women to plant trees — restoring deforested land while giving women economic and political agency.</p>
+<ul class="ap-list" style="margin-top:10px">
+<li>Over <strong>50 million trees planted</strong> since 1977</li>
+<li>The movement spread to 38 other countries</li>
+<li>In 2004, Maathai became the <strong>FIRST African woman to win the Nobel Peace Prize</strong> — for combining environmental activism with women's empowerment</li>
+</ul>
+<p style="margin-top:10px;font-size:13.5px;color:var(--text-dim)">Freeman-pedia: "That's an amazing idea to link those two movements, and it has a lasting impact to this day."</p>
+</div>
+<div class="quiz-block self-explain"><div class="quiz-question">What was the Green Belt Movement? What was Wangari Maathai's key insight in linking environmental activism to women's empowerment? Why did she win the Nobel Peace Prize?</div><textarea class="self-explain-area" placeholder="Explain the dual insight, what the movement did, and why it was recognized..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-maathai')">See What to Know</button><div class="quiz-feedback reveal" id="rev-maathai"><div class="fb-result">WHAT THE AP EXPECTS YOU TO KNOW</div><div class="fb-explain">Wangari Maathai was a Kenyan professor and activist who founded the Green Belt Movement in 1977. Her key insight: environmental destruction and women's disempowerment were connected problems that could be solved together.<br><br>The connection: In rural Kenya, deforestation was causing soil erosion and water shortages that disproportionately burdened women — who were responsible for gathering firewood, water, and food. By organizing women to plant trees, Maathai simultaneously addressed deforestation (restoring forest cover, preventing erosion, creating carbon sinks) and empowered women economically and politically (women controlled the planted land, gained income from nurseries, and built community networks).<br><br>What the movement accomplished: Over 50 million trees planted in Kenya since 1977. The model spread to 38 other countries. Maathai also became a political activist, fighting against corruption and for democracy in Kenya — she was repeatedly arrested.<br><br>Why the Nobel Prize: In 2004, Maathai became the first African woman to win the Nobel Peace Prize. The Nobel Committee specifically recognized her work linking environmental sustainability with democracy, women's rights, and community empowerment — demonstrating that environmental activism and human rights activism are not separate causes. She was not recognized for planting trees but for showing that environmental problems and social problems are intertwined and must be addressed together.</div></div></div>
+</div>
+
+<!-- SEC 6 CULTURE -->
+<div class="section-block" id="u9-sec-6">
+<div class="section-label">Section 06</div>
+<h2 class="section-title">Globalized Culture (9.6) — Seven Areas</h2>
+<div class="callout warn"><div class="callout-title">🎯 Key Concept: Glocalization</div>
+<p><span class="vocab-term" data-term="Glocalization" data-def="The adaptation of global products, brands, and cultural forms to local markets and cultures. McDonald's McAloo Tikki in India; Bollywood's integration of local storytelling with global production values. Shows that globalization does not uniformly erase local culture.">Glocalization</span> is the adaptation of global products to local markets and cultures. McDonald's adapts its menu for every country: McAloo Tikki in India (no beef), Bulgogi Burger in South Korea, McArabia in the Middle East. Global brands succeed not by imposing a uniform culture but by blending global reach with local flavor. The AP uses glocalization to show that cultural globalization does NOT simply equal Westernization.</p>
+</div>
+<div class="table-scroll"><table class="ap-table">
+<thead><tr><th>Category</th><th>College Board Example</th><th>AP Significance</th></tr></thead>
+<tbody>
+<tr><td><strong>Music</strong></td><td>Reggae (Bob Marley)</td><td>Jamaican style that spread to the US, UK, Africa, and Oceania. Bob Marley ranked #11 on Rolling Stone's Greatest Artists list — the only top-20 artist who was neither British nor American. Reggae demonstrates how a regional musical tradition becomes a global cultural force and carries political messages about anti-colonialism and liberation.</td></tr>
+<tr><td><strong>Film</strong></td><td>Bollywood</td><td>India's Hindi-language film industry produces ~2,000 films annually vs. Hollywood's ~700. Bollywood films outsell Hollywood by about $1 billion annually. Demonstrates that cultural globalization is NOT simply Westernization — non-Western cultural products can achieve global reach and revenue.</td></tr>
+<tr><td><strong>Social Media</strong></td><td>Facebook, Twitter / Weibo</td><td>Social media enables direct, mass communication across national borders. Has enabled social movements (#ArabSpring, #BlackLivesMatter, #MeToo) and the spread of misinformation. Weibo = the Chinese alternative (see Section 7).</td></tr>
+<tr><td><strong>Television</strong></td><td>BBC (British Broadcasting Corporation)</td><td>World's oldest and largest broadcaster; funded by a license fee; legally free of political and commercial influence. BBC's global reach makes it a major vehicle of cultural globalization — and of the English language's spread.</td></tr>
+<tr><td><strong>Sports</strong></td><td>The Olympics &amp; FIFA World Cup</td><td>Truly global events watched by billions. During the Cold War, sports became proxy competition (1980 US boycott of Moscow Olympics; 1984 Soviet boycott of LA Olympics). The World Cup is the single most-watched sporting event in human history.</td></tr>
+<tr><td><strong>Consumerism</strong></td><td>eBay and Alibaba</td><td>Global e-commerce connects buyers and sellers across every border. Alibaba is the sixth largest global brand. These platforms are the infrastructure of the global consumer economy.</td></tr>
+<tr><td><strong>Global Brands</strong></td><td>Coca-Cola and Toyota</td><td>Global brands as cultural ambassadors: Coke in Nairobi, Toyota in Lima reflects the penetration of globalized consumer culture into every corner of the world.</td></tr>
+</tbody></table></div>
+<div class="quiz-block" id="qb-s6a"><div class="quiz-question">Bollywood is Freeman-pedia's key example for challenging the assumption that "cultural globalization = Westernization." Why?</div><div class="mc-options">
+<button class="mc-btn" onclick="checkMC(this,'qb-s6a','A')"><span class="choice-letter">A</span>Bollywood films are produced in the United States but marketed to India</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-s6a','B')"><span class="choice-letter">B</span>India's Hindi-language film industry produces more films and generates more revenue than Hollywood, demonstrating that a non-Western cultural industry can dominate global entertainment markets</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-s6a','C')"><span class="choice-letter">C</span>Bollywood films are only watched in India and therefore represent resistance to globalization</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-s6a','D')"><span class="choice-letter">D</span>Bollywood uses Western actors and music, which is why it is globally successful</button>
+</div><div class="quiz-feedback" id="qf-s6a" data-correct="B" data-explain="Bollywood challenges the 'globalization = Westernization' assumption because it demonstrates that non-Western cultural industries can not only survive but thrive globally. India produces approximately 2,000 films annually to Hollywood's 700, and Bollywood films outsell Hollywood by approximately $1 billion annually. Bollywood has its own distinct aesthetic (dance sequences, music, melodrama, length) that is specifically Indian — it hasn't simply adopted Hollywood conventions. Its global success, particularly in Africa, the Middle East, and South and Southeast Asia, shows that global audiences consume non-Western cultural products enthusiastically."></div></div>
+</div>
+
+<!-- SEC 7 RESISTANCE -->
+<div class="section-block" id="u9-sec-7">
+<div class="section-label">Section 07</div>
+<h2 class="section-title">Global Institutions &amp; Resistance to Globalization (9.7)</h2>
+<h3 class="subsection-title">The Major Global Institutions</h3>
+<div class="callout"><div class="callout-title">Freeman-pedia: "Focus on the United Nations. That's the big one."</div>
+<ul class="ap-list" style="margin-top:8px">
+<li><strong>United Nations (1945):</strong> 193 member states. Security Council (5 permanent members with veto: US, Russia, UK, France, China). General Assembly. International Court of Justice. Specialized agencies (WHO, UNESCO, UNICEF). The UN Universal Declaration of Human Rights (1948) is a required AP document. Real successes AND real failures (Rwanda 1994).</li>
+<li><strong>WTO (1995):</strong> Sets global trade rules, mediates disputes, pushes for free trade. The AP exam's go-to economic institution.</li>
+<li><strong>IMF:</strong> Provides emergency loans with conditions attached (structural adjustment programs). Highly controversial — critics say conditions hurt developing nations' poorest citizens.</li>
+</ul>
+</div>
+<div class="section-divider"></div>
+<h3 class="subsection-title">Resistance to Globalization — Who Protests and Why</h3>
+<p>Whenever the WTO or IMF hold major conferences, massive street protests follow. Anti-globalization protesters argue:</p>
+<ul class="ap-list">
+<li>Global institutions are too capitalist and too beneficial to already-wealthy nations</li>
+<li>Free trade agreements undermine labor and environmental protections in developing countries</li>
+<li>Cultural globalization = cultural imperialism: displacement of local cultures by Western (especially American) commercial culture</li>
+</ul>
+<div class="callout info"><div class="callout-title">💻 Weibo — Freeman-pedia's Featured Example of Resistance</div>
+<p>Weibo is Chinese Twitter — a microblogging platform with more users than actual Twitter; the most visited Chinese website. Under Chinese government censorship. Recently required all users to log in with their real names; membership has since declined.</p>
+<p style="margin-top:10px">Weibo represents BOTH an alternative to global social media AND the limits of that alternative — because state censorship undermines the free communication that social media is supposed to enable. It is cultural resistance to Western tech platforms, but controlled resistance.</p>
+</div>
+<div class="table-scroll"><table class="ap-table">
+<thead><tr><th>Form of Resistance</th><th>Example</th><th>What It Shows</th></tr></thead>
+<tbody>
+<tr><td><strong>Street protests</strong></td><td>1999 WTO Seattle protests ("Battle of Seattle")</td><td>Tens of thousands shut down the city and the WTO conference. The most dramatic single anti-globalization protest in history. Showed that globalization had a substantial popular opposition even in its heartland.</td></tr>
+<tr><td><strong>Alternative local platforms</strong></td><td>Weibo (Chinese social media alternative to Twitter)</td><td>Creates a local alternative to global platforms that maintains cultural or political control — but also enables state censorship. Resistance that is itself a form of control.</td></tr>
+<tr><td><strong>Political/electoral resistance</strong></td><td>Brexit (2016); Trump trade wars (2018–19)</td><td>Brexit = UK leaving the EU — a vote against globalization, immigration, and loss of national sovereignty. Trump's trade wars = raising tariffs on Chinese goods. Both reflect backlash among workers who felt economically hurt by globalization.</td></tr>
+</tbody></table></div>
+<div class="quiz-block self-explain"><div class="quiz-question">What is Brexit? Who voted for it and why? How does it represent resistance to globalization?</div><textarea class="self-explain-area" placeholder="What was Brexit, who voted for it, what motivated them, and how does it fit into the broader story of globalization resistance?"></textarea><button class="reveal-btn" onclick="revealAnswer('rev-brexit')">See What to Know</button><div class="quiz-feedback reveal" id="rev-brexit"><div class="fb-result">WHAT THE AP EXPECTS YOU TO KNOW</div><div class="fb-explain">Brexit (a portmanteau of "British exit") refers to the United Kingdom's 2016 referendum, in which 52% of British voters chose to leave the European Union — the first time any nation had voted to leave the EU. The actual departure was completed in January 2020.<br><br>Who voted for it: Support for Brexit was strongest among older voters, less-educated voters, rural voters, and working-class voters in former industrial regions of England (Wales, the Midlands, the North) — the areas most affected by deindustrialization and manufacturing job loss.<br><br>Why they voted for it: Three main motivations: (1) Sovereignty — the perception that EU membership meant European courts and institutions overruling British laws and the elected British Parliament. Slogan: "Take Back Control." (2) Immigration — the EU's freedom of movement allowed citizens of other EU countries to live and work in the UK without restriction, and many Leave voters wanted to reduce immigration. (3) Economic anxiety — many working-class voters felt that EU membership and globalization had benefited corporations and wealthy urban professionals while harming manufacturing workers and rural communities. The EU was seen as a globalization vehicle that had failed them.<br><br>How it represents resistance to globalization: Brexit is the most dramatic political act of resistance to economic globalization in recent history. It rejected the EU single market (free trade), freedom of movement (migration), and supranational governance (sovereignty) — the three pillars of European economic globalization. It reflects the broader backlash against globalization's costs (deindustrialization, immigration, loss of national identity) that has driven right-wing populism across the Western world since the 2008 financial crisis.</div></div></div>
+</div>
+
+<!-- SEC 8 GLOSSARY -->
+<div class="section-block" id="u9-sec-8">
+<div class="section-label">Section 08</div>
+<h2 class="section-title">Glossary of Key Terms</h2>
+<p>Test yourself on each term before revealing. Mark how well you know it.</p>
+<div id="u9-glossary-list"></div>
+</div>
+
+<!-- SEC 9 TIMELINE -->
+<div class="section-block" id="u9-sec-9">
+<div class="section-label">Section 09</div>
+<h2 class="section-title">Timeline of Unit 9 (c. 1900–Present)</h2>
+<div class="timeline">
+<div class="timeline-item"><div class="timeline-date">1903</div><div class="timeline-content"><h4>Wright Brothers' First Powered Flight</h4><p>Technically in the contemporary period. Air travel eventually connects the world and shrinks distances between continents.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1918</div><div class="timeline-content"><h4>Spanish Flu Pandemic</h4><p>50–80 million dead worldwide. Second deadliest epidemic in history. More killed than WWI. First major new epidemic of the contemporary period.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1928</div><div class="timeline-content"><h4>Penicillin Discovered (Fleming)</h4><p>First antibiotic. Mass production after WWII transforms medicine. Diseases previously fatal become treatable. Freeman-pedia: "Maybe as many as half of you would be dead without this."</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1948</div><div class="timeline-content"><h4>UN Universal Declaration of Human Rights</h4><p>Direct response to the Holocaust. 30 articles guaranteeing fundamental rights to all humans. One of AP World's required documents.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1960</div><div class="timeline-content"><h4>Birth Control Pill Approved (FDA)</h4><p>Margaret Sanger and Dr. Pincus's work results in FDA approval. Transforms women's reproductive autonomy and workforce participation.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1962–68</div><div class="timeline-content"><h4>Green Revolution — Wheat Breakthroughs</h4><p>Borlaug's high-yield dwarf wheat reaches India and Pakistan. Both countries double wheat production. Both self-sufficient in grain by 1974. The Population Bomb proven wrong.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1970</div><div class="timeline-content"><h4>Norman Borlaug Wins Nobel Peace Prize</h4><p>Recognition of his role in preventing famine. In his acceptance speech, he warns the Green Revolution is only a "breathing space" — population growth must also be addressed.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1977</div><div class="timeline-content"><h4>Green Belt Movement Founded (Maathai)</h4><p>Wangari Maathai's tree-planting initiative in Kenya links environmental restoration with women's empowerment. 50+ million trees planted.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1980</div><div class="timeline-content"><h4>Smallpox Declared Eradicated</h4><p>The WHO declares smallpox eradicated — the first disease ever eliminated by human effort. Last natural case: 1977.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1980s</div><div class="timeline-content"><h4>HIV/AIDS Epidemic; Reagan and Thatcher's Neoliberalism</h4><p>HIV first identified; global AIDS epidemic follows. Reagan and Thatcher implement free-market economic policies that reshape Western economies.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1991</div><div class="timeline-content"><h4>World Wide Web Created; USSR Dissolves</h4><p>The internet becomes publicly accessible. The Cold War ends. These two simultaneous events define the start of the globalization era.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1993</div><div class="timeline-content"><h4>Maastricht Treaty — EU Established</h4><p>European Union formally created. Single market, common currency (Euro). The most advanced experiment in supranational integration in history.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1994</div><div class="timeline-content"><h4>NAFTA Takes Effect</h4><p>Free trade zone across North America. Increased trade but also shifted manufacturing to Mexico. Later renegotiated as USMCA (2020).</p></div></div>
+<div class="timeline-item"><div class="timeline-date">1997</div><div class="timeline-content"><h4>Kyoto Protocol Adopted</h4><p>First major international climate agreement. Legally binding targets for developed nations. US never ratified. Widely seen as insufficient.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">2001</div><div class="timeline-content"><h4>9/11 Attacks; China Joins WTO</h4><p>Al-Qaeda kills ~3,000. US declares "War on Terror." China's WTO entry accelerates its integration into the global economy.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">2004</div><div class="timeline-content"><h4>Maathai Wins Nobel Peace Prize</h4><p>First African woman to win. Recognizes the Green Belt Movement's linking of environmental and women's rights activism.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">2008</div><div class="timeline-content"><h4>Global Financial Crisis</h4><p>US housing market collapse triggers worldwide recession. Demonstrates the interconnectedness of the global economy — and its fragility.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">2015</div><div class="timeline-content"><h4>Paris Agreement on Climate Change</h4><p>196 nations commit to limiting warming to "well below" 2°C. Non-binding; most experts consider current pledges insufficient.</p></div></div>
+<div class="timeline-item"><div class="timeline-date">2016</div><div class="timeline-content"><h4>Brexit Referendum</h4><p>UK votes to leave the EU — the first nation to do so. A major backlash against globalization, immigration, and loss of national sovereignty.</p></div></div>
+</div>
+<div class="quiz-block" id="qb-s9a"><div class="quiz-question">Fill in: The Green Revolution's Norman Borlaug won the Nobel _____ Prize in 1970 — the same prize later won by Wangari Maathai in 2004.</div><div class="fill-blank-wrap"><input type="text" class="fill-blank" id="qi-s9a" placeholder="Nobel ___ Prize"><button class="check-btn" onclick="checkFill('qi-s9a','peace','qf-s9a','Both Norman Borlaug (1970) and Wangari Maathai (2004) won the Nobel PEACE Prize — not the Science or Agriculture prize. This is intentional: the Nobel Committee recognized that feeding the world and linking environmental activism with women\'s empowerment are fundamentally about building peace and preventing the conflicts that arise from scarcity and inequality.')">Check</button></div><div class="quiz-feedback" id="qf-s9a"></div></div>
+</div>
+
+<!-- SEC 10 THINKING SKILLS -->
+<div class="section-block" id="u9-sec-10">
+<div class="section-label">Section 10</div>
+<h2 class="section-title">Historical Thinking Skills</h2>
+<div class="callout warn"><div class="callout-title">⚠️ Critical AP Pitfall: Globalization Is NOT New</div>
+<p>A common AP error: writing about globalization as if it's entirely new in Unit 9. The AP expects you to recognize that global economic integration, long-distance cultural exchange, and the spread of disease across borders have happened throughout the course.</p>
+<p style="margin-top:10px"><strong style="color:var(--gold)">What IS new: the SPEED and SCALE.</strong> Information moves in milliseconds. Goods move in days. Diseases spread in weeks. Financial crises ripple globally in hours. This is qualitatively different from earlier globalization — not just bigger, but fundamentally faster.</p>
+</div>
+<div class="compare-grid">
+<div class="compare-col"><div class="compare-col-title">CONTINUITIES</div><ul class="ap-list">
+<li>Long-distance trade since the Silk Roads (Unit 2) — goods and ideas always crossed borders</li>
+<li>Disease spread along trade routes since the Black Death (Mongol era, Unit 2)</li>
+<li>Environmental destruction accompanying human economic activity since agriculture (Unit 1)</li>
+<li>Cultural exchange across regions — Silk Roads, Indian Ocean, Columbian Exchange</li>
+<li>Inequality between rich and poor has characterized every unit</li>
+</ul></div>
+<div class="compare-col"><div class="compare-col-title">CHANGES (new in Unit 9)</div><ul class="ap-list">
+<li>Speed and scale: the internet, shipping containers, and jet travel make contemporary globalization qualitatively different — months become seconds</li>
+<li>Climate change caused by fossil fuel emissions is genuinely new — no previous era released CO₂ at this scale</li>
+<li>Global institutions (UN, WTO, IMF) now exist to manage inequality, even if they often fail; international human rights law is new</li>
+<li>Mass media globalization: a Bollywood film can reach 100 million viewers in days; a viral video spreads globally in hours</li>
+<li>Disease categories of longevity: more people living long enough to develop Alzheimer's and heart disease</li>
+</ul></div>
+</div>
+<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a two-sentence thesis for this LEQ prompt: "Evaluate the extent to which advances in technology changed human society in the period from 1900 to the present."</div><textarea class="self-explain-area" placeholder="Include both positive AND negative consequences, and make a specific judgment about 'the extent to which'..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"Advances in technology between 1900 and the present fundamentally transformed human society in four areas — communication, food production, medicine, and energy — extending life expectancy, preventing famine, enabling mass political movements, and connecting billions of people across borders; however, these same technologies also exacerbated environmental destruction, enabled mass destruction (atomic weapons, industrial warfare), and deepened global inequality between those with technological access and those without."</div></div></div>
+</div>
+
+<!-- SEC 11 PITFALLS -->
+<div class="section-block" id="u9-sec-11">
+<div class="section-label">Section 11</div>
+<h2 class="section-title">Common Pitfalls &amp; How to Avoid Them</h2>
+<div class="pitfall-card"><div class="pitfall-header"><span class="pitfall-icon">❌</span><h4>Pitfall 1: Treating Globalization as Uniform Everywhere</h4></div><div class="pitfall-body"><p class="problem"><strong>The Problem:</strong> Students write about globalization as if it affects every place on Earth equally. North Korea vs. South Korea. The US and rural sub-Saharan Africa. Connected urban India and isolated rural India.</p><p class="fix"><strong>✅ The Fix:</strong> Always note regional variations. The contrast between globalized and non-globalized regions is itself AP-testable. Globalization's benefits and costs are dramatically unevenly distributed.</p></div></div>
+<div class="pitfall-card"><div class="pitfall-header"><span class="pitfall-icon">❌</span><h4>Pitfall 2: Thinking Globalization = Only Technology</h4></div><div class="pitfall-body"><p class="problem"><strong>The Problem:</strong> Students reduce Unit 9 to "the internet and smartphones." The College Board covers seven major areas: technology, disease, environment, economics, reform movements, culture, and resistance to globalization. Any of these could appear on the AP exam.</p><p class="fix"><strong>✅ The Fix:</strong> Review all seven Unit 9 sections. The Green Revolution, the birth control pill, Wangari Maathai's Green Belt Movement, and Bollywood are all equally testable.</p></div></div>
+<div class="pitfall-card"><div class="pitfall-header"><span class="pitfall-icon">❌</span><h4>Pitfall 3: Ignoring the Continuity with Earlier Units</h4></div><div class="pitfall-body"><p class="problem"><strong>The Problem:</strong> Students treat globalization as if it started in 1990 with the internet. The AP specifically asks you to connect Unit 9 to earlier periods.</p><p class="fix"><strong>✅ The Fix:</strong> For any globalization essay, include a connection to an earlier unit: Silk Roads (Unit 2) as a parallel; the Columbian Exchange (Unit 4) as an earlier episode of global biological exchange; the Industrial Revolution's fossil fuel economy (Unit 5) as the root cause of contemporary climate change.</p></div></div>
+<div class="pitfall-card"><div class="pitfall-header"><span class="pitfall-icon">❌</span><h4>Pitfall 4: Missing That Globalization Has Real Losers</h4></div><div class="pitfall-body"><p class="problem"><strong>The Problem:</strong> Students write about globalization as an unqualified good: "free trade made everyone richer." The AP expects nuance: globalization created winners AND losers. Manufacturing workers in the US and UK lost jobs. Developing-world farmers struggled against subsidized imports. Environmental costs are real.</p><p class="fix"><strong>✅ The Fix:</strong> For every globalization essay, include BOTH benefits (economic growth, poverty reduction in developing nations, cultural exchange) AND costs (inequality, environmental damage, cultural homogenization, deindustrialization in the Global North).</p></div></div>
+<div class="pitfall-card"><div class="pitfall-header"><span class="pitfall-icon">❌</span><h4>Pitfall 5: Forgetting Norman Borlaug</h4></div><div class="pitfall-body"><p class="problem"><strong>The Problem:</strong> Students overlook the Green Revolution entirely because it sounds like a science topic. But it's the single most AP-testable agricultural development in Unit 9, with a specific MVP, historical context, specific outcomes, and a Nobel Peace Prize.</p><p class="fix"><strong>✅ The Fix:</strong> Know the Borlaug story in five sentences: Malthusian threat → crossbreeding innovations (stem rust resistance, dwarf wheat) → application in India and Pakistan → both doubled wheat production and were self-sufficient by 1974 → Nobel Peace Prize 1970 → his warning the victory is temporary.</p></div></div>
+<div class="quiz-block" id="qb-s11a"><div class="quiz-question">A student writes: "Globalization is a new phenomenon that began with the invention of the internet in the 1990s." What is wrong with this statement from an AP historical thinking perspective?</div><div class="mc-options">
+<button class="mc-btn" onclick="checkMC(this,'qb-s11a','A')"><span class="choice-letter">A</span>The internet was invented in the 1980s, not the 1990s</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-s11a','B')"><span class="choice-letter">B</span>Economic integration, cultural exchange, and disease spread across borders have characterized world history since the Silk Roads (Unit 2) — globalization is not new; what is new in Unit 9 is its unprecedented speed and scale</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-s11a','C')"><span class="choice-letter">C</span>The internet was actually invented in Europe, not the United States</button>
+<button class="mc-btn" onclick="checkMC(this,'qb-s11a','D')"><span class="choice-letter">D</span>The student should have said "globalization began in the 1970s with shipping containers"</button>
+</div><div class="quiz-feedback" id="qf-s11a" data-correct="B" data-explain="This is Pitfall 3. Globalization — the integration of economies, cultures, and peoples across national borders — is not new to the internet era. The Silk Roads connected China, Central Asia, Persia, and Europe economically and culturally (Unit 2). The Mongol Empire spread the Black Death from China to Europe along trade routes (Unit 2). The Columbian Exchange (Unit 4) connected the Eastern and Western Hemispheres biologically. The 19th-century gold standard created a globalized financial system. What IS new in Unit 9 is the SPEED and SCALE: information that once took months to cross an ocean now travels in milliseconds; financial crises spread globally in hours; diseases spread in weeks rather than years."></div></div>
+</div>
+
+<!-- SEC 12 DBQ -->
+<div class="section-block" id="u9-sec-12">
+<div class="section-label">Section 12</div>
+<h2 class="section-title">Sample DBQ — With Full Breakdown</h2>
+<div class="callout warn"><div class="callout-title">📊 DBQ Basics</div><p>DBQ = 25% of AP exam. 7 documents, 60 minutes (15 min reading). Thesis + contextualization + document analysis + outside evidence + sourcing + complexity.</p></div>
+<div class="prompt-box">"Evaluate the extent to which globalization has created economic inequality in the period from 1990 to the present."</div>
+<div class="step-block"><div class="step-num">1</div><div class="step-content"><strong>Decode</strong><p><strong>Command:</strong> "Evaluate the extent to which" — judge HOW MUCH globalization created inequality. Must acknowledge BOTH: ways it increased AND ways it reduced inequality.<br><strong>Focus:</strong> Economic inequality specifically (not cultural or political)<br><strong>Time frame:</strong> 1990–present (the post-Cold War globalization era)</p></div></div>
+<div class="callout info" style="margin-top:16px"><div class="callout-title">✅ Sample Thesis</div><p style="font-style:italic;color:var(--text-bright)">"Globalization significantly increased economic inequality between and within nations in the period from 1990 to the present by concentrating wealth in knowledge economies and multinational corporations while deindustrializing manufacturing workers in developed nations and exposing developing-world farmers and workers to unfair competition; however, globalization also dramatically reduced extreme poverty in East Asia — particularly in China and India — demonstrating that the relationship between globalization and inequality is complex and geographically uneven rather than uniformly positive or negative."</p></div>
+<div class="callout" style="margin-top:16px"><div class="callout-title">📝 Sample Contextualization</div><p style="font-style:italic;color:var(--text-bright)">"The economic globalization of the post-1990 period emerged from two converging forces: the end of the Cold War, which eliminated the Soviet alternative to capitalism and allowed free-market ideology to spread globally, and the digital revolution, which dramatically reduced the cost of communication and coordination across borders. The 'Washington Consensus' promoted by the US, IMF, and World Bank prescribed privatization, deregulation, and trade liberalization as the path to development — policies that accelerated economic integration but also concentrated its benefits unevenly. Within this context, the creation of the WTO (1995), NAFTA (1994), China's WTO accession (2001), and the proliferation of regional trade agreements created an integrated global economy in which national boundaries became increasingly porous to trade and capital — but not always to workers."</p></div>
+<div class="step-block" style="margin-top:20px"><div class="step-num">2</div><div class="step-content"><strong>Essay Outline</strong></div></div>
+<ul class="ap-list">
+<li><strong>Body ¶1 — HOW GLOBALIZATION INCREASED INEQUALITY:</strong> Deindustrialization in developed nations — US manufacturing towns lost jobs as outsourcing moved production to China and Vietnam. Developing-world farmers undercut by US and EU agricultural subsidies. Within developing nations: urban elites benefiting from foreign investment vs. rural poor who don't.</li>
+<li><strong>Body ¶2 — HOW GLOBALIZATION REDUCED INEQUALITY:</strong> China: integration into global supply chains lifted ~800 million people out of extreme poverty between 1990 and 2020 — the largest reduction in poverty in human history. India: IT outsourcing created a massive new middle class in cities like Bangalore. Global GDP per capita has risen significantly; life expectancy has increased globally.</li>
+<li><strong>Body ¶3 — COMPLEXITY:</strong> The pattern is geographically uneven — Asia (especially East and South Asia) saw dramatic poverty reduction; sub-Saharan Africa much less benefit; developed nations saw increased wealth overall but dramatically increased internal inequality (top 1% vs. everyone else).</li>
+</ul>
+<div class="essay-section"><div class="essay-section-header"><h4>DBQ Rubric — Maximum 7 Points</h4></div><div class="essay-section-body">
+<div class="scoring-row"><div class="scoring-pts">1<span>pt</span></div><div class="scoring-label"><strong>Thesis</strong><span>Directly addresses "to what extent" (significant AND complex inequality effects), identifies the geographic unevenness, and establishes a line of reasoning.</span></div></div>
+<div class="scoring-row"><div class="scoring-pts">1<span>pt</span></div><div class="scoring-label"><strong>Contextualization</strong><span>Explains the post-Cold War context (Washington Consensus, WTO, digital revolution) and connects it to WHY economic globalization accelerated when it did after 1990.</span></div></div>
+<div class="scoring-row"><div class="scoring-pts">2<span>pts</span></div><div class="scoring-label"><strong>Evidence: Document Content</strong><span>Documents might include: economic data (GDP per capita, poverty statistics), WTO protest documents, NAFTA arguments for/against, news articles about outsourcing, speeches by WTO defenders and critics. Use at least 3 (1pt) and at least 6 (2nd pt).</span></div></div>
+<div class="scoring-row"><div class="scoring-pts">1<span>pt</span></div><div class="scoring-label"><strong>Evidence: Beyond Documents</strong><span>China's poverty reduction (~800 million lifted from extreme poverty); US rust belt deindustrialization; India's IT boom in Bangalore; fair trade movement as response to WTO inequality; 2008 financial crisis showing global interdependence.</span></div></div>
+<div class="scoring-row"><div class="scoring-pts">1<span>pt</span></div><div class="scoring-label"><strong>Analysis: Sourcing</strong><span>Example: "An IMF document promoting free trade as reducing inequality reflects the IMF's institutional commitment to neoliberal economics, which would lead it to emphasize poverty reduction data in East Asia while downplaying deindustrialization in the US and Europe."</span></div></div>
+<div class="scoring-row"><div class="scoring-pts">1<span>pt</span></div><div class="scoring-label"><strong>Analysis: Complexity</strong><span>The geographic unevenness IS the complexity: globalization reduced inequality between some nations (China, India vs. 1990 levels) while increasing it within others (US internal inequality) and leaving others behind (sub-Saharan Africa). Or: globalization created tools for resisting inequality (social media enabling protest movements) and tools for entrenching it (capital mobility outpacing labor mobility).</span></div></div>
+</div></div>
+</div>
+
+<!-- SEC 13 LEQ -->
+<div class="section-block" id="u9-sec-13">
+<div class="section-label">Section 13</div>
+<h2 class="section-title">Sample LEQ — With Full Breakdown</h2>
+<div class="callout warn"><div class="callout-title">📊 LEQ Basics</div><p>LEQ = 15% of AP exam. 40 minutes. From memory — no documents. Choose from three prompts.</p></div>
+<div class="prompt-box">"Evaluate the extent to which advances in technology changed human society in the period from 1900 to the present."</div>
+<div class="step-block"><div class="step-num">1</div><div class="step-content"><strong>Decode</strong><p><strong>Command:</strong> "Evaluate the extent to which" — make a judgment about HOW MUCH technology changed society. Need both supporting evidence AND limits/costs.<br><strong>Focus:</strong> Technology changing HUMAN SOCIETY (not just technology itself — focus on social consequences)<br><strong>Time frame:</strong> 1900–present (the full contemporary period)</p></div></div>
+<div class="callout info" style="margin-top:16px"><div class="callout-title">✅ Sample Thesis</div><p style="font-style:italic;color:var(--text-bright)">"Advances in technology between 1900 and the present fundamentally transformed human society in four areas — communication, food production, medicine, and energy — extending life expectancy, preventing famine, enabling mass political movements, and connecting billions of people across borders; however, these same technologies also exacerbated environmental destruction, enabled mass destruction (atomic weapons, industrial warfare), and deepened global inequality between those with technological access and those without."</p></div>
+<div class="step-block" style="margin-top:20px"><div class="step-num">2</div><div class="step-content"><strong>Essay Outline</strong></div></div>
+<ul class="ap-list">
+<li><strong>Contextualization:</strong> In 1900, life expectancy in most of the world was below 50; the vast majority of humans worked in agriculture; communication beyond one's village required days. The contemporary period has transformed all of these realities more rapidly than any previous era — driven by the convergence of industrial technology (from Unit 5) with the specifically contemporary innovations of the digital age.</li>
+<li><strong>Body ¶1 — POSITIVE TRANSFORMATION: Life and health</strong> — Antibiotics and vaccines eliminated diseases that killed billions; life expectancy doubled in the 20th century. Green Revolution (Norman Borlaug): prevented Malthusian catastrophe; India and Pakistan self-sufficient by 1974. Birth control pill: transformed women's reproductive autonomy and workforce participation.</li>
+<li><strong>Body ¶2 — POSITIVE TRANSFORMATION: Connection and communication</strong> — Radio, telephone, internet, social media: enabled real-time global communication; social movements organized globally. Shipping containers and aviation: global supply chains, cultural exchange, migration.</li>
+<li><strong>Body ¶3 — LIMITS AND COSTS:</strong> Atomic bombs and industrialized warfare killed tens of millions; the nuclear age created existential threat. Fossil fuel technology driving climate change: the technology that powered growth is now threatening civilization's future. Digital divide: technology benefits disproportionately flow to wealthy nations, deepening inequality between Global North and South.</li>
+</ul>
+<div class="essay-section"><div class="essay-section-header"><h4>LEQ Rubric — Maximum 6 Points</h4></div><div class="essay-section-body">
+<div class="scoring-row"><div class="scoring-pts">1<span>pt</span></div><div class="scoring-label"><strong>Thesis</strong><span>Identifies multiple areas of transformation (communication, food, medicine, energy), acknowledges both positive AND negative consequences, and establishes a line of reasoning.</span></div></div>
+<div class="scoring-row"><div class="scoring-pts">1<span>pt</span></div><div class="scoring-label"><strong>Contextualization</strong><span>A full paragraph establishing what life was like in 1900 to show the scale of change, and connecting how industrial technology from Unit 5 set the stage for contemporary innovations.</span></div></div>
+<div class="scoring-row"><div class="scoring-pts">2<span>pts</span></div><div class="scoring-label"><strong>Evidence</strong><span>Antibiotics (penicillin, 1928); Green Revolution and Norman Borlaug (India/Pakistan wheat); birth control pill (1960, Sanger and Pincus); internet (1991); shipping containers; atomic bombs; fossil fuel emissions and climate change.</span></div></div>
+<div class="scoring-row"><div class="scoring-pts">2<span>pts</span></div><div class="scoring-label"><strong>Analysis &amp; Reasoning</strong><span>Earn both by: (1) explaining HOW technology changed society (mechanism, not just correlation) AND (2) showing complexity — the same fossil fuel technology that powered the Industrial Revolution and raised living standards is the primary driver of climate change; technology that connects people also enables surveillance and repression.</span></div></div>
+</div></div>
+</div>
+
+<!-- SEC 14 SUMMARY -->
+<div class="section-block" id="u9-sec-14">
+<div class="section-label">Section 14</div>
+<h2 class="section-title">Unit Summary — The Big Picture</h2>
+<div class="quiz-block self-explain"><div class="quiz-question">Can you answer ALL of these from memory?<br><br>Who is Norman Borlaug? What problem did he solve, how, and what were the specific outcomes for India and Pakistan? What is a Malthusian catastrophe? What are the five technology categories — give one specific example each? What are the three disease categories — give one example each? What is the difference between the Kyoto Protocol and the Paris Agreement? What is a knowledge economy vs. a manufacturing economy — give one example of each? What are the three College Board multinational corporations? What does each do? What are NAFTA, ASEAN, and the WTO? What are the four reform challenges — give one specific example each? Who is Wangari Maathai and what is the Green Belt Movement? Who won the Nobel Peace Prize in 2004 — and why was she historically unique? What is Bollywood and how does it challenge "globalization = Westernization"? What is Weibo and why is it Freeman-pedia's example of resistance? What is Brexit and why is it resistance to globalization? What are the seven Nobel Peace Prize winners from AP World History?</div><textarea class="self-explain-area" style="min-height:180px" placeholder="Write out as many answers as you can from memory..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-summary-answers')">See All Answers</button><div class="quiz-feedback reveal" id="rev-summary-answers"><div class="fb-result">FULL ANSWERS</div><div class="fb-explain">
+<strong>Norman Borlaug:</strong> Iowa agronomist who developed disease-resistant, high-yield dwarf wheat (crossbred with Japanese dwarf wheat to keep stalks strong under heavy grain). Solved the "tall wheat" problem. Shipped 550 million tons to India and Pakistan — both doubled wheat production and were self-sufficient in grain by 1974, exactly when The Population Bomb predicted mass famine. Nobel Peace Prize 1970. Warning: Green Revolution is only a "temporary success" — must also address population growth.<br><br>
+<strong>Malthusian catastrophe:</strong> Thomas Malthus (1798) predicted population growth would outpace food production, leading to mass starvation. The Population Bomb (1968) predicted it would happen in India and Pakistan by the 1970s–80s. Borlaug proved both wrong — for now.<br><br>
+<strong>Five technology categories + examples:</strong><br>
+Communication: Internet (World Wide Web, 1991) or shipping containers (1950s)<br>
+Energy: Petroleum (powers internal combustion engines; Middle East geopolitics) or nuclear power (~10% of electricity; Chernobyl 1986)<br>
+Birth control: The Pill (1960) — Margaret Sanger + Dr. Pincus; FDA approval; transformed women's workforce participation<br>
+Agriculture: Green Revolution (Norman Borlaug; dwarf wheat; India/Pakistan doubled production)<br>
+Medicine: Penicillin (1928, Fleming) or vaccines (only two diseases eradicated: smallpox 1980, rinderpest 2011)<br><br>
+<strong>Three disease categories + examples:</strong><br>
+Diseases of poverty: Malaria, cholera, TB — treatable but unequal access<br>
+New epidemics: Spanish Flu (1918, 50–80 million dead) or HIV/AIDS (1980s, 4th deadliest epidemic in history)<br>
+Diseases of longevity: Alzheimer's, heart disease — exist because people live long enough to get them<br><br>
+<strong>Kyoto vs. Paris:</strong> Kyoto (1997): legally binding, developed nations only, US signed but never ratified, China/India exempt. Paris (2015): 196 nations including all major emitters, but non-binding — each nation sets its own targets, no enforcement mechanism. Both widely seen as insufficient.<br><br>
+<strong>Knowledge vs. manufacturing economy:</strong> Knowledge = information-based (US, Japan, Finland — software, finance, law). Manufacturing = making physical goods (Vietnam, Bangladesh, Mexico — 25% of Mexico's economy). Outsourcing moves manufacturing from knowledge economies to lower-wage manufacturing economies → deindustrialization + inequality in the knowledge economy countries.<br><br>
+<strong>Three College Board MNCs:</strong> Nestlé (Switzerland, world's largest food company, ~30 brands, 2nd largest corporate polluter); Nissan (Japan, global automaker, designs in Japan, manufactures globally); Mahindra & Mahindra (India, tractors and SUVs, non-Western/non-Japanese MNC example).<br><br>
+<strong>NAFTA/ASEAN/WTO:</strong> NAFTA (1994) = North American free trade zone (US, Canada, Mexico; renegotiated as USMCA 2020). ASEAN (founded 1967) = 10-member Southeast Asian economic cooperation organization. WTO (1995) = "economic United Nations" — global trade rules, disputes, tariff reduction; 164 members; China joined 2001.<br><br>
+<strong>Four reform challenges + examples:</strong><br>
+Social norms: UN Universal Declaration of Human Rights (1948) or Négritude Movement<br>
+Access: Women's suffrage (New Zealand 1893, first) or US Civil Rights Movement (Civil Rights Act 1964)<br>
+Economic equality: World Fair Trade Organization vs. WTO; fair trade coffee/chocolate<br>
+Environmental equality: Wangari Maathai's Green Belt Movement (50 million trees, 38 countries, Nobel 2004)<br><br>
+<strong>Wangari Maathai / Green Belt Movement:</strong> Kenyan professor who linked environmental restoration (tree planting) with women's empowerment. Founded 1977. Over 50 million trees planted in Kenya; spread to 38 countries. First African woman to win the Nobel Peace Prize (2004).<br><br>
+<strong>Bollywood:</strong> India's Hindi-language film industry, based in Mumbai. ~2,000 films annually vs. Hollywood's ~700. Outsells Hollywood by ~$1 billion annually. Challenges "globalization = Westernization" because a non-Western industry dominates global entertainment markets with a distinctly Indian aesthetic.<br><br>
+<strong>Weibo:</strong> Chinese microblogging platform (Chinese Twitter). More users than Twitter; most visited Chinese website. Under government censorship; real-name login requirements led to membership decline. Represents both cultural resistance to global Western platforms AND the limits of that resistance — state censorship undermines free communication.<br><br>
+<strong>Brexit:</strong> 2016 UK referendum to leave the EU — 52% voted to leave. First nation to leave. Driven by: sovereignty concerns ("Take Back Control"), immigration worries, economic anxiety among working-class voters in deindustrialized regions. Represents resistance to globalization by people who felt its costs outweighed its benefits.<br><br>
+<strong>Seven Nobel Peace Prize winners:</strong><br>
+1. Woodrow Wilson (1919) — Paris Peace Conference<br>
+2. Martin Luther King Jr. (1964) — Civil Rights Movement<br>
+3. Norman Borlaug (1970) — Green Revolution<br>
+4. Mikhail Gorbachev (1990) — easing Cold War tensions<br>
+5. Nelson Mandela + F.W. de Klerk (1993) — ending apartheid<br>
+6. Wangari Maathai (2004) — Green Belt Movement (first African woman)
+</div></div></div>
+<div class="callout important" style="margin-top:24px"><div class="callout-title">📝 One-Paragraph Summary of Unit 9</div>
+<p>Unit 9 (c.1900–present) is globalization: the rapid acceleration of connections across national borders in economics, culture, communication, and biology. Five technological revolutions define the era: communication (radio to internet), energy (petroleum and nuclear power), birth control (the pill, 1960), agriculture (Norman Borlaug's Green Revolution — Unit 9 MVP, prevents Malthusian famine; India and Pakistan double wheat production; Nobel Peace Prize 1970), and medicine (antibiotics, vaccines, eradicating smallpox and rinderpest). Diseases divide into three types: poverty (malaria, TB), new epidemics (Spanish Flu 1918; HIV/AIDS), and longevity (Alzheimer's, heart disease). Climate change fueled by fossil fuels is the defining challenge; the Kyoto Protocol (1997, legally binding but inadequate) and Paris Agreement (2015, inclusive but non-binding) represent international but insufficient responses. The global economy runs on free-market neoliberalism (Reagan, Thatcher, Deng Xiaoping), knowledge vs. manufacturing economies, multinational corporations (Nestlé, Nissan, Mahindra), and trade institutions (NAFTA, ASEAN, WTO, EU). Four reform challenges define the era: social norms (UDHR, feminism, Négritude), access (women's suffrage, Civil Rights), economic equality (fair trade movement), and environmental equality (Wangari Maathai's Green Belt Movement — first African woman to win the Nobel Peace Prize, 2004). Globalized culture spreads reggae, Bollywood, the Olympics, Coca-Cola, and Toyota worldwide — glocalization adapts global products to local markets. Not everyone welcomes it: anti-WTO protests, Weibo as a local social media alternative, and Brexit all represent resistance to globalization's costs and perceived threats to national sovereignty and local identity.</p>
+</div>
+</div>
+
+<!-- SEC FINISH -->
+<div class="section-block" id="u9-sec-finish">
+<div class="section-label">🎓 The Finish Line</div>
+<h2 class="section-title">All Nine Units Complete</h2>
+<div class="finish-box">
+<h3>The Full Freeman-pedia Mount Rushmore</h3>
+<div style="max-width:600px;margin:20px auto 0;text-align:left">
+<div class="mvp-row"><div class="mvp-unit">Unit 1</div><div class="mvp-name">Ibn Battuta</div><div class="mvp-why">Greatest traveler of the medieval world</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 2</div><div class="mvp-name">Mansa Musa</div><div class="mvp-why">Richest person in history; crashed the gold market</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 3</div><div class="mvp-name">Akbar the Great</div><div class="mvp-why">Greatest Mughal emperor; religious tolerance</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 4</div><div class="mvp-name">Bartolomé de las Casas</div><div class="mvp-why">First voice against colonial atrocity</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 5</div><div class="mvp-name">James Watt</div><div class="mvp-why">Steam engine: powered the Industrial Revolution</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 6</div><div class="mvp-name">King Leopold II</div><div class="mvp-why">The face of imperial atrocity (still hate him)</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 7</div><div class="mvp-name">Gavrilo Princip</div><div class="mvp-why">One shot that changed everything</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 8</div><div class="mvp-name">Nelson Mandela</div><div class="mvp-why">27 years in prison; still chose reconciliation</div></div>
+<div class="mvp-row"><div class="mvp-unit">Unit 9</div><div class="mvp-name">Norman Borlaug</div><div class="mvp-why">Fed the world; saved billions of lives</div></div>
+</div>
+</div>
+<div class="callout" style="margin-top:30px;text-align:center"><div class="callout-title">🏁 What You've Covered</div>
+<p style="font-size:15px;line-height:1.9">You have studied <strong>1200 CE to the present.</strong> You have nine complete unit guides. You have the MVPs, the MAIN causes, the M&Ms, the VORP argument, the Maxim gun, the guano, the fasces, the Golden Stool that the British never got, and Norman Borlaug's dwarf wheat that fed the world.</p>
+<p style="margin-top:16px;font-size:18px;color:var(--gold);font-family:'Cinzel',serif;font-weight:700;letter-spacing:1px">Go get that 5. 🎓</p>
+</div>
+<div class="quiz-block self-explain" style="margin-top:30px"><div class="quiz-question">Final check: In one paragraph, describe the arc of AP World History Modern — from Unit 1 to Unit 9. What changes, what stays the same, and what surprised you most?</div><textarea class="self-explain-area" style="min-height:120px" placeholder="Write your own synthesis of the entire course — this is the best possible exam prep for any essay..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-final-arc')">See One Version</button><div class="quiz-feedback reveal" id="rev-final-arc"><div class="fb-result">ONE WAY TO SYNTHESIZE THE COURSE</div><div class="fb-explain">AP World History Modern (1200 CE–present) is the story of increasing human connection and its consequences. It begins (Unit 1–2) with the existing regional civilizations and the networks that tied them together — the Silk Roads, the Indian Ocean trade, the Mongol postal system — and the first truly global pandemic (the Black Death) traveling those routes. It accelerates (Units 3–4) as European maritime technology connects the hemispheres for the first time: the Columbian Exchange, the Atlantic slave trade, the Silver Trade, and the first global empires. Unit 5 is the hinge: the Industrial Revolution and political revolutions together transform how people live and who they think has the right to govern. The industrial advantage becomes imperial conquest in Unit 6 — the West colonizes most of the world — and the competition between imperial powers explodes in Unit 7's two world wars, which also produce communism, fascism, the Holocaust, and the atomic bomb. Unit 8 continues the paradox: the same WWII that weakened the European empires also strengthened the ideological competition (Cold War) and enabled the decolonization of those empires — while Mao's China and Nelson Mandela's South Africa show the range of what decolonization actually produced. Unit 9 ties it all together: the same technologies that produced the Industrial Revolution now fuel climate change; the same trade connections that spread the Black Death now spread COVID-19 in weeks; the same inequality that drove the Atlantic slave trade now shows up as the Global North vs. Global South.<br><br>What changes: the speed of everything. What stays the same: the human impulses driving history — the desire for wealth, power, identity, and dignity. What surprised me most: how connected it all is. Every unit leads directly into the next.</div></div></div>
+</div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+const u9GlossaryTerms = [];
+let u9SectionsDone=new Set(JSON.parse(localStorage.getItem('u9_sections')||'[]'));
+let u9TermStatus=JSON.parse(localStorage.getItem('u9_terms')||'{}');
+function u9SaveProgress(){localStorage.setItem('u9_sections',JSON.stringify([...u9SectionsDone]));localStorage.setItem('u9_terms',JSON.stringify(u9TermStatus));}
+function u9ScrollToSection(id){
+  const el=document.getElementById(id);if(!el)return;
+  const mc=document.getElementById('u9-main-content');
+  mc.scrollTo({top: mc.scrollTop + el.getBoundingClientRect().top - mc.getBoundingClientRect().top - 20, behavior:'smooth'});
+  document.querySelectorAll('#u9-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
+  if(id==='u9-sec-finish'){const n=document.getElementById('u9-nav-finish');if(n)n.classList.add('active');}
+  else{const n=document.getElementById('u9-nav-'+id.replace('u9-sec-',''));if(n)n.classList.add('active');}
+}
+const u9SecIds=['u9-sec-intro','u9-sec-1','u9-sec-2','u9-sec-3','u9-sec-4','u9-sec-5','u9-sec-6','u9-sec-7','u9-sec-8','u9-sec-9','u9-sec-10','u9-sec-11','u9-sec-12','u9-sec-13','u9-sec-14','u9-sec-finish'];
+function u9MarkSectionDone(id){
+  if(u9SectionsDone.has(id))return;
+  u9SectionsDone.add(id);u9SaveProgress();u9UpdateProgressBar();
+  const suffix=id==='u9-sec-finish'?'finish':id.replace('u9-sec-','');
+  const chk=document.getElementById('u9-chk-'+suffix);if(chk)chk.textContent='✅';
+}
+function u9UpdateProgressBar(){
+  const pct=Math.round((u9SectionsDone.size/u9SecIds.length)*100);
+  const bar=document.getElementById('unit9-progress-bar');const lbl=document.getElementById('unit9-progress-pct');
+  if(bar)bar.style.width=pct+'%';if(lbl)lbl.textContent=pct+'%';
+}
+function u9RestoreChecks(){
+  u9SectionsDone.forEach(id=>{
+    const suffix=id==='u9-sec-finish'?'finish':id.replace('u9-sec-','');
+    const chk=document.getElementById('u9-chk-'+suffix);if(chk)chk.textContent='✅';
+  });
+}
+function u9SetupScrollSpy(){
+  const mc=document.getElementById('u9-main-content');if(!mc)return;
+  mc.addEventListener('scroll',()=>{
+    const st=mc.scrollTop,ch=mc.clientHeight;let current='u9-sec-intro';
+    u9SecIds.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop-60<=st)current=id;if(el&&el.offsetTop+el.offsetHeight-100<=st+ch)u9MarkSectionDone(id);});
+    document.querySelectorAll('#u9-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
+    if(current==='u9-sec-finish'){const n=document.getElementById('u9-nav-finish');if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
+    else{const n=document.getElementById('u9-nav-'+current.replace('u9-sec-',''));if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
+  });
+}
+function u9RenderGlossary(){
+  const c=document.getElementById('u9-glossary-list');if(!c)return;
+  c.innerHTML='';
+  u9GlossaryTerms.forEach((item,i)=>{
+    const st=u9TermStatus[item.term]||'';const d=document.createElement('div');
+    d.className='term-tracker';const safeT=item.term.replace(/'/g,"\'");
+    d.innerHTML=`<div class="term-tracker-header"><h4>${item.term}</h4><button class="term-reveal-btn" onclick="u9ToggleTermDef(${i},this)">Reveal Definition</button></div><div class="term-tracker-body" id="tb-${i}"><div class="term-def-text" id="tdef-${i}">${item.def}</div><div class="term-status-btns"><button class="status-btn${st==='know'?' know':''}" onclick="u9SetTermStatus('${safeT}','know',${i})">Know</button><button class="status-btn${st==='unsure'?' unsure':''}" onclick="u9SetTermStatus('${safeT}','unsure',${i})">Unsure</button><button class="status-btn${st==='dontknow'?' dontknow':''}" onclick="u9SetTermStatus('${safeT}','dontknow',${i})">Don't Know</button></div></div>`;
+    c.appendChild(d);
+  });
+}
+function u9ToggleTermDef(i,btn){
+  const d=document.getElementById('tdef-'+i);if(!d)return;
+  const shown=d.style.display==='block';d.style.display=shown?'none':'block';
+  btn.textContent=shown?'Reveal Definition':'Hide Definition';
+}
+function u9SetTermStatus(term,status,i){
+  u9TermStatus[term]=status;u9SaveProgress();
+  const body=document.getElementById('tb-'+i);if(!body)return;
+  body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
+  const btns=body.querySelectorAll('.status-btn');
+  if(status==='know'&&btns[0])btns[0].classList.add('know');
+  if(status==='unsure'&&btns[1])btns[1].classList.add('unsure');
+  if(status==='dontknow'&&btns[2])btns[2].classList.add('dontknow');
+}
+// Unit 9 init called from openUnit9()
 </script>
 </body>
 </html>
