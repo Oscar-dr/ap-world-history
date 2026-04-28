@@ -9020,14 +9020,16 @@ function u5RenderGlossary(){
   });
 }
 function u5ToggleTermDef(i,btn){
-  const d=document.getElementById('tdef-'+i); if(!d) return;
+  const card=btn.closest('.term-tracker'); if(!card) return;
+  const d=card.querySelector('.term-def-text'); if(!d) return;
   const shown=d.style.display==='block';
   d.style.display=shown?'none':'block';
   btn.textContent=shown?'Reveal Definition':'Hide Definition';
 }
 function u5SetTermStatus(term,status,i){
   u5TermStatus[term]=status; u5SaveProgress();
-  const body=document.getElementById('tb-'+i); if(!body) return;
+  const c=document.getElementById('u5-glossary-list');
+  const body=c?c.querySelectorAll('.term-tracker-body')[i]:null; if(!body) return;
   body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
   const btns=body.querySelectorAll('.status-btn');
   if(status==='know'&&btns[0]) btns[0].classList.add('know');
@@ -9634,9 +9636,9 @@ function u6RenderGlossary(){
     c.appendChild(d);
   });
 }
-function u6ToggleTermDef(i,btn){const d=document.getElementById('tdef-'+i);if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
+function u6ToggleTermDef(i,btn){const card=btn.closest('.term-tracker');if(!card)return;const d=card.querySelector('.term-def-text');if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
 function u6SetTermStatus(term,status,i){
-  u6TermStatus[term]=status;u6SaveProgress();const body=document.getElementById('tb-'+i);if(!body)return;
+  u6TermStatus[term]=status;u6SaveProgress();const c6=document.getElementById('u6-glossary-list');const body=c6?c6.querySelectorAll('.term-tracker-body')[i]:null;if(!body)return;
   body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
   const btns=body.querySelectorAll('.status-btn');
   if(status==='know'&&btns[0])btns[0].classList.add('know');if(status==='unsure'&&btns[1])btns[1].classList.add('unsure');if(status==='dontknow'&&btns[2])btns[2].classList.add('dontknow');
@@ -10242,9 +10244,9 @@ function u7RenderGlossary(){
     c.appendChild(d);
   });
 }
-function u7ToggleTermDef(i,btn){const d=document.getElementById('tdef-'+i);if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
+function u7ToggleTermDef(i,btn){const card=btn.closest('.term-tracker');if(!card)return;const d=card.querySelector('.term-def-text');if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
 function u7SetTermStatus(term,status,i){
-  u7TermStatus[term]=status;u7SaveProgress();const body=document.getElementById('tb-'+i);if(!body)return;
+  u7TermStatus[term]=status;u7SaveProgress();const c7=document.getElementById('u7-glossary-list');const body=c7?c7.querySelectorAll('.term-tracker-body')[i]:null;if(!body)return;
   body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
   const btns=body.querySelectorAll('.status-btn');
   if(status==='know'&&btns[0])btns[0].classList.add('know');if(status==='unsure'&&btns[1])btns[1].classList.add('unsure');if(status==='dontknow'&&btns[2])btns[2].classList.add('dontknow');
@@ -10788,9 +10790,9 @@ function u8RenderGlossary(){
     c.appendChild(d);
   });
 }
-function u8ToggleTermDef(i,btn){const d=document.getElementById('tdef-'+i);if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
+function u8ToggleTermDef(i,btn){const card=btn.closest('.term-tracker');if(!card)return;const d=card.querySelector('.term-def-text');if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
 function u8SetTermStatus(term,status,i){
-  u8TermStatus[term]=status;u8SaveProgress();const body=document.getElementById('tb-'+i);if(!body)return;
+  u8TermStatus[term]=status;u8SaveProgress();const c8=document.getElementById('u8-glossary-list');const body=c8?c8.querySelectorAll('.term-tracker-body')[i]:null;if(!body)return;
   body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
   const btns=body.querySelectorAll('.status-btn');
   if(status==='know'&&btns[0])btns[0].classList.add('know');if(status==='unsure'&&btns[1])btns[1].classList.add('unsure');if(status==='dontknow'&&btns[2])btns[2].classList.add('dontknow');
@@ -11351,13 +11353,14 @@ function u9RenderGlossary(){
   });
 }
 function u9ToggleTermDef(i,btn){
-  const d=document.getElementById('tdef-'+i);if(!d)return;
+  const card=btn.closest('.term-tracker');if(!card)return;
+  const d=card.querySelector('.term-def-text');if(!d)return;
   const shown=d.style.display==='block';d.style.display=shown?'none':'block';
   btn.textContent=shown?'Reveal Definition':'Hide Definition';
 }
 function u9SetTermStatus(term,status,i){
   u9TermStatus[term]=status;u9SaveProgress();
-  const body=document.getElementById('tb-'+i);if(!body)return;
+  const c9=document.getElementById('u9-glossary-list');const body=c9?c9.querySelectorAll('.term-tracker-body')[i]:null;if(!body)return;
   body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
   const btns=body.querySelectorAll('.status-btn');
   if(status==='know'&&btns[0])btns[0].classList.add('know');
