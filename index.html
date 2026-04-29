@@ -969,6 +969,59 @@ html
     margin-bottom: 16px;
   }
 
+  /* ── UNIT 3+ SPECIFIC CLASSES ── */
+  .motivational-bar {
+    background: rgba(200,168,75,0.05);
+    border-bottom: 1px solid var(--border2);
+    padding: 8px 28px;
+    font-size: 13px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .empire-badge {
+    display: inline-block;
+    background: rgba(200,168,75,0.1);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-family: 'Source Code Pro', monospace;
+    color: var(--gold-dim);
+    margin-bottom: 16px;
+  }
+  .moms-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+  @media (max-width: 800px) { .moms-grid { grid-template-columns: repeat(2, 1fr); } }
+  .moms-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+  }
+  .moms-letter {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .moms-name {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--text-bright);
+    margin-bottom: 4px;
+  }
+  .moms-loc {
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
   /* scroll margin for section anchors */
   [id^="sec-"] { scroll-margin-top: 20px; }
 
@@ -4254,10 +4307,13 @@ function setupScrollSpy(){
   mc.addEventListener('scroll',()=>{
     const st=mc.scrollTop, ch=mc.clientHeight;
     let current='sec-intro';
+    const mcRect=mc.getBoundingClientRect();
     secIds.forEach(id=>{
       const el=document.getElementById(id);
-      if(el && el.offsetTop-60<=st) current=id;
-      if(el && el.offsetTop+el.offsetHeight-100<=st+ch) markSectionDone(id);
+      if(!el) return;
+      const rect=el.getBoundingClientRect();
+      if(rect.top - mcRect.top <= 60) current=id;
+      if(rect.bottom - 100 <= mcRect.bottom) markSectionDone(id);
     });
     document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
     const nav=document.getElementById('nav-'+current.replace('sec-',''));
@@ -6763,10 +6819,13 @@ function u2SetupScrollSpy(){
   mc.addEventListener('scroll',()=>{
     const st=mc.scrollTop, ch=mc.clientHeight;
     let current='u2-sec-intro';
+    const mcRect=mc.getBoundingClientRect();
     u2SecIds.forEach(id=>{
       const el=document.getElementById(id);
-      if(el && el.offsetTop-60<=st) current=id;
-      if(el && el.offsetTop+el.offsetHeight-100<=st+ch) u2MarkSectionDone(id);
+      if(!el) return;
+      const rect=el.getBoundingClientRect();
+      if(rect.top - mcRect.top <= 60) current=id;
+      if(rect.bottom - 100 <= mcRect.bottom) u2MarkSectionDone(id);
     });
     document.querySelectorAll('#u2-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
     const nav=document.getElementById('u2-nav-'+current.replace('u2-sec-',''));
@@ -7627,10 +7686,13 @@ function u3SetupScrollSpy(){
   mc.addEventListener('scroll',()=>{
     const st=mc.scrollTop, ch=mc.clientHeight;
     let current='u3-sec-intro';
+    const mcRect=mc.getBoundingClientRect();
     u3SecIds.forEach(id=>{
       const el=document.getElementById(id);
-      if(el && el.offsetTop-60<=st) current=id;
-      if(el && el.offsetTop+el.offsetHeight-100<=st+ch) u3MarkSectionDone(id);
+      if(!el) return;
+      const rect=el.getBoundingClientRect();
+      if(rect.top - mcRect.top <= 60) current=id;
+      if(rect.bottom - 100 <= mcRect.bottom) u3MarkSectionDone(id);
     });
     document.querySelectorAll('#u3-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
     if(current==='u3-sec-ready'){
@@ -8355,10 +8417,13 @@ function u4SetupScrollSpy(){
   mc.addEventListener('scroll',()=>{
     const st=mc.scrollTop,ch=mc.clientHeight;
     let current='u4-sec-intro';
+    const mcRect=mc.getBoundingClientRect();
     u4SecIds.forEach(id=>{
       const el=document.getElementById(id);
-      if(el&&el.offsetTop-60<=st) current=id;
-      if(el&&el.offsetTop+el.offsetHeight-100<=st+ch) u4MarkSectionDone(id);
+      if(!el) return;
+      const rect=el.getBoundingClientRect();
+      if(rect.top - mcRect.top <= 60) current=id;
+      if(rect.bottom - 100 <= mcRect.bottom) u4MarkSectionDone(id);
     });
     document.querySelectorAll('#u4-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
     if(current==='u4-sec-ready'){const nav=document.getElementById('u4-nav-ready');if(nav){nav.classList.add('active');nav.scrollIntoView({block:'nearest'});}}
@@ -9092,10 +9157,13 @@ function u5SetupScrollSpy(){
   mc.addEventListener('scroll',()=>{
     const st=mc.scrollTop,ch=mc.clientHeight;
     let current='u5-sec-intro';
+    const mcRect=mc.getBoundingClientRect();
     u5SecIds.forEach(id=>{
       const el=document.getElementById(id);
-      if(el&&el.offsetTop-60<=st) current=id;
-      if(el&&el.offsetTop+el.offsetHeight-100<=st+ch) u5MarkSectionDone(id);
+      if(!el) return;
+      const rect=el.getBoundingClientRect();
+      if(rect.top - mcRect.top <= 60) current=id;
+      if(rect.bottom - 100 <= mcRect.bottom) u5MarkSectionDone(id);
     });
     document.querySelectorAll('#u5-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
     if(current==='u5-sec-ready'){const n=document.getElementById('u5-nav-ready');if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
@@ -9749,7 +9817,8 @@ function u6SetupScrollSpy(){
   const mc=document.getElementById('u6-main-content');if(!mc)return;
   mc.addEventListener('scroll',()=>{
     const st=mc.scrollTop,ch=mc.clientHeight;let current='u6-sec-intro';
-    u6SecIds.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop-60<=st)current=id;if(el&&el.offsetTop+el.offsetHeight-100<=st+ch)u6MarkSectionDone(id);});
+    const mcRect=mc.getBoundingClientRect();
+    u6SecIds.forEach(id=>{const el=document.getElementById(id);if(!el)return;const rect=el.getBoundingClientRect();if(rect.top - mcRect.top <= 60)current=id;if(rect.bottom - 100 <= mcRect.bottom)u6MarkSectionDone(id);});
     document.querySelectorAll('#u6-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
     if(current==='u6-sec-ready'){const n=document.getElementById('u6-nav-ready');if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
     else{const n=document.getElementById('u6-nav-'+current.replace('u6-sec-',''));if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
@@ -10374,7 +10443,8 @@ function u7SetupScrollSpy(){
   const mc=document.getElementById('u7-main-content');if(!mc)return;
   mc.addEventListener('scroll',()=>{
     const st=mc.scrollTop,ch=mc.clientHeight;let current='u7-sec-intro';
-    u7SecIds.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop-60<=st)current=id;if(el&&el.offsetTop+el.offsetHeight-100<=st+ch)u7MarkSectionDone(id);});
+    const mcRect=mc.getBoundingClientRect();
+    u7SecIds.forEach(id=>{const el=document.getElementById(id);if(!el)return;const rect=el.getBoundingClientRect();if(rect.top - mcRect.top <= 60)current=id;if(rect.bottom - 100 <= mcRect.bottom)u7MarkSectionDone(id);});
     document.querySelectorAll('#u7-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
     if(current==='u7-sec-ready'){const n=document.getElementById('u7-nav-ready');if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
     else{const n=document.getElementById('u7-nav-'+current.replace('u7-sec-',''));if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
@@ -10920,7 +10990,8 @@ function u8SetupScrollSpy(){
   const mc=document.getElementById('u8-main-content');if(!mc)return;
   mc.addEventListener('scroll',()=>{
     const st=mc.scrollTop,ch=mc.clientHeight;let current='u8-sec-intro';
-    u8SecIds.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop-60<=st)current=id;if(el&&el.offsetTop+el.offsetHeight-100<=st+ch)u8MarkSectionDone(id);});
+    const mcRect=mc.getBoundingClientRect();
+    u8SecIds.forEach(id=>{const el=document.getElementById(id);if(!el)return;const rect=el.getBoundingClientRect();if(rect.top - mcRect.top <= 60)current=id;if(rect.bottom - 100 <= mcRect.bottom)u8MarkSectionDone(id);});
     document.querySelectorAll('#u8-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
     if(current==='u8-sec-ready'){const n=document.getElementById('u8-nav-ready');if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
     else{const n=document.getElementById('u8-nav-'+current.replace('u8-sec-',''));if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
@@ -11286,7 +11357,7 @@ function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]'
 <div class="timeline-item"><div class="timeline-date">2015</div><div class="timeline-content"><h4>Paris Agreement on Climate Change</h4><p>196 nations commit to limiting warming to "well below" 2°C. Non-binding; most experts consider current pledges insufficient.</p></div></div>
 <div class="timeline-item"><div class="timeline-date">2016</div><div class="timeline-content"><h4>Brexit Referendum</h4><p>UK votes to leave the EU — the first nation to do so. A major backlash against globalization, immigration, and loss of national sovereignty.</p></div></div>
 </div>
-<div class="quiz-block" id="qb-s9a"><div class="quiz-question">Fill in: The Green Revolution's Norman Borlaug won the Nobel _____ Prize in 1970 — the same prize later won by Wangari Maathai in 2004.</div><div class="fill-blank-wrap"><input type="text" class="fill-blank" id="qi-s9a" placeholder="Nobel ___ Prize"><button class="check-btn" onclick="checkFill('qi-s9a','peace','qf-s9a','Both Norman Borlaug (1970) and Wangari Maathai (2004) won the Nobel PEACE Prize — not the Science or Agriculture prize. This is intentional: the Nobel Committee recognized that feeding the world and linking environmental activism with women\'s empowerment are fundamentally about building peace and preventing the conflicts that arise from scarcity and inequality.')">Check</button></div><div class="quiz-feedback" id="qf-s9a"></div></div>
+<div class="quiz-block" id="qb-s9a"><div class="quiz-question">Fill in: The Green Revolution's Norman Borlaug won the Nobel _____ Prize in 1970 — the same prize later won by Wangari Maathai in 2004.</div><div class="fill-blank-wrap"><input type="text" class="fill-blank" id="qi-u9s9a" placeholder="Nobel ___ Prize"><button class="check-btn" onclick="checkFill('qi-u9s9a','peace','qf-u9s9a','Both Norman Borlaug (1970) and Wangari Maathai (2004) won the Nobel PEACE Prize — not the Science or Agriculture prize. This is intentional: the Nobel Committee recognized that feeding the world and linking environmental activism with women\'s empowerment are fundamentally about building peace and preventing the conflicts that arise from scarcity and inequality.')">Check</button></div><div class="quiz-feedback" id="qf-u9s9a"></div></div>
 </div>
 
 <!-- SEC 10 THINKING SKILLS -->
@@ -11613,7 +11684,8 @@ function u9SetupScrollSpy(){
   const mc=document.getElementById('u9-main-content');if(!mc)return;
   mc.addEventListener('scroll',()=>{
     const st=mc.scrollTop,ch=mc.clientHeight;let current='u9-sec-intro';
-    u9SecIds.forEach(id=>{const el=document.getElementById(id);if(el&&el.offsetTop-60<=st)current=id;if(el&&el.offsetTop+el.offsetHeight-100<=st+ch)u9MarkSectionDone(id);});
+    const mcRect=mc.getBoundingClientRect();
+    u9SecIds.forEach(id=>{const el=document.getElementById(id);if(!el)return;const rect=el.getBoundingClientRect();if(rect.top - mcRect.top <= 60)current=id;if(rect.bottom - 100 <= mcRect.bottom)u9MarkSectionDone(id);});
     document.querySelectorAll('#u9-sidebar .sidebar-item').forEach(i=>i.classList.remove('active'));
     if(current==='u9-sec-finish'){const n=document.getElementById('u9-nav-finish');if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
     else{const n=document.getElementById('u9-nav-'+current.replace('u9-sec-',''));if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
