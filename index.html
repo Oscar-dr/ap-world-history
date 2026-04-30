@@ -7418,7 +7418,7 @@ function u2EnterPhase2(){
 <li>Americas enter world history (Unit 4 silver flows into all four empires)</li>
 </ul></div>
 </div>
-<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a two-sentence thesis for this LEQ prompt: "Compare the role of religion in maintaining power in TWO of the following: Ottoman, Safavid, Mughal (c. 1450–1750)."</div><textarea class="self-explain-area" placeholder="Write your thesis..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"Both the Ottoman and Mughal empires used Islam as a source of political legitimacy and a framework for governance, but they differed fundamentally in how they deployed religion toward non-Muslim subjects: the Ottomans institutionalized religious diversity through the millet system, using religion as an organizing principle rather than an enforced identity, while the Mughals' approach shifted dramatically between Akbar's syncretic tolerance and Aurangzeb's oppressive orthodoxy — demonstrating that the Ottomans' more consistent religious policy produced greater long-term stability."</div></div></div>
+<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a two-sentence thesis for this LEQ prompt: "Compare the role of religion in maintaining power in TWO of the following: Ottoman, Safavid, Mughal (c. 1450–1750)."</div><textarea class="self-explain-area" placeholder="Write your thesis..."></textarea><button class="reveal-btn" onclick="revealAnswer('u3-rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="u3-rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"Both the Ottoman and Mughal empires used Islam as a source of political legitimacy and a framework for governance, but they differed fundamentally in how they deployed religion toward non-Muslim subjects: the Ottomans institutionalized religious diversity through the millet system, using religion as an organizing principle rather than an enforced identity, while the Mughals' approach shifted dramatically between Akbar's syncretic tolerance and Aurangzeb's oppressive orthodoxy — demonstrating that the Ottomans' more consistent religious policy produced greater long-term stability."</div></div></div>
 </div>
 
 <!-- SEC 11 COMMAND TERMS -->
@@ -7709,45 +7709,74 @@ function u3SetupScrollSpy(){
 // (Vocab tooltip defined in main script)
 
 // ── GLOSSARY ──
+let u3GlossPhase='rating';
+let u3GlossRatings={};
 function u3RenderGlossary(){
   const c=document.getElementById('u3-glossary-list'); if(!c) return;
-  c.innerHTML='';
+  u3GlossRatings={}; u3GlossPhase='rating'; c.innerHTML='';
+  const prog=document.createElement('div');
+  prog.className='gl-progress'; prog.id='u3-gl-progress';
+  prog.innerHTML=`<span id="u3-gl-rated-count">0</span> / ${u3GlossaryTerms.length} rated`;
+  c.appendChild(prog);
   u3GlossaryTerms.forEach((item,i)=>{
-    const st=u3TermStatus[item.term]||'';
-    const d=document.createElement('div');
-    d.className='term-tracker';
-    const safeT=item.term.replace(/'/g,"\'");
-    d.innerHTML=`<div class="term-tracker-header">
-      <h4>${item.term}</h4>
-      <button class="term-reveal-btn" onclick="u3ToggleTermDef(${i},this)">Reveal Definition</button>
-    </div>
-    <div class="term-tracker-body" id="tb-${i}">
-      <div class="term-def-text" id="tdef-${i}">${item.def}</div>
-      <div class="term-status-btns">
-        <button class="status-btn${st==='know'?' know':''}" onclick="u3SetTermStatus('${safeT}','know',${i})">✅ Know</button>
-        <button class="status-btn${st==='unsure'?' unsure':''}" onclick="u3SetTermStatus('${safeT}','unsure',${i})">⚠️ Unsure</button>
-        <button class="status-btn${st==='dontknow'?' dontknow':''}" onclick="u3SetTermStatus('${safeT}','dontknow',${i})">❌ Don't Know</button>
-      </div>
-    </div>`;
-    c.appendChild(d);
+    const card=document.createElement('div');
+    card.className='gl-card'; card.id=`u3-gl-${i}`;
+    card.innerHTML=`<div class="gl-term">${item.term}</div>
+      <div class="gl-btns">
+        <button class="gl-btn" onclick="u3RateGloss(${i},'know')">I Know</button>
+        <button class="gl-btn" onclick="u3RateGloss(${i},'unsure')">Unsure</button>
+        <button class="gl-btn" onclick="u3RateGloss(${i},'dontknow')">Don't Know</button>
+      </div>`;
+    c.appendChild(card);
   });
 }
-function u3ToggleTermDef(i,btn){
-  const card=btn.closest('.term-tracker'); if(!card) return;
-  const d=card.querySelector('.term-def-text'); if(!d) return;
-  const shown=d.style.display==='block';
-  d.style.display=shown?'none':'block';
-  btn.textContent=shown?'Reveal Definition':'Hide Definition';
+function u3RateGloss(i,status){
+  if(u3GlossPhase!=='rating') return;
+  const term=u3GlossaryTerms[i].term;
+  u3GlossRatings[term]=status;
+  const card=document.getElementById(`u3-gl-${i}`); if(!card) return;
+  card.querySelectorAll('.gl-btn').forEach(b=>b.classList.remove('gl-sel-know','gl-sel-unsure','gl-sel-dontknow'));
+  const btns=card.querySelectorAll('.gl-btn');
+  if(status==='know'&&btns[0]) btns[0].classList.add('gl-sel-know');
+  if(status==='unsure'&&btns[1]) btns[1].classList.add('gl-sel-unsure');
+  if(status==='dontknow'&&btns[2]) btns[2].classList.add('gl-sel-dontknow');
+  const rated=Object.keys(u3GlossRatings).length;
+  const countEl=document.getElementById('u3-gl-rated-count');
+  if(countEl) countEl.textContent=rated;
+  if(rated===u3GlossaryTerms.length&&u3GlossPhase==='rating'){u3GlossPhase='review';setTimeout(u3EnterPhase2,500);}
 }
-function u3SetTermStatus(term,status,i){
-  u3TermStatus[term]=status; u3SaveProgress();
-  const c=document.getElementById('u3-glossary-list');
-  const body=c?c.querySelectorAll('.term-tracker-body')[i]:null; if(!body) return;
-  body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
-  const btns=body.querySelectorAll('.status-btn');
-  if(status==='know'&&btns[0]) btns[0].classList.add('know');
-  if(status==='unsure'&&btns[1]) btns[1].classList.add('unsure');
-  if(status==='dontknow'&&btns[2]) btns[2].classList.add('dontknow');
+function u3EnterPhase2(){
+  const c=document.getElementById('u3-glossary-list'); if(!c) return;
+  const prog=document.getElementById('u3-gl-progress'); if(prog) prog.remove();
+  u3GlossaryTerms.forEach((item,i)=>{
+    const card=document.getElementById(`u3-gl-${i}`); if(!card) return;
+    const status=u3GlossRatings[item.term];
+    if(status==='know'){
+      card.style.maxHeight=card.offsetHeight+'px'; card.style.overflow='hidden';
+      requestAnimationFrame(()=>{card.classList.add('fading-out');});
+      setTimeout(()=>card.remove(),900);
+    } else {
+      const isUnsure=status==='unsure';
+      const labelText=isUnsure?'✍️ WRITING OPTIONAL — use the definition to write a sentence in your own words:':'✍️ WRITING STRONGLY RECOMMENDED — writing it out makes it stick:';
+      const labelClass=isUnsure?'gl-write-optional':'gl-write-recommended';
+      const placeholder=isUnsure?'Optional: write a sentence using this term...':'Write a sentence using this term (strongly recommended)...';
+      card.querySelector('.gl-btns').remove();
+      const extra=document.createElement('div');
+      extra.innerHTML=`<div class="gl-def">${item.def}</div>
+        <div class="gl-write-label ${labelClass}">${labelText}</div>
+        <textarea class="gl-textarea" placeholder="${placeholder}"></textarea>`;
+      card.appendChild(extra);
+      card.classList.add(isUnsure?'gl-phase2-unsure':'gl-phase2-dontknow');
+    }
+  });
+  setTimeout(()=>{
+    const c2=document.getElementById('u3-glossary-list'); if(!c2) return;
+    const wrap=document.createElement('div');
+    wrap.style.cssText='margin-top:32px;text-align:center;padding:20px 0 8px;border-top:1px solid var(--border2);';
+    wrap.innerHTML=`<p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">Want to go again? Reset clears everything and starts fresh.</p>
+      <button class="gl-reset-btn" onclick="u3RenderGlossary()">↺ Restart to Try Again</button>`;
+    c2.appendChild(wrap);
+  },1000);
 }
 
 // Unit 3 init is called from openUnit3()
@@ -8433,45 +8462,74 @@ function u4SetupScrollSpy(){
 // (checkMC, checkFill, revealAnswer defined in main script)
 // (Vocab tooltip defined in main script)
 
+let u4GlossPhase='rating';
+let u4GlossRatings={};
 function u4RenderGlossary(){
   const c=document.getElementById('u4-glossary-list'); if(!c) return;
-  c.innerHTML='';
+  u4GlossRatings={}; u4GlossPhase='rating'; c.innerHTML='';
+  const prog=document.createElement('div');
+  prog.className='gl-progress'; prog.id='u4-gl-progress';
+  prog.innerHTML=`<span id="u4-gl-rated-count">0</span> / ${u4GlossaryTerms.length} rated`;
+  c.appendChild(prog);
   u4GlossaryTerms.forEach((item,i)=>{
-    const st=u4TermStatus[item.term]||'';
-    const d=document.createElement('div');
-    d.className='term-tracker';
-    const safeT=item.term.replace(/'/g,"\'");
-    d.innerHTML=`<div class="term-tracker-header">
-      <h4>${item.term}</h4>
-      <button class="term-reveal-btn" onclick="u4ToggleTermDef(${i},this)">Reveal Definition</button>
-    </div>
-    <div class="term-tracker-body" id="tb-${i}">
-      <div class="term-def-text" id="tdef-${i}">${item.def}</div>
-      <div class="term-status-btns">
-        <button class="status-btn${st==='know'?' know':''}" onclick="u4SetTermStatus('${safeT}','know',${i})">✅ Know</button>
-        <button class="status-btn${st==='unsure'?' unsure':''}" onclick="u4SetTermStatus('${safeT}','unsure',${i})">⚠️ Unsure</button>
-        <button class="status-btn${st==='dontknow'?' dontknow':''}" onclick="u4SetTermStatus('${safeT}','dontknow',${i})">❌ Don't Know</button>
-      </div>
-    </div>`;
-    c.appendChild(d);
+    const card=document.createElement('div');
+    card.className='gl-card'; card.id=`u4-gl-${i}`;
+    card.innerHTML=`<div class="gl-term">${item.term}</div>
+      <div class="gl-btns">
+        <button class="gl-btn" onclick="u4RateGloss(${i},'know')">I Know</button>
+        <button class="gl-btn" onclick="u4RateGloss(${i},'unsure')">Unsure</button>
+        <button class="gl-btn" onclick="u4RateGloss(${i},'dontknow')">Don't Know</button>
+      </div>`;
+    c.appendChild(card);
   });
 }
-function u4ToggleTermDef(i,btn){
-  const card=btn.closest('.term-tracker'); if(!card) return;
-  const d=card.querySelector('.term-def-text'); if(!d) return;
-  const shown=d.style.display==='block';
-  d.style.display=shown?'none':'block';
-  btn.textContent=shown?'Reveal Definition':'Hide Definition';
+function u4RateGloss(i,status){
+  if(u4GlossPhase!=='rating') return;
+  const term=u4GlossaryTerms[i].term;
+  u4GlossRatings[term]=status;
+  const card=document.getElementById(`u4-gl-${i}`); if(!card) return;
+  card.querySelectorAll('.gl-btn').forEach(b=>b.classList.remove('gl-sel-know','gl-sel-unsure','gl-sel-dontknow'));
+  const btns=card.querySelectorAll('.gl-btn');
+  if(status==='know'&&btns[0]) btns[0].classList.add('gl-sel-know');
+  if(status==='unsure'&&btns[1]) btns[1].classList.add('gl-sel-unsure');
+  if(status==='dontknow'&&btns[2]) btns[2].classList.add('gl-sel-dontknow');
+  const rated=Object.keys(u4GlossRatings).length;
+  const countEl=document.getElementById('u4-gl-rated-count');
+  if(countEl) countEl.textContent=rated;
+  if(rated===u4GlossaryTerms.length&&u4GlossPhase==='rating'){u4GlossPhase='review';setTimeout(u4EnterPhase2,500);}
 }
-function u4SetTermStatus(term,status,i){
-  u4TermStatus[term]=status; u4SaveProgress();
-  const c=document.getElementById('u4-glossary-list');
-  const body=c?c.querySelectorAll('.term-tracker-body')[i]:null; if(!body) return;
-  body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
-  const btns=body.querySelectorAll('.status-btn');
-  if(status==='know'&&btns[0]) btns[0].classList.add('know');
-  if(status==='unsure'&&btns[1]) btns[1].classList.add('unsure');
-  if(status==='dontknow'&&btns[2]) btns[2].classList.add('dontknow');
+function u4EnterPhase2(){
+  const c=document.getElementById('u4-glossary-list'); if(!c) return;
+  const prog=document.getElementById('u4-gl-progress'); if(prog) prog.remove();
+  u4GlossaryTerms.forEach((item,i)=>{
+    const card=document.getElementById(`u4-gl-${i}`); if(!card) return;
+    const status=u4GlossRatings[item.term];
+    if(status==='know'){
+      card.style.maxHeight=card.offsetHeight+'px'; card.style.overflow='hidden';
+      requestAnimationFrame(()=>{card.classList.add('fading-out');});
+      setTimeout(()=>card.remove(),900);
+    } else {
+      const isUnsure=status==='unsure';
+      const labelText=isUnsure?'✍️ WRITING OPTIONAL — use the definition to write a sentence in your own words:':'✍️ WRITING STRONGLY RECOMMENDED — writing it out makes it stick:';
+      const labelClass=isUnsure?'gl-write-optional':'gl-write-recommended';
+      const placeholder=isUnsure?'Optional: write a sentence using this term...':'Write a sentence using this term (strongly recommended)...';
+      card.querySelector('.gl-btns').remove();
+      const extra=document.createElement('div');
+      extra.innerHTML=`<div class="gl-def">${item.def}</div>
+        <div class="gl-write-label ${labelClass}">${labelText}</div>
+        <textarea class="gl-textarea" placeholder="${placeholder}"></textarea>`;
+      card.appendChild(extra);
+      card.classList.add(isUnsure?'gl-phase2-unsure':'gl-phase2-dontknow');
+    }
+  });
+  setTimeout(()=>{
+    const c2=document.getElementById('u4-glossary-list'); if(!c2) return;
+    const wrap=document.createElement('div');
+    wrap.style.cssText='margin-top:32px;text-align:center;padding:20px 0 8px;border-top:1px solid var(--border2);';
+    wrap.innerHTML=`<p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">Want to go again? Reset clears everything and starts fresh.</p>
+      <button class="gl-reset-btn" onclick="u4RenderGlossary()">↺ Restart to Try Again</button>`;
+    c2.appendChild(wrap);
+  },1000);
 }
 // (wireQuizData defined in main script)
 // Unit 4 init is called from openUnit4()
@@ -8889,7 +8947,7 @@ Latin American: Led by... did NOT change..."></textarea><button class="reveal-bt
 <li>The Industrial Revolution creates the factory system — a fundamentally new way of organizing production with no historical precedent</li>
 </ul></div>
 </div>
-<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a one-sentence thesis for this LEQ prompt: "Compare the goals and outcomes of the American and Haitian Revolutions."</div><textarea class="self-explain-area" placeholder="Write your thesis here — make it specific and argumentative..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"While the American and Haitian Revolutions both drew on Enlightenment principles of natural rights and popular sovereignty as their ideological foundation, they differed fundamentally in the social breadth of their application: the American Revolution, led by colonial elites, used Enlightenment ideas to justify political independence while preserving the existing social order — including slavery — whereas the Haitian Revolution, led by enslaved people, applied those same ideas to their most radical conclusion, abolishing slavery and establishing the world's first Black republic; the contrast in outcomes reveals how the same ideology can produce dramatically different results depending on who wields it and for what purpose."</div></div></div>
+<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a one-sentence thesis for this LEQ prompt: "Compare the goals and outcomes of the American and Haitian Revolutions."</div><textarea class="self-explain-area" placeholder="Write your thesis here — make it specific and argumentative..."></textarea><button class="reveal-btn" onclick="revealAnswer('u5-rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="u5-rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"While the American and Haitian Revolutions both drew on Enlightenment principles of natural rights and popular sovereignty as their ideological foundation, they differed fundamentally in the social breadth of their application: the American Revolution, led by colonial elites, used Enlightenment ideas to justify political independence while preserving the existing social order — including slavery — whereas the Haitian Revolution, led by enslaved people, applied those same ideas to their most radical conclusion, abolishing slavery and establishing the world's first Black republic; the contrast in outcomes reveals how the same ideology can produce dramatically different results depending on who wields it and for what purpose."</div></div></div>
 </div>
 
 <!-- SEC 13 COMMAND TERMS -->
@@ -9173,45 +9231,74 @@ function u5SetupScrollSpy(){
 // (checkMC, checkFill, revealAnswer defined in main script)
 // (Vocab tooltip defined in main script)
 
+let u5GlossPhase='rating';
+let u5GlossRatings={};
 function u5RenderGlossary(){
   const c=document.getElementById('u5-glossary-list'); if(!c) return;
-  c.innerHTML='';
+  u5GlossRatings={}; u5GlossPhase='rating'; c.innerHTML='';
+  const prog=document.createElement('div');
+  prog.className='gl-progress'; prog.id='u5-gl-progress';
+  prog.innerHTML=`<span id="u5-gl-rated-count">0</span> / ${u5GlossaryTerms.length} rated`;
+  c.appendChild(prog);
   u5GlossaryTerms.forEach((item,i)=>{
-    const st=u5TermStatus[item.term]||'';
-    const d=document.createElement('div');
-    d.className='term-tracker';
-    const safeT=item.term.replace(/'/g,"\'");
-    d.innerHTML=`<div class="term-tracker-header">
-      <h4>${item.term}</h4>
-      <button class="term-reveal-btn" onclick="u5ToggleTermDef(${i},this)">Reveal Definition</button>
-    </div>
-    <div class="term-tracker-body" id="tb-${i}">
-      <div class="term-def-text" id="tdef-${i}">${item.def}</div>
-      <div class="term-status-btns">
-        <button class="status-btn${st==='know'?' know':''}" onclick="u5SetTermStatus('${safeT}','know',${i})">✅ Know</button>
-        <button class="status-btn${st==='unsure'?' unsure':''}" onclick="u5SetTermStatus('${safeT}','unsure',${i})">⚠️ Unsure</button>
-        <button class="status-btn${st==='dontknow'?' dontknow':''}" onclick="u5SetTermStatus('${safeT}','dontknow',${i})">❌ Don't Know</button>
-      </div>
-    </div>`;
-    c.appendChild(d);
+    const card=document.createElement('div');
+    card.className='gl-card'; card.id=`u5-gl-${i}`;
+    card.innerHTML=`<div class="gl-term">${item.term}</div>
+      <div class="gl-btns">
+        <button class="gl-btn" onclick="u5RateGloss(${i},'know')">I Know</button>
+        <button class="gl-btn" onclick="u5RateGloss(${i},'unsure')">Unsure</button>
+        <button class="gl-btn" onclick="u5RateGloss(${i},'dontknow')">Don't Know</button>
+      </div>`;
+    c.appendChild(card);
   });
 }
-function u5ToggleTermDef(i,btn){
-  const card=btn.closest('.term-tracker'); if(!card) return;
-  const d=card.querySelector('.term-def-text'); if(!d) return;
-  const shown=d.style.display==='block';
-  d.style.display=shown?'none':'block';
-  btn.textContent=shown?'Reveal Definition':'Hide Definition';
+function u5RateGloss(i,status){
+  if(u5GlossPhase!=='rating') return;
+  const term=u5GlossaryTerms[i].term;
+  u5GlossRatings[term]=status;
+  const card=document.getElementById(`u5-gl-${i}`); if(!card) return;
+  card.querySelectorAll('.gl-btn').forEach(b=>b.classList.remove('gl-sel-know','gl-sel-unsure','gl-sel-dontknow'));
+  const btns=card.querySelectorAll('.gl-btn');
+  if(status==='know'&&btns[0]) btns[0].classList.add('gl-sel-know');
+  if(status==='unsure'&&btns[1]) btns[1].classList.add('gl-sel-unsure');
+  if(status==='dontknow'&&btns[2]) btns[2].classList.add('gl-sel-dontknow');
+  const rated=Object.keys(u5GlossRatings).length;
+  const countEl=document.getElementById('u5-gl-rated-count');
+  if(countEl) countEl.textContent=rated;
+  if(rated===u5GlossaryTerms.length&&u5GlossPhase==='rating'){u5GlossPhase='review';setTimeout(u5EnterPhase2,500);}
 }
-function u5SetTermStatus(term,status,i){
-  u5TermStatus[term]=status; u5SaveProgress();
-  const c=document.getElementById('u5-glossary-list');
-  const body=c?c.querySelectorAll('.term-tracker-body')[i]:null; if(!body) return;
-  body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
-  const btns=body.querySelectorAll('.status-btn');
-  if(status==='know'&&btns[0]) btns[0].classList.add('know');
-  if(status==='unsure'&&btns[1]) btns[1].classList.add('unsure');
-  if(status==='dontknow'&&btns[2]) btns[2].classList.add('dontknow');
+function u5EnterPhase2(){
+  const c=document.getElementById('u5-glossary-list'); if(!c) return;
+  const prog=document.getElementById('u5-gl-progress'); if(prog) prog.remove();
+  u5GlossaryTerms.forEach((item,i)=>{
+    const card=document.getElementById(`u5-gl-${i}`); if(!card) return;
+    const status=u5GlossRatings[item.term];
+    if(status==='know'){
+      card.style.maxHeight=card.offsetHeight+'px'; card.style.overflow='hidden';
+      requestAnimationFrame(()=>{card.classList.add('fading-out');});
+      setTimeout(()=>card.remove(),900);
+    } else {
+      const isUnsure=status==='unsure';
+      const labelText=isUnsure?'✍️ WRITING OPTIONAL — use the definition to write a sentence in your own words:':'✍️ WRITING STRONGLY RECOMMENDED — writing it out makes it stick:';
+      const labelClass=isUnsure?'gl-write-optional':'gl-write-recommended';
+      const placeholder=isUnsure?'Optional: write a sentence using this term...':'Write a sentence using this term (strongly recommended)...';
+      card.querySelector('.gl-btns').remove();
+      const extra=document.createElement('div');
+      extra.innerHTML=`<div class="gl-def">${item.def}</div>
+        <div class="gl-write-label ${labelClass}">${labelText}</div>
+        <textarea class="gl-textarea" placeholder="${placeholder}"></textarea>`;
+      card.appendChild(extra);
+      card.classList.add(isUnsure?'gl-phase2-unsure':'gl-phase2-dontknow');
+    }
+  });
+  setTimeout(()=>{
+    const c2=document.getElementById('u5-glossary-list'); if(!c2) return;
+    const wrap=document.createElement('div');
+    wrap.style.cssText='margin-top:32px;text-align:center;padding:20px 0 8px;border-top:1px solid var(--border2);';
+    wrap.innerHTML=`<p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">Want to go again? Reset clears everything and starts fresh.</p>
+      <button class="gl-reset-btn" onclick="u5RenderGlossary()">↺ Restart to Try Again</button>`;
+    c2.appendChild(wrap);
+  },1000);
 }
 // (wireQuizData defined in main script)
 // Unit 5 init is called from openUnit5()
@@ -9580,7 +9667,7 @@ Only two African states remained fully independent in 1914: <strong>Ethiopia</st
 <li>Xenophobic legislation (Chinese Exclusion Act, White Australia Policy) is new as a government response to migration</li>
 </ul></div>
 </div>
-<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a two-sentence thesis for this prompt: "Evaluate the extent to which economic motivations drove European imperialism in Africa between 1870 and 1900."</div><textarea class="self-explain-area" placeholder="Write your thesis — make sure it addresses 'to what extent' and acknowledges other factors..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"While economic motivations — particularly the industrial demand for African raw materials and the need to secure markets for European manufactured goods — were the primary drivers of European imperialism in Africa between 1870 and 1900, a complete explanation requires acknowledging the significant roles of strategic competition between European powers (especially the newly unified Germany), Social Darwinist and missionary ideologies that provided genuine (if self-serving) justifications beyond pure profit, and the specific strategic value of African geographic positions like the Suez Canal and Cape of Good Hope that transcended immediate economic calculation."</div></div></div>
+<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a two-sentence thesis for this prompt: "Evaluate the extent to which economic motivations drove European imperialism in Africa between 1870 and 1900."</div><textarea class="self-explain-area" placeholder="Write your thesis — make sure it addresses 'to what extent' and acknowledges other factors..."></textarea><button class="reveal-btn" onclick="revealAnswer('u6-rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="u6-rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"While economic motivations — particularly the industrial demand for African raw materials and the need to secure markets for European manufactured goods — were the primary drivers of European imperialism in Africa between 1870 and 1900, a complete explanation requires acknowledging the significant roles of strategic competition between European powers (especially the newly unified Germany), Social Darwinist and missionary ideologies that provided genuine (if self-serving) justifications beyond pure profit, and the specific strategic value of African geographic positions like the Suez Canal and Cape of Good Hope that transcended immediate economic calculation."</div></div></div>
 </div>
 
 <!-- SEC 11 COMMAND TERMS -->
@@ -9827,25 +9914,74 @@ function u6SetupScrollSpy(){
 // (checkMC, checkFill, revealAnswer defined in main script)
 // (Vocab tooltip defined in main script)
 
+let u6GlossPhase='rating';
+let u6GlossRatings={};
 function u6RenderGlossary(){
-  const c=document.getElementById('u6-glossary-list');if(!c)return;c.innerHTML='';
+  const c=document.getElementById('u6-glossary-list'); if(!c) return;
+  u6GlossRatings={}; u6GlossPhase='rating'; c.innerHTML='';
+  const prog=document.createElement('div');
+  prog.className='gl-progress'; prog.id='u6-gl-progress';
+  prog.innerHTML=`<span id="u6-gl-rated-count">0</span> / ${u6GlossaryTerms.length} rated`;
+  c.appendChild(prog);
   u6GlossaryTerms.forEach((item,i)=>{
-    const st=u6TermStatus[item.term]||'';const d=document.createElement('div');d.className='term-tracker';
-    const safeT=item.term.replace(/'/g,"\'").replace(/&/g,'and');
-    d.innerHTML=`<div class="term-tracker-header"><h4>${item.term}</h4><button class="term-reveal-btn" onclick="u6ToggleTermDef(${i},this)">Reveal Definition</button></div>
-    <div class="term-tracker-body" id="tb-${i}"><div class="term-def-text" id="tdef-${i}">${item.def}</div>
-    <div class="term-status-btns"><button class="status-btn${st==='know'?' know':''}" onclick="u6SetTermStatus('${safeT}','know',${i})">✅ Know</button>
-    <button class="status-btn${st==='unsure'?' unsure':''}" onclick="u6SetTermStatus('${safeT}','unsure',${i})">⚠️ Unsure</button>
-    <button class="status-btn${st==='dontknow'?' dontknow':''}" onclick="u6SetTermStatus('${safeT}','dontknow',${i})">❌ Don't Know</button></div></div>`;
-    c.appendChild(d);
+    const card=document.createElement('div');
+    card.className='gl-card'; card.id=`u6-gl-${i}`;
+    card.innerHTML=`<div class="gl-term">${item.term}</div>
+      <div class="gl-btns">
+        <button class="gl-btn" onclick="u6RateGloss(${i},'know')">I Know</button>
+        <button class="gl-btn" onclick="u6RateGloss(${i},'unsure')">Unsure</button>
+        <button class="gl-btn" onclick="u6RateGloss(${i},'dontknow')">Don't Know</button>
+      </div>`;
+    c.appendChild(card);
   });
 }
-function u6ToggleTermDef(i,btn){const card=btn.closest('.term-tracker');if(!card)return;const d=card.querySelector('.term-def-text');if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
-function u6SetTermStatus(term,status,i){
-  u6TermStatus[term]=status;u6SaveProgress();const c6=document.getElementById('u6-glossary-list');const body=c6?c6.querySelectorAll('.term-tracker-body')[i]:null;if(!body)return;
-  body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
-  const btns=body.querySelectorAll('.status-btn');
-  if(status==='know'&&btns[0])btns[0].classList.add('know');if(status==='unsure'&&btns[1])btns[1].classList.add('unsure');if(status==='dontknow'&&btns[2])btns[2].classList.add('dontknow');
+function u6RateGloss(i,status){
+  if(u6GlossPhase!=='rating') return;
+  const term=u6GlossaryTerms[i].term;
+  u6GlossRatings[term]=status;
+  const card=document.getElementById(`u6-gl-${i}`); if(!card) return;
+  card.querySelectorAll('.gl-btn').forEach(b=>b.classList.remove('gl-sel-know','gl-sel-unsure','gl-sel-dontknow'));
+  const btns=card.querySelectorAll('.gl-btn');
+  if(status==='know'&&btns[0]) btns[0].classList.add('gl-sel-know');
+  if(status==='unsure'&&btns[1]) btns[1].classList.add('gl-sel-unsure');
+  if(status==='dontknow'&&btns[2]) btns[2].classList.add('gl-sel-dontknow');
+  const rated=Object.keys(u6GlossRatings).length;
+  const countEl=document.getElementById('u6-gl-rated-count');
+  if(countEl) countEl.textContent=rated;
+  if(rated===u6GlossaryTerms.length&&u6GlossPhase==='rating'){u6GlossPhase='review';setTimeout(u6EnterPhase2,500);}
+}
+function u6EnterPhase2(){
+  const c=document.getElementById('u6-glossary-list'); if(!c) return;
+  const prog=document.getElementById('u6-gl-progress'); if(prog) prog.remove();
+  u6GlossaryTerms.forEach((item,i)=>{
+    const card=document.getElementById(`u6-gl-${i}`); if(!card) return;
+    const status=u6GlossRatings[item.term];
+    if(status==='know'){
+      card.style.maxHeight=card.offsetHeight+'px'; card.style.overflow='hidden';
+      requestAnimationFrame(()=>{card.classList.add('fading-out');});
+      setTimeout(()=>card.remove(),900);
+    } else {
+      const isUnsure=status==='unsure';
+      const labelText=isUnsure?'✍️ WRITING OPTIONAL — use the definition to write a sentence in your own words:':'✍️ WRITING STRONGLY RECOMMENDED — writing it out makes it stick:';
+      const labelClass=isUnsure?'gl-write-optional':'gl-write-recommended';
+      const placeholder=isUnsure?'Optional: write a sentence using this term...':'Write a sentence using this term (strongly recommended)...';
+      card.querySelector('.gl-btns').remove();
+      const extra=document.createElement('div');
+      extra.innerHTML=`<div class="gl-def">${item.def}</div>
+        <div class="gl-write-label ${labelClass}">${labelText}</div>
+        <textarea class="gl-textarea" placeholder="${placeholder}"></textarea>`;
+      card.appendChild(extra);
+      card.classList.add(isUnsure?'gl-phase2-unsure':'gl-phase2-dontknow');
+    }
+  });
+  setTimeout(()=>{
+    const c2=document.getElementById('u6-glossary-list'); if(!c2) return;
+    const wrap=document.createElement('div');
+    wrap.style.cssText='margin-top:32px;text-align:center;padding:20px 0 8px;border-top:1px solid var(--border2);';
+    wrap.innerHTML=`<p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">Want to go again? Reset clears everything and starts fresh.</p>
+      <button class="gl-reset-btn" onclick="u6RenderGlossary()">↺ Restart to Try Again</button>`;
+    c2.appendChild(wrap);
+  },1000);
 }
 function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]').forEach(fb=>{const block=fb.closest('.quiz-block');if(block&&!block.dataset.correct){block.dataset.correct=fb.dataset.correct;block.dataset.explain=fb.dataset.explain||'';}});}
 // Unit 6 init is called from openUnit6()
@@ -10213,7 +10349,7 @@ Rwandan Genocide:"></textarea><button class="reveal-btn" onclick="revealAnswer('
 <p><strong style="color:var(--red)">WEAK:</strong> <em>"The assassination of the Archduke caused WWI, and then Hitler caused WWII."</em></p>
 <p style="margin-top:10px"><strong style="color:var(--green)">STRONG:</strong> <em>"WWI was caused by decades of militarism, alliance networks, imperial competition, and nationalist movements that had been building since the 1880s (MAIN). The assassination was the spark, not the cause. The manner in which WWI ended — Versailles' humiliation of Germany without truly defeating German nationalism, combined with the global economic collapse of the Great Depression (1929) and the League of Nations' inability to enforce collective security — created the conditions that made WWII not just possible but likely. Hitler's rise was the proximate cause of WWII; the systemic causes were WWI's unresolved consequences."</em></p>
 </div>
-<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a two-sentence thesis for this prompt: "Evaluate the extent to which the Treaty of Versailles caused World War II."</div><textarea class="self-explain-area" placeholder="Write your thesis — make sure it addresses 'to what extent' and acknowledges other factors..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"While the Treaty of Versailles significantly contributed to World War II by creating the economic devastation and nationalist humiliation that made Hitler's message politically viable, it was not the sole cause of WWII; the Great Depression's global economic collapse, the League of Nations' failure to enforce collective security, European democracies' appeasement policies, and Japanese militarism in Asia combined with the Versailles legacy to produce a war that was the product of multiple reinforcing failures rather than a single flawed treaty."</div></div></div>
+<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a two-sentence thesis for this prompt: "Evaluate the extent to which the Treaty of Versailles caused World War II."</div><textarea class="self-explain-area" placeholder="Write your thesis — make sure it addresses 'to what extent' and acknowledges other factors..."></textarea><button class="reveal-btn" onclick="revealAnswer('u7-rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="u7-rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"While the Treaty of Versailles significantly contributed to World War II by creating the economic devastation and nationalist humiliation that made Hitler's message politically viable, it was not the sole cause of WWII; the Great Depression's global economic collapse, the League of Nations' failure to enforce collective security, European democracies' appeasement policies, and Japanese militarism in Asia combined with the Versailles legacy to produce a war that was the product of multiple reinforcing failures rather than a single flawed treaty."</div></div></div>
 </div>
 
 <!-- SEC 10 COMMAND TERMS -->
@@ -10453,25 +10589,74 @@ function u7SetupScrollSpy(){
 // (checkMC, checkFill, revealAnswer defined in main script)
 // (Vocab tooltip defined in main script)
 
+let u7GlossPhase='rating';
+let u7GlossRatings={};
 function u7RenderGlossary(){
-  const c=document.getElementById('u7-glossary-list');if(!c)return;c.innerHTML='';
+  const c=document.getElementById('u7-glossary-list'); if(!c) return;
+  u7GlossRatings={}; u7GlossPhase='rating'; c.innerHTML='';
+  const prog=document.createElement('div');
+  prog.className='gl-progress'; prog.id='u7-gl-progress';
+  prog.innerHTML=`<span id="u7-gl-rated-count">0</span> / ${u7GlossaryTerms.length} rated`;
+  c.appendChild(prog);
   u7GlossaryTerms.forEach((item,i)=>{
-    const st=u7TermStatus[item.term]||'';const d=document.createElement('div');d.className='term-tracker';
-    const safeT=item.term.replace(/'/g,"\'").replace(/&/g,'and').replace(/\(/g,'_').replace(/\)/g,'_');
-    d.innerHTML=`<div class="term-tracker-header"><h4>${item.term}</h4><button class="term-reveal-btn" onclick="u7ToggleTermDef(${i},this)">Reveal Definition</button></div>
-    <div class="term-tracker-body" id="tb-${i}"><div class="term-def-text" id="tdef-${i}">${item.def}</div>
-    <div class="term-status-btns"><button class="status-btn${st==='know'?' know':''}" onclick="u7SetTermStatus('${safeT}','know',${i})">✅ Know</button>
-    <button class="status-btn${st==='unsure'?' unsure':''}" onclick="u7SetTermStatus('${safeT}','unsure',${i})">⚠️ Unsure</button>
-    <button class="status-btn${st==='dontknow'?' dontknow':''}" onclick="u7SetTermStatus('${safeT}','dontknow',${i})">❌ Don't Know</button></div></div>`;
-    c.appendChild(d);
+    const card=document.createElement('div');
+    card.className='gl-card'; card.id=`u7-gl-${i}`;
+    card.innerHTML=`<div class="gl-term">${item.term}</div>
+      <div class="gl-btns">
+        <button class="gl-btn" onclick="u7RateGloss(${i},'know')">I Know</button>
+        <button class="gl-btn" onclick="u7RateGloss(${i},'unsure')">Unsure</button>
+        <button class="gl-btn" onclick="u7RateGloss(${i},'dontknow')">Don't Know</button>
+      </div>`;
+    c.appendChild(card);
   });
 }
-function u7ToggleTermDef(i,btn){const card=btn.closest('.term-tracker');if(!card)return;const d=card.querySelector('.term-def-text');if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
-function u7SetTermStatus(term,status,i){
-  u7TermStatus[term]=status;u7SaveProgress();const c7=document.getElementById('u7-glossary-list');const body=c7?c7.querySelectorAll('.term-tracker-body')[i]:null;if(!body)return;
-  body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
-  const btns=body.querySelectorAll('.status-btn');
-  if(status==='know'&&btns[0])btns[0].classList.add('know');if(status==='unsure'&&btns[1])btns[1].classList.add('unsure');if(status==='dontknow'&&btns[2])btns[2].classList.add('dontknow');
+function u7RateGloss(i,status){
+  if(u7GlossPhase!=='rating') return;
+  const term=u7GlossaryTerms[i].term;
+  u7GlossRatings[term]=status;
+  const card=document.getElementById(`u7-gl-${i}`); if(!card) return;
+  card.querySelectorAll('.gl-btn').forEach(b=>b.classList.remove('gl-sel-know','gl-sel-unsure','gl-sel-dontknow'));
+  const btns=card.querySelectorAll('.gl-btn');
+  if(status==='know'&&btns[0]) btns[0].classList.add('gl-sel-know');
+  if(status==='unsure'&&btns[1]) btns[1].classList.add('gl-sel-unsure');
+  if(status==='dontknow'&&btns[2]) btns[2].classList.add('gl-sel-dontknow');
+  const rated=Object.keys(u7GlossRatings).length;
+  const countEl=document.getElementById('u7-gl-rated-count');
+  if(countEl) countEl.textContent=rated;
+  if(rated===u7GlossaryTerms.length&&u7GlossPhase==='rating'){u7GlossPhase='review';setTimeout(u7EnterPhase2,500);}
+}
+function u7EnterPhase2(){
+  const c=document.getElementById('u7-glossary-list'); if(!c) return;
+  const prog=document.getElementById('u7-gl-progress'); if(prog) prog.remove();
+  u7GlossaryTerms.forEach((item,i)=>{
+    const card=document.getElementById(`u7-gl-${i}`); if(!card) return;
+    const status=u7GlossRatings[item.term];
+    if(status==='know'){
+      card.style.maxHeight=card.offsetHeight+'px'; card.style.overflow='hidden';
+      requestAnimationFrame(()=>{card.classList.add('fading-out');});
+      setTimeout(()=>card.remove(),900);
+    } else {
+      const isUnsure=status==='unsure';
+      const labelText=isUnsure?'✍️ WRITING OPTIONAL — use the definition to write a sentence in your own words:':'✍️ WRITING STRONGLY RECOMMENDED — writing it out makes it stick:';
+      const labelClass=isUnsure?'gl-write-optional':'gl-write-recommended';
+      const placeholder=isUnsure?'Optional: write a sentence using this term...':'Write a sentence using this term (strongly recommended)...';
+      card.querySelector('.gl-btns').remove();
+      const extra=document.createElement('div');
+      extra.innerHTML=`<div class="gl-def">${item.def}</div>
+        <div class="gl-write-label ${labelClass}">${labelText}</div>
+        <textarea class="gl-textarea" placeholder="${placeholder}"></textarea>`;
+      card.appendChild(extra);
+      card.classList.add(isUnsure?'gl-phase2-unsure':'gl-phase2-dontknow');
+    }
+  });
+  setTimeout(()=>{
+    const c2=document.getElementById('u7-glossary-list'); if(!c2) return;
+    const wrap=document.createElement('div');
+    wrap.style.cssText='margin-top:32px;text-align:center;padding:20px 0 8px;border-top:1px solid var(--border2);';
+    wrap.innerHTML=`<p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">Want to go again? Reset clears everything and starts fresh.</p>
+      <button class="gl-reset-btn" onclick="u7RenderGlossary()">↺ Restart to Try Again</button>`;
+    c2.appendChild(wrap);
+  },1000);
 }
 function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]').forEach(fb=>{const block=fb.closest('.quiz-block');if(block&&!block.dataset.correct){block.dataset.correct=fb.dataset.correct;block.dataset.explain=fb.dataset.explain||'';}});}
 // Unit 7 init is called from openUnit7()
@@ -10800,7 +10985,7 @@ Step 3: goal, what happened, consequence"></textarea><button class="reveal-btn" 
 <li>International institutions (UN, International Court of Justice) have mechanisms for enforcing human rights norms</li>
 </ul></div>
 </div>
-<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a two-sentence thesis for this DBQ prompt: "Evaluate the extent to which the Cold War shaped the process of decolonization between 1945 and 1975."</div><textarea class="self-explain-area" placeholder="Write your thesis — address 'to what extent' and acknowledge other factors..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"The Cold War significantly shaped decolonization by giving independence movements superpower support, creating proxy conflicts in newly independent states, and pressuring colonial powers to decolonize quickly to avoid newly independent nations aligning with the Soviet Union; however, the primary drivers of decolonization were internal nationalist movements and the military and economic exhaustion of colonial powers following World War II, which would have produced decolonization even without Cold War pressure."</div></div></div>
+<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a two-sentence thesis for this DBQ prompt: "Evaluate the extent to which the Cold War shaped the process of decolonization between 1945 and 1975."</div><textarea class="self-explain-area" placeholder="Write your thesis — address 'to what extent' and acknowledge other factors..."></textarea><button class="reveal-btn" onclick="revealAnswer('u8-rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="u8-rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"The Cold War significantly shaped decolonization by giving independence movements superpower support, creating proxy conflicts in newly independent states, and pressuring colonial powers to decolonize quickly to avoid newly independent nations aligning with the Soviet Union; however, the primary drivers of decolonization were internal nationalist movements and the military and economic exhaustion of colonial powers following World War II, which would have produced decolonization even without Cold War pressure."</div></div></div>
 </div>
 
 <!-- SEC 9 PITFALLS -->
@@ -11000,25 +11185,74 @@ function u8SetupScrollSpy(){
 // (checkMC, checkFill, revealAnswer defined in main script)
 // (Vocab tooltip defined in main script)
 
+let u8GlossPhase='rating';
+let u8GlossRatings={};
 function u8RenderGlossary(){
-  const c=document.getElementById('u8-glossary-list');if(!c)return;c.innerHTML='';
+  const c=document.getElementById('u8-glossary-list'); if(!c) return;
+  u8GlossRatings={}; u8GlossPhase='rating'; c.innerHTML='';
+  const prog=document.createElement('div');
+  prog.className='gl-progress'; prog.id='u8-gl-progress';
+  prog.innerHTML=`<span id="u8-gl-rated-count">0</span> / ${u8GlossaryTerms.length} rated`;
+  c.appendChild(prog);
   u8GlossaryTerms.forEach((item,i)=>{
-    const st=u8TermStatus[item.term]||'';const d=document.createElement('div');d.className='term-tracker';
-    const safeT=item.term.replace(/'/g,"\'").replace(/&/g,'and').replace(/[()]/g,'_');
-    d.innerHTML=`<div class="term-tracker-header"><h4>${item.term}</h4><button class="term-reveal-btn" onclick="u8ToggleTermDef(${i},this)">Reveal Definition</button></div>
-    <div class="term-tracker-body" id="tb-${i}"><div class="term-def-text" id="tdef-${i}">${item.def}</div>
-    <div class="term-status-btns"><button class="status-btn${st==='know'?' know':''}" onclick="u8SetTermStatus('${safeT}','know',${i})">✅ Know</button>
-    <button class="status-btn${st==='unsure'?' unsure':''}" onclick="u8SetTermStatus('${safeT}','unsure',${i})">⚠️ Unsure</button>
-    <button class="status-btn${st==='dontknow'?' dontknow':''}" onclick="u8SetTermStatus('${safeT}','dontknow',${i})">❌ Don't Know</button></div></div>`;
-    c.appendChild(d);
+    const card=document.createElement('div');
+    card.className='gl-card'; card.id=`u8-gl-${i}`;
+    card.innerHTML=`<div class="gl-term">${item.term}</div>
+      <div class="gl-btns">
+        <button class="gl-btn" onclick="u8RateGloss(${i},'know')">I Know</button>
+        <button class="gl-btn" onclick="u8RateGloss(${i},'unsure')">Unsure</button>
+        <button class="gl-btn" onclick="u8RateGloss(${i},'dontknow')">Don't Know</button>
+      </div>`;
+    c.appendChild(card);
   });
 }
-function u8ToggleTermDef(i,btn){const card=btn.closest('.term-tracker');if(!card)return;const d=card.querySelector('.term-def-text');if(!d)return;const shown=d.style.display==='block';d.style.display=shown?'none':'block';btn.textContent=shown?'Reveal Definition':'Hide Definition';}
-function u8SetTermStatus(term,status,i){
-  u8TermStatus[term]=status;u8SaveProgress();const c8=document.getElementById('u8-glossary-list');const body=c8?c8.querySelectorAll('.term-tracker-body')[i]:null;if(!body)return;
-  body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
-  const btns=body.querySelectorAll('.status-btn');
-  if(status==='know'&&btns[0])btns[0].classList.add('know');if(status==='unsure'&&btns[1])btns[1].classList.add('unsure');if(status==='dontknow'&&btns[2])btns[2].classList.add('dontknow');
+function u8RateGloss(i,status){
+  if(u8GlossPhase!=='rating') return;
+  const term=u8GlossaryTerms[i].term;
+  u8GlossRatings[term]=status;
+  const card=document.getElementById(`u8-gl-${i}`); if(!card) return;
+  card.querySelectorAll('.gl-btn').forEach(b=>b.classList.remove('gl-sel-know','gl-sel-unsure','gl-sel-dontknow'));
+  const btns=card.querySelectorAll('.gl-btn');
+  if(status==='know'&&btns[0]) btns[0].classList.add('gl-sel-know');
+  if(status==='unsure'&&btns[1]) btns[1].classList.add('gl-sel-unsure');
+  if(status==='dontknow'&&btns[2]) btns[2].classList.add('gl-sel-dontknow');
+  const rated=Object.keys(u8GlossRatings).length;
+  const countEl=document.getElementById('u8-gl-rated-count');
+  if(countEl) countEl.textContent=rated;
+  if(rated===u8GlossaryTerms.length&&u8GlossPhase==='rating'){u8GlossPhase='review';setTimeout(u8EnterPhase2,500);}
+}
+function u8EnterPhase2(){
+  const c=document.getElementById('u8-glossary-list'); if(!c) return;
+  const prog=document.getElementById('u8-gl-progress'); if(prog) prog.remove();
+  u8GlossaryTerms.forEach((item,i)=>{
+    const card=document.getElementById(`u8-gl-${i}`); if(!card) return;
+    const status=u8GlossRatings[item.term];
+    if(status==='know'){
+      card.style.maxHeight=card.offsetHeight+'px'; card.style.overflow='hidden';
+      requestAnimationFrame(()=>{card.classList.add('fading-out');});
+      setTimeout(()=>card.remove(),900);
+    } else {
+      const isUnsure=status==='unsure';
+      const labelText=isUnsure?'✍️ WRITING OPTIONAL — use the definition to write a sentence in your own words:':'✍️ WRITING STRONGLY RECOMMENDED — writing it out makes it stick:';
+      const labelClass=isUnsure?'gl-write-optional':'gl-write-recommended';
+      const placeholder=isUnsure?'Optional: write a sentence using this term...':'Write a sentence using this term (strongly recommended)...';
+      card.querySelector('.gl-btns').remove();
+      const extra=document.createElement('div');
+      extra.innerHTML=`<div class="gl-def">${item.def}</div>
+        <div class="gl-write-label ${labelClass}">${labelText}</div>
+        <textarea class="gl-textarea" placeholder="${placeholder}"></textarea>`;
+      card.appendChild(extra);
+      card.classList.add(isUnsure?'gl-phase2-unsure':'gl-phase2-dontknow');
+    }
+  });
+  setTimeout(()=>{
+    const c2=document.getElementById('u8-glossary-list'); if(!c2) return;
+    const wrap=document.createElement('div');
+    wrap.style.cssText='margin-top:32px;text-align:center;padding:20px 0 8px;border-top:1px solid var(--border2);';
+    wrap.innerHTML=`<p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">Want to go again? Reset clears everything and starts fresh.</p>
+      <button class="gl-reset-btn" onclick="u8RenderGlossary()">↺ Restart to Try Again</button>`;
+    c2.appendChild(wrap);
+  },1000);
 }
 function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]').forEach(fb=>{const block=fb.closest('.quiz-block');if(block&&!block.dataset.correct){block.dataset.correct=fb.dataset.correct;block.dataset.explain=fb.dataset.explain||'';}});}
 // Unit 8 init called from openUnit8()
@@ -11384,7 +11618,7 @@ function wireQuizData(){document.querySelectorAll('.quiz-feedback[data-correct]'
 <li>Disease categories of longevity: more people living long enough to develop Alzheimer's and heart disease</li>
 </ul></div>
 </div>
-<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a two-sentence thesis for this LEQ prompt: "Evaluate the extent to which advances in technology changed human society in the period from 1900 to the present."</div><textarea class="self-explain-area" placeholder="Include both positive AND negative consequences, and make a specific judgment about 'the extent to which'..."></textarea><button class="reveal-btn" onclick="revealAnswer('rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"Advances in technology between 1900 and the present fundamentally transformed human society in four areas — communication, food production, medicine, and energy — extending life expectancy, preventing famine, enabling mass political movements, and connecting billions of people across borders; however, these same technologies also exacerbated environmental destruction, enabled mass destruction (atomic weapons, industrial warfare), and deepened global inequality between those with technological access and those without."</div></div></div>
+<div class="quiz-block self-explain"><div class="quiz-question">Practice: Write a two-sentence thesis for this LEQ prompt: "Evaluate the extent to which advances in technology changed human society in the period from 1900 to the present."</div><textarea class="self-explain-area" placeholder="Include both positive AND negative consequences, and make a specific judgment about 'the extent to which'..."></textarea><button class="reveal-btn" onclick="revealAnswer('u9-rev-thesis-practice')">See Sample Thesis</button><div class="quiz-feedback reveal" id="u9-rev-thesis-practice"><div class="fb-result">SAMPLE THESIS</div><div class="fb-explain">"Advances in technology between 1900 and the present fundamentally transformed human society in four areas — communication, food production, medicine, and energy — extending life expectancy, preventing famine, enabling mass political movements, and connecting billions of people across borders; however, these same technologies also exacerbated environmental destruction, enabled mass destruction (atomic weapons, industrial warfare), and deepened global inequality between those with technological access and those without."</div></div></div>
 </div>
 
 <!-- SEC 11 PITFALLS -->
@@ -11691,30 +11925,74 @@ function u9SetupScrollSpy(){
     else{const n=document.getElementById('u9-nav-'+current.replace('u9-sec-',''));if(n){n.classList.add('active');n.scrollIntoView({block:'nearest'});}}
   });
 }
+let u9GlossPhase='rating';
+let u9GlossRatings={};
 function u9RenderGlossary(){
-  const c=document.getElementById('u9-glossary-list');if(!c)return;
-  c.innerHTML='';
+  const c=document.getElementById('u9-glossary-list'); if(!c) return;
+  u9GlossRatings={}; u9GlossPhase='rating'; c.innerHTML='';
+  const prog=document.createElement('div');
+  prog.className='gl-progress'; prog.id='u9-gl-progress';
+  prog.innerHTML=`<span id="u9-gl-rated-count">0</span> / ${u9GlossaryTerms.length} rated`;
+  c.appendChild(prog);
   u9GlossaryTerms.forEach((item,i)=>{
-    const st=u9TermStatus[item.term]||'';const d=document.createElement('div');
-    d.className='term-tracker';const safeT=item.term.replace(/'/g,"\'");
-    d.innerHTML=`<div class="term-tracker-header"><h4>${item.term}</h4><button class="term-reveal-btn" onclick="u9ToggleTermDef(${i},this)">Reveal Definition</button></div><div class="term-tracker-body" id="tb-${i}"><div class="term-def-text" id="tdef-${i}">${item.def}</div><div class="term-status-btns"><button class="status-btn${st==='know'?' know':''}" onclick="u9SetTermStatus('${safeT}','know',${i})">Know</button><button class="status-btn${st==='unsure'?' unsure':''}" onclick="u9SetTermStatus('${safeT}','unsure',${i})">Unsure</button><button class="status-btn${st==='dontknow'?' dontknow':''}" onclick="u9SetTermStatus('${safeT}','dontknow',${i})">Don't Know</button></div></div>`;
-    c.appendChild(d);
+    const card=document.createElement('div');
+    card.className='gl-card'; card.id=`u9-gl-${i}`;
+    card.innerHTML=`<div class="gl-term">${item.term}</div>
+      <div class="gl-btns">
+        <button class="gl-btn" onclick="u9RateGloss(${i},'know')">I Know</button>
+        <button class="gl-btn" onclick="u9RateGloss(${i},'unsure')">Unsure</button>
+        <button class="gl-btn" onclick="u9RateGloss(${i},'dontknow')">Don't Know</button>
+      </div>`;
+    c.appendChild(card);
   });
 }
-function u9ToggleTermDef(i,btn){
-  const card=btn.closest('.term-tracker');if(!card)return;
-  const d=card.querySelector('.term-def-text');if(!d)return;
-  const shown=d.style.display==='block';d.style.display=shown?'none':'block';
-  btn.textContent=shown?'Reveal Definition':'Hide Definition';
+function u9RateGloss(i,status){
+  if(u9GlossPhase!=='rating') return;
+  const term=u9GlossaryTerms[i].term;
+  u9GlossRatings[term]=status;
+  const card=document.getElementById(`u9-gl-${i}`); if(!card) return;
+  card.querySelectorAll('.gl-btn').forEach(b=>b.classList.remove('gl-sel-know','gl-sel-unsure','gl-sel-dontknow'));
+  const btns=card.querySelectorAll('.gl-btn');
+  if(status==='know'&&btns[0]) btns[0].classList.add('gl-sel-know');
+  if(status==='unsure'&&btns[1]) btns[1].classList.add('gl-sel-unsure');
+  if(status==='dontknow'&&btns[2]) btns[2].classList.add('gl-sel-dontknow');
+  const rated=Object.keys(u9GlossRatings).length;
+  const countEl=document.getElementById('u9-gl-rated-count');
+  if(countEl) countEl.textContent=rated;
+  if(rated===u9GlossaryTerms.length&&u9GlossPhase==='rating'){u9GlossPhase='review';setTimeout(u9EnterPhase2,500);}
 }
-function u9SetTermStatus(term,status,i){
-  u9TermStatus[term]=status;u9SaveProgress();
-  const c9=document.getElementById('u9-glossary-list');const body=c9?c9.querySelectorAll('.term-tracker-body')[i]:null;if(!body)return;
-  body.querySelectorAll('.status-btn').forEach(b=>b.classList.remove('know','unsure','dontknow'));
-  const btns=body.querySelectorAll('.status-btn');
-  if(status==='know'&&btns[0])btns[0].classList.add('know');
-  if(status==='unsure'&&btns[1])btns[1].classList.add('unsure');
-  if(status==='dontknow'&&btns[2])btns[2].classList.add('dontknow');
+function u9EnterPhase2(){
+  const c=document.getElementById('u9-glossary-list'); if(!c) return;
+  const prog=document.getElementById('u9-gl-progress'); if(prog) prog.remove();
+  u9GlossaryTerms.forEach((item,i)=>{
+    const card=document.getElementById(`u9-gl-${i}`); if(!card) return;
+    const status=u9GlossRatings[item.term];
+    if(status==='know'){
+      card.style.maxHeight=card.offsetHeight+'px'; card.style.overflow='hidden';
+      requestAnimationFrame(()=>{card.classList.add('fading-out');});
+      setTimeout(()=>card.remove(),900);
+    } else {
+      const isUnsure=status==='unsure';
+      const labelText=isUnsure?'✍️ WRITING OPTIONAL — use the definition to write a sentence in your own words:':'✍️ WRITING STRONGLY RECOMMENDED — writing it out makes it stick:';
+      const labelClass=isUnsure?'gl-write-optional':'gl-write-recommended';
+      const placeholder=isUnsure?'Optional: write a sentence using this term...':'Write a sentence using this term (strongly recommended)...';
+      card.querySelector('.gl-btns').remove();
+      const extra=document.createElement('div');
+      extra.innerHTML=`<div class="gl-def">${item.def}</div>
+        <div class="gl-write-label ${labelClass}">${labelText}</div>
+        <textarea class="gl-textarea" placeholder="${placeholder}"></textarea>`;
+      card.appendChild(extra);
+      card.classList.add(isUnsure?'gl-phase2-unsure':'gl-phase2-dontknow');
+    }
+  });
+  setTimeout(()=>{
+    const c2=document.getElementById('u9-glossary-list'); if(!c2) return;
+    const wrap=document.createElement('div');
+    wrap.style.cssText='margin-top:32px;text-align:center;padding:20px 0 8px;border-top:1px solid var(--border2);';
+    wrap.innerHTML=`<p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">Want to go again? Reset clears everything and starts fresh.</p>
+      <button class="gl-reset-btn" onclick="u9RenderGlossary()">↺ Restart to Try Again</button>`;
+    c2.appendChild(wrap);
+  },1000);
 }
 // Unit 9 init called from openUnit9()
 </script>
